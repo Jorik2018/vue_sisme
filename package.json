@@ -1,0 +1,64 @@
+{
+  "name": "vue-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "apk": "cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android/app/build/outputs/apk/release ",
+    "resources": "capacitor-resources -p android,ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^3.2.2",
+    "@capacitor/app": "^1.0.3",
+    "@capacitor/camera": "^1.0.5",
+    "@capacitor/cli": "^3.2.2",
+    "@capacitor/core": "^3.2.2",
+    "@capacitor/filesystem": "^1.1.0",
+    "@capacitor/geolocation": "^1.1.0",
+    "@capacitor/ios": "^3.2.2",
+    "@capacitor/local-notifications": "^1.0.5",
+    "@capacitor/network": "^1.0.3",
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@ionic/core": "^4.6.0",
+    "@ionic/vue": "0.0.9",
+    "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
+    "core-js": "^3.6.5",
+    "isobit-ui": "^0.1.103",
+    "ol": "^6.6.1",
+    "vue": "2.6.11",
+    "vue-router": "^3.4.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.13",
+    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-service": "^4.5.13",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-vue": "^5.0.1",
+    "vue-template-compiler": "2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

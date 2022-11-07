@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">181.65.149.149</domain>
+        <domain includeSubdomains="true">172.16.1.28</domain>
+        <domain includeSubdomains="true">www.regionancash.gob.pe</domain>
+        <domain includeSubdomains="true">web.regionancash.gob.pe</domain>
+		<domain includeSubdomains="true">grupoipeys.com</domain>
+        <domain includeSubdomains="true">megaconsulting.org</domain>
+    </domain-config>
+</network-security-config>
