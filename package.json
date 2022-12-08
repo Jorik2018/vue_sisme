@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "update_serve": "npm install isobit-ui@latest --force && SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "serve": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "apk": "cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android/app/build/outputs/apk/release ",
+    "apk": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android/app/build/outputs/apk/release ",
     "resources": "capacitor-resources -p android,ios"
   },
   "dependencies": {
@@ -20,13 +21,13 @@
     "@capacitor/ios": "^3.2.2",
     "@capacitor/local-notifications": "^1.0.5",
     "@capacitor/network": "^1.0.3",
-    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@fortawesome/fontawesome-free": "^6.2.0",
     "@ionic/core": "^4.6.0",
     "@ionic/vue": "0.0.9",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
-    "isobit-ui": "^0.1.103",
+    "isobit-ui": "^0.2.48",
     "ol": "^6.6.1",
     "vue": "2.6.11",
     "vue-router": "^3.4.3"

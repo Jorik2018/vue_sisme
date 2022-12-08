@@ -9,6 +9,8 @@ https://www.smashingmagazine.com/2018/07/mobile-apps-capacitor-vue-js/
 ```
 npm run serve
 ```
+https://stackoverflow.com/questions/69665222/node-js-17-0-1-gatsby-error-digital-envelope-routinesunsupported-err-os
+export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve
 
 ### Compiles and minifies for production
 ```

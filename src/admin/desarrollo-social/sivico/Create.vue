@@ -269,7 +269,15 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                         'RECHAZADO',
                         'ABANDONADO'
                     ],trayLocation:null,
-                    o: {id:null,synchronized:null,lat:null,tmpId:null,lon:null,red:null,microred:null,ext:{src:null},agreements:[],peoples:[]}
+                    o: {
+                        id:null,
+                        synchronized:null,
+                        lat:null,
+                        tmpId:null,
+                        lon:null,
+                        red:'02',
+                        microred:null,
+                        ext:{src:null},agreements:[],peoples:[]}
                 }
             },
             created(){
@@ -400,13 +408,19 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                     var me = this, id = me.id;
                     me.trayLocation=0;
                     me.$refs.red.load();
-                    me.$refs.province.load({code:'02'});
+
+
+                    
+
+
+                    
                     if(id<0){
                         console.log(me.getStoredList('pool'));
                         me.getStoredList('pool').then((pool)=>{
                             pool.forEach(e =>{
                                 if(e.tmpId==Math.abs(me.id)){
                                     me.o=e;
+                                    me.$refs.province.load({code:me.o.region||'02'});
                                     me.trayLocation=e.lat&&e.lon;
                                 }
                             });
@@ -415,13 +429,39 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                         axios.get('/admin/desarrollo-social/api/sivico/' + id).then(function (response) {
                             var o = response.data;
                             if(o.red)o.red=me.pad(o.red,2);
-                            if(o.province)o.province=me.pad(o.province,4);
+                            
+                            if(o.province){
+                                o.province=me.pad(o.province,4);
+                                o.region=o.province.substring(0, 2);
+                            }
                             if(o.district)o.district=me.pad(o.district,6);
                             o.ext.src=null;
                             o.ext.tempFile=null;
                             me.trayLocation=1;
                             me.o=o;
+                            me.$refs.province.load({code:me.o.region});
                         });
+                    }else{
+                        try {
+                            var s = localStorage.getItem("setting");
+                            if (s) {
+                                s = JSON.parse(s);
+                                var o = this.o;
+                                o.red = s.red;
+                                o.microred = s.microred;
+                                o.establishment = s.establishment;
+                                if(s.region){
+                                    o.region = s.region.code;
+                                }
+                                if(s.province)o.province = s.province.code;
+                                if(s.district)o.district = s.district.code;
+                                
+                                /*o.town = s.town;*/
+                            }
+                        } catch (e) {
+                            console.log(e);
+                        }
+                        me.$refs.province.load({code:me.o.region});
                     }
                 },
                 close(r){

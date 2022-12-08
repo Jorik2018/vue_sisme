@@ -40,6 +40,30 @@ const  router  =  new  Router({
 					component:  r => require.ensure([], () => r(require('./admin/Profile.vue')), 'big-pages')
 				},
 				{
+					path:  'desarrollo-social/pregnant',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/List.vue')), 'big-pages')
+				},
+				{
+					path:  'desarrollo-social/pregnant/create',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/Create.vue')), 'big-pages')
+				},
+				{
+					path:  'desarrollo-social/pregnant/:id',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/View.vue')), 'big-pages')
+				},
+				{
+					path:  'desarrollo-social/pregnant/:id/:action/visit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/visit/Create.vue')), 'big-pages')
+				},
+				{
+					path:  'desarrollo-social/pregnant/visit/:id/edit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/visit/Create.vue')), 'big-pages')
+				},
+				{
+					path:  'desarrollo-social/pregnant/:id/edit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/Create.vue')), 'big-pages')
+				},
+				{
 					path:  'desarrollo-social/anemia',
 					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/anemia/List.vue')), 'big-pages')
 				},

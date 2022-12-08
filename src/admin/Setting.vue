@@ -25,16 +25,17 @@
           ref="microredSelect"
           v-model="o.microred"
           :required="true"
-          @input="$refs.establishment.load({ Codigo_Cocadenado: o.microred })"
+          @input="$refs.establishment.load({ microredCode:('02'+o.microred) })"
         >
           <option>Select One...</option>
           <v-options store="microred" display-field="name" value-field="code" />
         </v-select>
-        <label>Establecimiento:</label>
+        <label>Establecimiento:{{('02'+o.microred)}}</label>
         <v-select
           ref="establishment"
           v-model="o.establishment"
           v-bind:autoload="false"
+          id="abc"
           v-bind:disabled="!o.microred"
           v-bind:required="true"
         >
@@ -91,6 +92,7 @@
         <label>Centro Poblado:</label>
         <v-select
           autoload="false"
+          :title="o.district&&o.district.code"
           :label="o.districtName ? o.districtName : '---'"
           :disabled="!o.district"
           ref="cpSelect"
@@ -150,7 +152,7 @@ export default window._.ui({
   },
   methods: {
     load() {
-      var me = this,
+      var me = this,o=me.o,
         axios = window.axios,
         db = window._.db;
       var timer;
@@ -165,13 +167,15 @@ export default window._.ui({
         ["/admin/directory/api/town/0/0", "town"],
         ["/admin/desarrollo-social/api/red/0/0", "red"],
         ["/admin/desarrollo-social/api/microred/0/0", "microred"],
+        ["/admin/desarrollo-social/api/cie/0/0", "cie"],
         ["/admin/desarrollo-social/api/establishment/0/0", "establishment"],
         ["/admin/directory/api/district/0/0", "district"],
         ["/admin/directory/api/region/0/0", "region"],
         ["/admin/directory/api/province/0/0", "province"],
         ["/api/poll/sample/0/0", "sample"],
       ].forEach((e) => {
-        axios.get(e[0]).then(function (data) {
+
+        axios.get(e[0]+(o.district&&e[0]=='town'?('?district='+o.district.code):'')).then(function (data) {
           var objectStore = db
             .transaction([e[1]], "readwrite")
             .objectStore(e[1]);
@@ -194,7 +198,9 @@ export default window._.ui({
         });
       });
     },
-    save() {
+    async save() {
+      var storedList = await window._.getStoredList('establishment');
+      console.log(storedList.length);
       localStorage.setItem("setting", JSON.stringify(this.o));
       this.app.toast("Configuracion grabada!");
     },

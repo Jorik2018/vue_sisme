@@ -54,6 +54,9 @@
 				<ion-item href="/admin/desarrollo-social/sivico">
 					<i class="fa fa-table"></i>MCI
 				</ion-item>
+				<ion-item href="/admin/desarrollo-social/pregnant">
+					<i class="fa fa-person-pregnant"></i>Gestantes
+				</ion-item>
 				<!--ion-item v-if="session.perms.supervise" href="/shami/supervise">
 					<i class="fa fa-users"></i>Monitores
 				</ion-item-->

@@ -120,7 +120,7 @@
 			if (!_.indexedDB) {
 				window.alert("Your browser doesn't support a stable version of IndexedDB.")
 			}else{
-				var request = window.indexedDB.open("db", 1);
+				var request = window.indexedDB.open("db", 4);
 				request.onerror = function() {
 					alert("error al crear db :/!");
 				};
@@ -129,18 +129,27 @@
 				};
 				request.onupgradeneeded = function(event) {
 					var db = event.target.result;
-					db.createObjectStore("region", {keyPath: "id"});
-					db.createObjectStore("province", {keyPath: "code"});
-					db.createObjectStore("district", {keyPath: "code"});
-					db.createObjectStore("town", {keyPath: "id"});
-					db.createObjectStore("sample", {keyPath: "id"});
-					db.createObjectStore("pool", {keyPath: "tmpId"});
-					db.createObjectStore("people", {keyPath: "tmpId"});
-					db.createObjectStore("agreement", {keyPath: "tmpId"});
-					db.createObjectStore("red", {keyPath: "code"});
-					db.createObjectStore("microred", {keyPath: "ID"});
-					db.createObjectStore("establishment", {keyPath: "ID"});
-					db.createObjectStore("setting", {keyPath: "code"});
+					[
+						["region", {keyPath: "id"}],
+						["province", {keyPath: "code"}],
+						["district", {keyPath: "code"}],
+						["town", {keyPath: "id"}],
+						["sample", {keyPath: "id"}],
+						["pool", {keyPath: "tmpId"}],
+						["people", {keyPath: "tmpId"}],
+						["pregnant", {keyPath: "tmpId"}],
+						["pregnant_visit", {keyPath: "tmpId"}],
+						["agreement", {keyPath: "tmpId"}],
+						["red", {keyPath: "code"}],
+						["microred", {keyPath: "ID"}],
+						["establishment", {keyPath: "code"}],
+						["setting", {keyPath: "code"}],
+						["cie", {keyPath: "code"}],
+					].forEach((e)=>{
+						if(!db.objectStoreNames.contains(e[0])){
+							db.createObjectStore(e[0],e[1]);
+						}
+					});
 				}
 			}
 

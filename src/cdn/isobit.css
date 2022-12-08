@@ -3184,3 +3184,16 @@ legend,.v-fieldset > legend {
 fieldset, .v-fieldset {
     border: 1px solid #0f62ac;
 }
+.v-table-buttons{
+    display: inline-block;
+    background-color: transparent;
+    position: absolute;
+    border-width: 0px;
+    top: 3px;
+    right: 0px;
+    padding: 3px 5px;
+    z-index: 200;
+}
+.v-table-buttons > .svg-inline--fa {
+    font-size:26px;
+}
