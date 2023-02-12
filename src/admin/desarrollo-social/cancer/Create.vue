@@ -214,17 +214,6 @@ export default _.ui({
                   });
                 e.cancerId = o.id;
               });
-            if (e.damage_ipress)
-              e.damage_ipress.forEach((e) => {
-                if (o.damage_ipress)
-                  o.damage_ipress.forEach((o) => {
-                    if (o.tmpId == e.tmpId) {
-                      e.id = o.id;
-                      e.synchronized = o.synchronized;
-                    }
-                  });
-                e.cancerId = o.id;
-              });
             _.db
               .transaction(["cancer"], "readwrite")
               .objectStore("cancer")
