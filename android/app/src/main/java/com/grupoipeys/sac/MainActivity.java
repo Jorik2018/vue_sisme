@@ -1,4 +1,4 @@
-package gob.regionancash.vue;
+package com.grupoipeys.sac;
 
 import com.getcapacitor.BridgeActivity;
 

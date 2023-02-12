@@ -478,7 +478,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
             },
             mounted() {
                 var me=this;
-                if(this.$children[0])window.app.title=this.$children[0].header;
+                if(me.$children[0])me.app.title=me.$children[0].header;
                 me.render();
             }
         })

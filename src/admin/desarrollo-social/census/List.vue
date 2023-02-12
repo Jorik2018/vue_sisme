@@ -61,10 +61,10 @@
       </template>
       <template v-slot:default="{ row }">
         <td width="80" class="center" header="ID">
-          {{row.id&gt;0?pad(row.id,6):'?'}}
+          {{row.id?pad(row.id,6):'?'}}
         </td>
         <td width="80" class="center" header="Familia">
-          {{row.masterId&gt;0?pad(row.masterId,6):'?'}}
+          {{row.masterId?pad(row.masterId,6):'?'}}
         </td>
         <td width="80" class="center" header="Jefe">{{ row.bossId }}</td>
         <td width="160" header="Provincia">
@@ -270,13 +270,12 @@
 <script>
 import "ol/ol.css";
 import Vue from "vue";
-var axios = window.axios;
-var _ = window._;
-var MsgBox = window._.MsgBox;
+var {_,axios} = window;
+var MsgBox = _.MsgBox;
 export default _.ui({
-  extends: window._.extends,
+  extends: _.extends,
   mounted() {
-    window.app.title = this.$children[0].header;
+    this.app.title = this.$children[0].header;
   },
   created() {
     var me = this,
@@ -333,8 +332,8 @@ export default _.ui({
         f = me.$children[0];
       var action = f.action;
       if (!action) action = window.location.pathname;
-      if (window.app)
-        window.app.$router.push(
+      if (me.app)
+        me.app.$router.push(
           (_.currentPath = action + "/" + o[0].id + "/add")
         );
       else
@@ -347,13 +346,13 @@ export default _.ui({
           .then(me.open)
           .catch(me.error);
     },
-    view: function (o) {
+    view (o) {
       var me = this;
       var f = me.$children[0];
       var action = f.action;
       if (!action) action = window.location.pathname;
-      if (window.app.$router)
-        window.app.$router.push(
+      if (me.app.$router)
+        me.app.$router.push(
           (_.currentPath = action + "/" + o[0].id + "/add")
         );
       else

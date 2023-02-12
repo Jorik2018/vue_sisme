@@ -74,11 +74,11 @@
         mounted() {
             this.render();
         },
-        updated(){window.app.title=this.$children[0].header;},
+        updated(){this.app.title=this.$children[0].header;},
         methods: {
 			guardar(){
 				var data=localStorage.getItem('census')+'\n\n'+localStorage.getItem('tracing');
-				axios.post('/admin/desarrollo-social/api/tracing/save-data',{user:window.app.session.id,data:data}).then(function(r){_.MsgBox(r.data)});
+				axios.post('/admin/desarrollo-social/api/tracing/save-data',{user:this.app.session.id,data:data}).then(function(r){_.MsgBox(r.data)});
 			},
             render(){
                 var me = this,id=me.id;
@@ -96,7 +96,7 @@
                 }else{
                     me.o={province: null, district: null, connectivity: null, lat: null, lon: null};
                 }
-                setTimeout(function(){ window.app.title=me.$children[0].header; }, 200);
+                setTimeout(function(){ me.app.title=me.$children[0].header; }, 200);
             },
             close(r){if(r===true){this.$router.back();}},
             process(o) {

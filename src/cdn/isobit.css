@@ -934,7 +934,9 @@ fieldset.ui-fieldset{
 .yellow,td.yellow{
     background-color: #ffffbb;
 }
-
+.v-datatable{
+    background-color:#dbdbdb;
+}
 .v-datatable-odd.yellow{
     background-color: #ffff77;
 }
@@ -3156,6 +3158,7 @@ legend,.v-fieldset > legend {
     -background-color:white;
     padding:10px;
 }
+
 .v-datatable-scrollable-header{
     overflow: hidden;
 }
@@ -3196,4 +3199,7 @@ fieldset, .v-fieldset {
 }
 .v-table-buttons > .svg-inline--fa {
     font-size:26px;
+}
+th .v-select{
+    color:black !important;
 }

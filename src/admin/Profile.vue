@@ -156,9 +156,8 @@
 </template>
   <script>
 import { Plugins, CameraResultType, CameraSource } from "@capacitor/core";
-var axios = window.axios;
-var _ = window._;
-export default window.ui({
+var {_,axios} = window;
+export default _.ui({
   data: function () {
     return {
       o: null,
@@ -170,9 +169,9 @@ export default window.ui({
     };
   },
   created() {
-    window.app.title = "Cuenta";
+    var me=this;
+    me.app.title = "Cuenta";
     window.logo = require("@/fs/images/No_image.svg");
-    var me = this;
     axios.get("/api/user/" + (me.session.uid || "me")).then(function (d) {
       var o = d.data;
       o.ext = {};

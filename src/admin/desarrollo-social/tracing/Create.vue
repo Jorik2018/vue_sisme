@@ -150,6 +150,7 @@
                 });
             },
             process(o) {
+                var me=this;
                 var join=function(v){
                     if(v)if(v.join)v=v.join('|');
                     return v;
@@ -160,8 +161,8 @@
                 o.beneficiosEstado = join(o.beneficiosEstado);
                 o.phoneOperator = join(o.phoneOperator);
                 o.connectivity = (o.connectivity + 0) > 0;
-                if (window.app)
-                    o.user = window.app.session.id;
+                if (me.app)
+                    o.user = me.app.session.id;
                 return o;
             }
         }

@@ -11,9 +11,10 @@
 		</div>			
 </template>
 <script>
-	export default window._.ui({
+    var {_,ui}=window;
+	export default ui({
 		mounted() {
-			var app=window.app;
+			var app=_.app;
 			app.title='Administracion';
 			app.bindLinks(this.$el);
 		},

@@ -58,8 +58,10 @@
       </v-select>
 
       <label>Provincia:</label>
+      <div v-if="!o.region" class="alert">No hay una región por defecto</div>
       <v-select
         ref="province"
+        :disabled="!o.region"
         storage="province_selected"
         v-model="o.province"
         :required="true"
@@ -117,20 +119,19 @@
           required="required"
           title="Numero DNI"
         />
-        <label>Nombres:</label>
+        <label>Apellidos:</label>
         <input
           type="text"
           v-model="o.apellidoPaterno"
           required="required"
-          title="Apellido Paterno"
         />
-        <label>Apellidos:</label>
+        <label>Nombres:</label>
         <input
           type="text"
-          v-model="o.apellidoMaterno"
+          v-model="o.nombres"
           required="required"
-          title="Apellido Materno"
         />
+       
         <label>Fecha Nacimiento:</label>
         <v-calendar
           v-model="o.fechaNacimiento"
@@ -251,7 +252,7 @@
         <option>Select One...</option>
         <v-options store="microred" display-field="name" value-field="code" />
       </v-select>
-        <label>IPRESS:{{o.emergencyMicrored}}</label>
+        <label>IPRESS:</label>
         <v-select
           ref="emer_establishment"
           v-model="o.lugarIPRESS"
@@ -335,12 +336,6 @@
           v-model="o.migracionObservacion"
           title="Migracion Observacion"
         />
-        <label>Estado:</label>
-        <input
-          type="text"
-          v-model="o.migracionEstado"
-          title="Migracion Estado"
-        />
       </v-fieldset>
       <v-fieldset legend="Coordenadas" style="width: auto">
         <div class="right">
@@ -363,6 +358,13 @@
           ({{ o.lat }},{{ o.lon }})
         </div>
       </v-fieldset>
+      <label>Estado:</label>
+        <v-select v-model="o.migracionEstado" required="required">
+          <option value="">Select One...</option>
+          <option value="GESTANTE">GESTANTE</option>
+          <option value="PUERPERA">PUERPERA</option>
+          <option value="MER">MER</option>
+        </v-select>
     </div>
     <center>
       <v-button
@@ -392,8 +394,7 @@ import { Camera, CameraResultType } from "@capacitor/camera";
 import { Filesystem, Directory } from "@capacitor/filesystem";
 import { Geolocation } from "@capacitor/geolocation";
 import "ol/ol.css";
-var axios = window.axios;
-var _ = window._;
+var {_,axios} = window;
 export default _.ui({
   props: ["id"],
   data() {
@@ -489,10 +490,10 @@ export default _.ui({
       this.o.gestanteFPP = _.toDate(o, "date-");
     },
     inputCCPP(a, b) {
-        this.o.ccpp = b ? (b.object.name||'') : "";
+        this.o.ccpp = b&&b.object ? (b.object.name) : "";
     },
     inputEstablishment(a, b) {
-        this.o.establecimientoSalud = b ? b.object.name : "";
+        this.o.establecimientoSalud = b&&b.object ? b.object.name : "";
     },
     process(o) {
       if (!this.trayLocation) {
@@ -604,9 +605,11 @@ export default _.ui({
       if (id < 0) {
         console.log(me.getStoredList("pregnant"));
         me.getStoredList("pregnant").then((pregnant) => {
+          console.log(pregnant);
           pregnant.forEach((e) => {
             if (e.tmpId == Math.abs(me.id)) {
               me.o = e;
+              console.log(e.visits);
               me.$refs.province.load({ code: me.o.region || "02" });
               me.trayLocation = e.lat && e.lon;
             }
@@ -650,7 +653,7 @@ export default _.ui({
         } catch (e) {
           console.log(e);
         }
-        me.$refs.province.load({ code: me.o.region });
+        me.$refs.province.load({ code: me.o.region||'02' });
       }
     },
     close(r) {

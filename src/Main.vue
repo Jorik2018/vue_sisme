@@ -46,48 +46,9 @@
 						</template>
 					</v-dataview>
 				</div>
-				<div style="width:100%;overflow-x:scroll" v-if="categories">
-					<div v-bind:style="{width:categories.length*84+'px'}" style="padding: 10px 0px;text-align: center;" >
-						<a v-for="item in categories" v-bind:class="{'v-ss':item.id==idcategoria}" style="padding: 5px 2px 2px 2px;float:left" 
-							v-bind:href="'/shami/category/'+item.id" v-bind:key="item.id" class="category2">
-							<img v-bind:src="'http://web.regionancash.gob.pe/apishami/api/archivos/imgcategoria/'+item.icono" height="70px" />
-							<div style="font-size:12px;width:80px;height:40px" >
-								{{item.categoria}}
-							</div>
-						</a>
-					</div>
-				</div>
 				<router-view></router-view>
-				<div class="clearfix center subs" style="padding:5px;">
-					<div v-on:click="opp('terminos-condiciones')">Terminos y Condiciones</div>
-					<div v-on:click="opp('politica-garantia-devolucion')">Politica de Garantia y Devoluciones</div>
-					<div v-on:click="opp('politica-ventas-producto')">Politica de Ventas de Productos</div>
-					<div v-on:click="opp('comprobantes-electronicos')">Comprobantes Electronicos</div>
-				</div>
-				<hr style="border-width: 1px;"/>
-				<div class="clearfix center subs" style="padding:5px 60px;">
-					<div v-on:click="opp('politica-entrega')" class="c-4">Politica de Entrega</div>
-					<div v-on:click="opp('libro-reclamaciones')" class="c-4">Libro de Reclamaciones</div>
-					<div v-on:click="opp('contactanos')" class="c-4">Contactanos</div>
-				</div>
 			</div>			
-			<div class="clearfix" style="background-color: #f3f3f3;width: 100%;">
-				<div style="float: left;padding: 20px 5px 20px 10px;width: calc(40% - 15px);display: inline;">
-					<img style="width:100%" src="@/fs/images/logo reactivancash-10.png">
-				</div>
-				<ul style="padding: 20px 10px 20px 5px;float: right;width: calc(60% - 15px);">
-					<li>Comercio Electrónico</li>
-					<li>Mercados y Ferias Agropecuarias Itinerantes</li>
-					<li>Programa de Microfinanciamiento</li>
-					<li>ProCompite Áncash</li>
-					<li>Proyectos de Servicios Ambientales</li>
-					<li>Pesca, Acuicultura y Mypes</li>
-					<li>Reactivación de la Pequeña Minería y Minería Artesanal</li>
-					<li>Nueva Visión del Turismo frente al Covid-19</li>
-					<li>Reactivación de Infraestructura</li>
-					<li>Centro Regional de Desarrollo Humano</li>
-				</ul>
-			</div>
+			
 			<div class="primary center">
 				<img style="max-height: 60px;max-width: 100%;" src="@/fs/images/franja azul inferior-11.png">
 			</div>
@@ -128,7 +89,7 @@ export default {
 		baseURL(){return window.axios.defaults.baseURL;},
 		showMenu(){return app.showMenu;},
 		categories(){return app.categories;},
-		cart(){return window.app.cart;},
+		cart(){return this.app.cart;},
 		title(){return this.app.title;},
 		idcategoria(){return this.app.idcategoria;}
 	},
@@ -156,7 +117,7 @@ export default {
 			if(me.$refs.menu)me.$refs.menu.hide();
 		},
 		opp(path){
-			window.app.$router.push('/shami/'+path);
+			this.app.$router.push('/shami/'+path);
 		}
 	},
 	data:function(){return {app:null,data:[],mask:null,mode:0,query:null,resultVisible:null}}

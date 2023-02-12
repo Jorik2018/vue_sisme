@@ -1,5 +1,5 @@
 {
-	"appId": "gob.regionancash.vue",
+	"appId": "com.grupoipeys.sac",
 	"appName": "Vue Capacitor",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",

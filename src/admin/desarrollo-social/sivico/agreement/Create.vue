@@ -117,8 +117,9 @@
             });
         },
         mounted() {
-            if(this.$children[0])window.app.title=this.$children[0].header;
-            this.render();
+            var me=this;
+            if(me.$children[0])me.app.title=me.$children[0].header;
+            me.render();
         }
     })
 </script>

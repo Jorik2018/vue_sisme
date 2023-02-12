@@ -208,7 +208,7 @@ export default _.ui({
         });
     },
     updated(){
-        window.app.bindLinks(this.$el);
+        this.app.bindLinks(this.$el);
     },
     methods: {
         ll(e){console.log(e)},

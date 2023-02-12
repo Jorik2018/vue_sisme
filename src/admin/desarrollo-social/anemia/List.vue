@@ -37,7 +37,7 @@
 <script>
 	export default {
         extends:window._.extends,
-        created(){this.filters.user=window.app.session.id;},
-        mounted(){window.app.title=this.$children[0].header;}
+        created(){this.filters.user=this.app.session.id;},
+        mounted(){this.app.title=this.$children[0].header;}
     }
 </script>

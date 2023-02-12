@@ -23,7 +23,7 @@
    <td width="100" class="center" label="&iquest;Tiene letrinas o ba&ntilde;o?"> {{row.lTiene}} </td> 
    <td width="100" class="center" label="&iquest;La letrina o ba&ntilde;o esta limpio?"> {{row.lLimpio}} </td> 
    <td width="100" class="center" label="&iquest;Usan la letrina o ba&ntilde;o?"> {{row.lUsan}} </td> 
-   <td width="100" class="center" label="&iquest;Se lavan las manos después de usarla?"> {{row.lLavan}} </td> 
+   <td width="100" class="center" label="&iquest;Se lavan las manos despuï¿½s de usarla?"> {{row.lLavan}} </td> 
    <td width="100" class="center" label="&iquest;La cocina est&aacute; limpia y ordenado?"> {{row.vLimpia}} </td> 
    <td width="100" class="center" label="&iquest;Los utensilios de cocina estan limpios y rotegidos?"> {{row.vProtegidos}} </td> 
    <td width="100" class="center" label="&iquest;Usan el corral para los animales mayores y menores?"> {{row.vAnimales}} </td> 
@@ -83,7 +83,7 @@
    <td width="100" label="&iquest;Tiene letrinas o ba&ntilde;o?"></td>
    <td width="100" label="&iquest;La letrina o ba&ntilde;o esta limpio?"></td>
    <td width="100" label="&iquest;Usan la letrina o ba&ntilde;o?"></td>
-   <td width="100" label="&iquest;Se lavan las manos después de usarla?"></td>
+   <td width="100" label="&iquest;Se lavan las manos despuï¿½s de usarla?"></td>
    <td width="100" label="&iquest;La cocina est&aacute; limpia y ordenado?"></td>
    <td width="100" label="&iquest;Los utensilios de cocina estan limpios y rotegidos?"></td>
    <td width="100" label="&iquest;Usan el corral para los animales mayores y menores?"></td>
@@ -106,7 +106,7 @@
 <script>
 	export default {
         extends:window._.extends,
-        created(){this.filters.user=window.app.session.id;},
-        mounted(){window.app.title=this.$children[0].header;}
+        created(){this.filters.user=this.app.session.id;},
+        mounted(){this.app.title=this.$children[0].header;}
     }
 </script>

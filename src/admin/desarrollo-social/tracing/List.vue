@@ -25,43 +25,6 @@
    <td width="80" class="center" header="Usuario">  {{row.user}} </td> 
    <td width="80" class="center" header="Fecha Creaci&oacute;n">  {{row.createDate|date}} </td> 
    <td width="80" class="center" header="Fecha Actualizaci&oacute;n">  {{row.updateDate|date}} </td> 
-  </template> 
-  <template v-slot:filters="">
-   <v-filter index="0"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="1"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="2"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="3"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="4"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="5"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="6"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="7"> 
-    <input v-model="filters.code" maxlength="8" /> 
-   </v-filter><v-filter index="8"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="9"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="10"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="11"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="12"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="13"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="14"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="15"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter><v-filter index="16"> 
-    <input v-model="filters.x" disabled="disabled" /> 
-   </v-filter>
   </template>
   <template v-slot:columns="">
    <td width="80" header="ID"></td>
@@ -94,12 +57,11 @@
 </template>
 <script>
 	import 'ol/ol.css';
-    var axios=window.axios;
-    var _=window._;
+    var {_,axios}=window;
     var MsgBox=_.MsgBox;
     export default _.ui({
         created(){
-            this.filters.user=window.app.session.id;
+            this.filters.user=this.app.session.id;
             this.filters.uid=this.user.uid;
             this.perms.DESARROLLO_SOCIAL_ADMIN_TRACING=true;
         },
@@ -141,8 +103,8 @@
             },
             add(o) {
                 var me = this, action = '/admin/desarrollo-social/census';
-                if (window.app.$router)
-                    window.app.$router.push(_.currentPath = action + '/' + o[0].id + '.' + (Number(o[0].dni)?o[0].dni:'') + '/add');
+                if (me.app.$router)
+                    me.app.$router.push(_.currentPath = action + '/' + o[0].id + '.' + (Number(o[0].dni)?o[0].dni:'') + '/add');
                 else
                     axios.get(((_.currentPath = action + '/' + o[0].id + '.' + o[0].dni + '/add') + '?modal').replace(/([^:]\/)\/+/g, "$1")).then(me.open).catch(me.error);
             }

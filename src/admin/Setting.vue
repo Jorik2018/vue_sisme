@@ -11,6 +11,7 @@
         <label>Red:</label>
         <v-select
           v-model="o.red"
+          :autoload="1"
           ref="redSelect"
           v-bind:label="o.regionName ? o.regionName : '---'"
           v-on:input="$refs.microredSelect.load({ Codigo_Red: o.red })"
@@ -30,7 +31,7 @@
           <option>Select One...</option>
           <v-options store="microred" display-field="name" value-field="code" />
         </v-select>
-        <label>Establecimiento:{{('02'+o.microred)}}</label>
+        <label>Establecimiento:</label>
         <v-select
           ref="establishment"
           v-model="o.establishment"

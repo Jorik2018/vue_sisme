@@ -86,12 +86,12 @@
    <template v-if="o.lTiene==1"> <label>&iquest;La letrina o ba&ntilde;o esta limpio? (Verificar):</label> <v-radio-group required="true" v-model="o.lLimpio"> 
      <v-radio label="SI" value="1"></v-radio> 
      <v-radio label="NO" value="2"></v-radio> 
-    </v-radio-group> <label>&iquest;Se lavan las manos después de usarla?:</label> <v-radio-group required="true" v-model="o.lLavan"> 
+    </v-radio-group> <label>&iquest;Se lavan las manos despuï¿½s de usarla?:</label> <v-radio-group required="true" v-model="o.lLavan"> 
      <v-radio label="SI" value="1"></v-radio> 
      <v-radio label="NO" value="2"></v-radio> 
     </v-radio-group> 
    </template> 
-   <template v-if="o.lTiene==2"> <label>Si no tiene letrina o ba&ntilde;o, &iquest;qué usa?:</label> <v-textarea v-model="o.sinLetrinaUsa" maxlength="45"></v-textarea> 
+   <template v-if="o.lTiene==2"> <label>Si no tiene letrina o ba&ntilde;o, &iquest;quï¿½ usa?:</label> <v-textarea v-model="o.sinLetrinaUsa" maxlength="45"></v-textarea> 
    </template> 
   </v-fieldset> <v-fieldset legend="Vivienda" class="v-form"> 
    <label>&iquest;La cocina est&aacute; limpia y ordenado? (Observar):</label> 
@@ -181,7 +181,7 @@
         mounted: function () {
             this.render();
         },
-        updated(){window.app.title=this.$children[0].header;},
+        updated(){this.app.title=this.$children[0].header;},
         methods: {
             render(){
                 var me = this,id=me.id;
@@ -207,10 +207,11 @@
                         o.lon = c.coords.longitude;
                     });
                 }
-                setTimeout(function(){ window.app.title=me.$children[0].header; }, 200);
+                setTimeout(function(){ me.app.title=me.$children[0].header; }, 200);
             },
             close(r){if(r===true){this.$router.back();}},
             process(o) {
+                var me=this;
                 var join=function(v){
                     if(v)if(v.join)v=v.join('|');
                     return v;
@@ -222,8 +223,8 @@
                 o.sidRegistro = null;
                 o.hLavada = join(o.hLavada);
                 o.comoDisponenBasura=join(o.comoDisponenBasura);
-                if (window.app)
-                    o.user = window.app.session.id;
+                if (me.app)
+                    o.user = me.app.session.id;
                 return o;
             }
         }

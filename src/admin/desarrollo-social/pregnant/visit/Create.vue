@@ -16,6 +16,8 @@
       <div>{{ pad(o.id || 0, 4) }}</div>
       <label>Gestante:</label>
       <div>{{ pad(o.pregnantId || 0, 4) }}</div>
+      <label>Numbero:</label>
+      <div>{{ pad(o.number || 0, 2) }}</div>
       <label>Fecha:</label>
       <v-calendar v-model="o.fechaVisita"></v-calendar>
       <label>Fecha Prox. Visita:</label>
@@ -61,28 +63,8 @@ export default _.ui({
   props: ["id", "action"],
   data() {
     return {
-      type: [
-        {
-          id: "P",
-          name: "SALUD INDIVIDUAL",
-          decription:
-            "Comprende los paquetes de atención integral por etapas de vida",
-        },
-        {
-          id: "F",
-          name: "FUNCIONES DE LA FAMILIA",
-          decription:
-            "Comprende las funciones básicas: cuidado, afecto, expresi�n de sexualidad, socializaci�n estatus social y las funciones seg�n seg�n sus relaciones internas: comunicaci�n, cohesi�n, permeabilidad, rol, adaptabilidad y armon�a)",
-        },
-        {
-          id: "V",
-          name: "CODICIONES MATERIALES DE VIDA Y ENTORNO",
-          decription:
-            "Comprende las caracteristicas de la vivienda, eliminaci�n de excretas, tenencia de animales, aguas estancadas, vectores, pandillaje y otros alrededor de la vivienda",
-        },
-      ],
       trayLocation: null,
-      o: { pregnantId: null, lat: null, lon: null, type: null, ext: {} },
+      o: { pregnantId: null,number:null, lat: null, lon: null, ext: {} },
     };
   },
   methods: {
@@ -93,15 +75,16 @@ export default _.ui({
       me.trayLocation = 0;
       if (Number(id)) {
         if (action == "add") {
-          me.o = { pregnantId: id, ext: {} ,lat:null,lon:null};
-          me.filters.pregnantId = id;
-          me.getStoredList("pregnant").then((pregnants) => {
-            pregnants.forEach((e) => {
-              if (e.tmpId == Math.abs(me.id)) {
-                me.peoples = e.peoples;
-              }
+          me.o = { pregnantId: id, ext: {}, lat: null, lon: null ,number:null};
+          if(me.app.connected)
+          axios
+            .get(
+              "/admin/desarrollo-social/api/pregnant/" + id + "/visit/number"
+            )
+            .then((result) => {
+              me.o.number = result.data;
             });
-          });
+          me.filters.pregnantId = id;
         } else {
           if (id < 0) {
             me.getStoredList("pregnant").then((pregnants) => {
@@ -127,6 +110,11 @@ export default _.ui({
       } else if (action == "add") {
         me.o = { pregnantId: id, log: null, lat: null, ext: {} };
         me.filters.pregnantId = id;
+        axios
+          .get("/admin/desarrollo-social/api/pregnant/" + id + "/visit/number")
+          .then((result) => {
+            me.o.number = result.data;
+          });
       }
     },
     process(o) {
@@ -191,8 +179,9 @@ export default _.ui({
     });
   },
   mounted() {
-    if (this.$children[0]) window.app.title = this.$children[0].header;
-    this.render();
+    var me=this;
+    if (me.$children[0]) me.app.title = me.$children[0].header;
+    me.render();
   },
 });
 </script>

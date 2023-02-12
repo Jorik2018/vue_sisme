@@ -55,7 +55,7 @@
 		},
 		mounted(){
 			var me=this;
-			setTimeout(function(){ window.app.title=me.$children[0].header; }, 200);
+			setTimeout(function(){ me.app.title=me.$children[0].header; }, 200);
 		},
 		methods: {
 			dateDiff(f){
@@ -63,7 +63,7 @@
 				if(f){
 					var r2=Vue.dateDiff(new Date(f),new Date());
 					if(r2.ans)
-						r+=(r2.ans+' AÑOS ');
+						r+=(r2.ans+' Aï¿½OS ');
 					if(r2.meses)
 						r+=(r2.meses+' MESES ');
 					if(r2.dias)
