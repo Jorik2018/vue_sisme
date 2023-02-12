@@ -203,17 +203,6 @@ export default _.ui({
       me.getStoredList("cancer").then((cancers) => {
         cancers.forEach((e) => {
           if (e.tmpId == Math.abs(o.tmpId)) {
-            if (e.action)
-              e.action.forEach((e) => {
-                if (o.action)
-                  o.action.forEach((o) => {
-                    if (o.tmpId == e.tmpId) {
-                      e.id = o.id;
-                      e.synchronized = o.synchronized;
-                    }
-                  });
-                e.cancerId = o.id;
-              });
             if (e.damage_salud)
               e.damage_salud.forEach((e) => {
                 if (o.damage_salud)
