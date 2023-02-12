@@ -4,6 +4,7 @@
 ```
 npm install
 ```
+https://stackoverflow.com/questions/41174045/using-jenkins2-pipeline-to-upload-via-ftp
 https://www.smashingmagazine.com/2018/07/mobile-apps-capacitor-vue-js/
 ### Compiles and hot-reloads for development
 ```
