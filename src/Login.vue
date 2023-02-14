@@ -78,6 +78,7 @@
         <a @click="$router.push('/shami/password')"
           >&iquest;Olvidaste tu Contrase&ntilde;a?</a
         >
+        <div class="center">VERSIÓN: 1.14022023</div>
       </div>
     </form>
   </div>
