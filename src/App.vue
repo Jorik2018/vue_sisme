@@ -29,6 +29,7 @@ export default defineComponent(
     data() {
       return {
         counter: 0,
+        BUILT_ON:process.env.VUE_APP_BUILT_ON,
         connected: true,
         showMenu: false,
         showUser: false,
