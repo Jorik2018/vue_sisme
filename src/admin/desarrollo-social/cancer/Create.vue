@@ -11,10 +11,20 @@
       <label>ID:</label>
       <div>{{ pad(o.id || 0, 4) }}</div>
       <v-fieldset legend="Datos generales" class="v-form">
-
+        <label>DNI:</label>
+        <input v-model="o.dni" class="center"/>
+        <label>Apellidos y Nombres:</label>
+        <input v-model="o.apellidos_nombres" />
+        <label>Fecha Nacimiento:</label>
+        <v-calendar v-model="o.fecha_nacimiento" />
+        <label>Sexo:</label>
+        <v-radio-group required="true" v-model="o.sexo">
+          <v-radio label="Masculino" value="M"></v-radio>
+          <v-radio label="Femenino" value="F"></v-radio>
+        </v-radio-group>
 
         <label>Red:</label>
-        <v-select v-model="o.red" autoload="false" ref="red"
+        <v-select v-model="o.red" ref="red"
           v-on:input="$refs.microredSelect.load({ Codigo_Red: o.red })" :required="true">
           <option>Select One...</option>
           <v-options store="red" display-field="name" value-field="code" />
@@ -26,80 +36,22 @@
           <v-options store="microred" display-field="name" value-field="code" />
         </v-select>
         <label>Establecimiento:</label>
-        <v-select ref="establishment" @input="inputEstablishment" v-model="o.codigoEESS" :autoload="false"
+        <v-select ref="establishment" @input="inputEstablishment" v-model="o.eess_code" :autoload="false"
           :disabled="!o.microred" :required="true">
           <option>Select One...</option>
           <v-options store="establishment" display-field="name" value-field="code" />
         </v-select>
-
-        <label>Provincia:</label>
-        <div v-if="!o.region" class="alert">No hay una región por defecto</div>
-        <v-select ref="province" :disabled="!o.region" storage="province_selected" v-model="o.province" :required="true"
-          @input="$refs.district.load({ code: o.province })">
-          <option>Select One...</option>
-          <v-options store="province" display-field="name" value-field="code" />
-        </v-select>
-        <label>Distrito:</label>
-        <v-select ref="district" :autoload="false" store="district_selected" :disabled="!o.province"
-          v-model="o.district" name="district" required="true" @input="$refs.cpSelect.load({ id: o.district })">
-          <option value="">Select One...</option>
-          <v-options store="district" value-field="code" display-field="name" />
-        </v-select>
-
-        <label>Centro Poblado:</label>
-        <v-select :autoload="false" :label="o.districtName ? o.districtName : '---'" :disabled="!o.district"
-          required="required" ref="cpSelect" v-model="o.codigoCCPP" @input="inputCCPP">
-          <option value="">Seleccionar Opción</option>
-          <v-options store="town" display-field="name" value-field="id" />
-        </v-select>
-      </v-fieldset>
-
-      <v-fieldset legend="Ubicación" class="v-form">
-        <label>DIRESA:</label>
-        <div>ANCASH</div>
-        <label>Provincia:</label>
-        <v-select ref="province" storage="province_selected" v-model="o.province" :required="true"
-          @input="$refs.district.load({ code: o.province })">
-          <option>Select One...</option>
-          <v-options store="province" display-field="name" value-field="code" />
-        </v-select>
-        <label>Distrito:</label>
-        <v-select ref="district" :autoload="false" store="district_selected" :disabled="!o.province"
-          v-model="o.district" name="district" required="true" @input="$refs.cpSelect.load({ id: o.district })">
-          <option value="">Select One...</option>
-          <v-options store="district" value-field="code" display-field="name" />
-        </v-select>
-
-        <label>Centro Poblado:</label>
-        <v-select :autoload="false" :label="o.districtName ? o.districtName : '---'" :disabled="!o.district"
-          required="required" ref="cpSelect" v-model="o.codigo_ccpp" @input="inputCCPP">
-          <option value="">Seleccionar Opción</option>
-          <v-options store="town" display-field="name" value-field="id" />
-        </v-select>
-
-        <label>Dirección:</label>
-        <v-textarea v-model="o.direccion" />
-        <label>Refencia:</label>
-        <v-textarea v-model="o.refencia" />
-        <label>Sector:</label>
-        <v-textarea v-model="o.sector" />
         <label>HC:</label>
         <input v-model="o.hc" />
-        <label>DNI:</label>
-        <input v-model="o.dni" />
-        <label>Apellidos y Nombres:</label>
-        <input v-model="o.apellidos_nombres" />
-        <label>Fecha Nacimiento:</label>
-        <v-calendar v-model="o.fecha_nacimiento" />
-        <label>Financiador:</label>
-        <input v-model="o.financiador" />
+        <label :title="o.financiador">Financiador:</label>
+        <v-select v-model="o.financiador" required="required">
+          <option v-for="item in financiador" :key="item" :value="item">
+            {{ item }}
+          </option>
+        </v-select>
+        
         <label>Telefono:</label>
         <input v-model="o.telefono" />
-        <label>Sexo:</label>
-        <v-radio-group required="true" v-model="o.sexo">
-          <v-radio label="Masculino" value="M"></v-radio>
-          <v-radio label="Femenino" value="F"></v-radio>
-        </v-radio-group>
         <label>Menarquia:</label>
         <input v-model="o.menarquia" />
         <label>IRS:</label>
@@ -109,9 +61,40 @@
         <label>Paridad:</label>
         <input v-model="o.paridad" />
         <label>FUR:</label>
-        <input v-model="o.fur" />
+        <v-calendar v-model="o.fur" />
         <label>Telefono Contacto:</label>
         <input v-model="o.telefono_contacto" />
+      </v-fieldset>
+
+      <v-fieldset legend="Ubicación" class="v-form">
+        <label>DIRESA:</label>
+        <div>ANCASH</div>
+        <label>Provincia:</label>
+        <v-select ref="province" storage="province_selected" v-model="o.province_code" :required="true"
+          @input="inputProvince">
+          <option>Select One...</option>
+          <v-options store="province" display-field="name" value-field="code" />
+        </v-select>
+        <label>Distrito:</label>
+        <v-select ref="district" :autoload="false" store="district_selected" :disabled="!o.province_code"
+          v-model="o.district_code" name="district" required="true" @input="inputDistrict">
+          <option value="">Select One...</option>
+          <v-options store="district" value-field="code" display-field="name" />
+        </v-select>
+        <label>Centro Poblado:</label>
+        <v-select :autoload="false" :label="o.districtName ? o.districtName : '---'" :disabled="!o.district_code"
+          required="required" ref="ccpp" v-model="o.ccpp_code" @input="inputCCPP">
+          <option value="">Seleccionar Opción</option>
+          <v-options store="town" display-field="name" value-field="id" />
+        </v-select>
+        <div>{{o.province}}/{{o.district}}/{{o.ccpp}}</div>
+        <label>Dirección:</label>
+        <v-textarea v-model="o.direccion" />
+        <label>Refencia:</label>
+        <v-textarea v-model="o.refencia" />
+        <label>Sector:</label>
+        <v-textarea v-model="o.sector" />
+        
       </v-fieldset>
 
 
@@ -133,23 +116,22 @@
   </v-form>
 </template>
 <script>
-import { Capacitor } from "@capacitor/core";
-import { Camera, CameraResultType } from "@capacitor/camera";
-import { Filesystem, Directory } from "@capacitor/filesystem";
 import { Geolocation } from "@capacitor/geolocation";
 import "ol/ol.css";
 import Feature from "ol/Feature";
 import Icon from "ol/style/Icon";
-var ol = window.ol;
+var { _, axios, ol } = window;
 ol.style.Icon = Icon;
 ol.style.Feature = Feature;
-var { _, axios } = window;
 export default _.ui({
   props: ["id"],
   data() {
     return {
       count: 0,
       red: [],
+      financiador:[
+        "NINGUNA","SIS", "ESSALUD", "PRIVADA", "PNP" 
+      ],
       risk: [
         "INVIDENTE",
         "DIFICULTAD PIERNAS",
@@ -171,6 +153,8 @@ export default _.ui({
       trayLocation: null,
       o: {
         id: null,
+        province_code:null,
+        district_code:null,
         synchronized: null,
         lat: null,
         tmpId: null,
@@ -237,11 +221,21 @@ export default _.ui({
       }
       this.o.gestanteFPP = _.toDate(o, "date-");
     },
+    inputProvince(a,b){
+      var me=this,o=me.o;
+      o.province=(b ? b.object.name || "" : "");
+      me.$refs.district.load({ code: o.province_code })
+    },
+    inputDistrict(a,b){
+      var me=this,o=me.o;
+      o.district=b ? b.object.name || "" : "";
+      me.$refs.ccpp.load({ id: o.district_code })
+    },
     inputCCPP(a, b) {
       this.o.ccpp = b ? b.object.name || "" : "";
     },
     inputEstablishment(a, b) {
-      this.o.establecimientoSalud = b ? b.object.name : "";
+      this.o.establecimiento = b ? b.object.name : "";
     },
     process(o) {
       if (!this.trayLocation) {
@@ -250,31 +244,9 @@ export default _.ui({
       }
       return o;
     },
-    changeImage(result) {
-      var me = this,
-        o = me.o;
-      o.tempFile = result.tempFile;
-      if (o.id > 0) {
-        result.id = o.id;
-        axios
-          .post("/admin/desarrollo-social/api/cancer/attach-image", result)
-          .then(() => {
-            if (o.tmpId) {
-              var objectStore = _.db.transaction(["cancer"], "readwrite")
-                .objectStore("cancer");
-              var item = objectStore.get(o.tmpId);
-              item.onsuccess = () => {
-                objectStore.put(o);
-              };
-            }
-            me.app.toast("Imagen adjuntada!");
-          });
-      }
-    },
     mapBuild() {
       var o = this.o;
       if (0 > o.lon) {
-        alert(o.lon + '  ' + o.lat);
         this.$refs.map.addFeature(
           {
             lon: o.lon,
@@ -306,65 +278,10 @@ export default _.ui({
           duration: 500,
         });
     },
-    uploaderClick(uploader) {
-      var me = this,
-        o = me.o;
-      me.count++;
-      Camera.getPhoto({
-        quality: 100,
-        resultType: CameraResultType.Uri,
-      }).then(function (result) {
-        me.count--;
-        if (me.count == 0) {
-          var fs = Filesystem;
-          if (result.path) {
-            o.ext.path = result.path;
-            fs.readFile({
-              path: result.path,
-            }).then(function (r) {
-              var filename = new Date().getTime() + ".jpeg";
-              //Aqui se guarda una copia del archivo
-              fs.writeFile({
-                data: r.data,
-                path: filename,
-                directory: Directory.Data,
-              }).then(function () {
-                fs.getUri({
-                  path: filename,
-                  directory: Directory.Data,
-                }).then(function (s) {
-                  //incluso si se envia la imagen es mejor tener una referencia local
-                  var src = Capacitor.convertFileSrc(s.uri);
-                  if (me.online) {
-                    fetch(src)
-                      .then((r) => r.blob())
-                      .then((b) => {
-                        uploader.submitFile(b, "name." + result.format);
-                      });
-                  }
-                });
-              });
-            });
-          } else {
-            fetch(result.webPath)
-              .then((r) => r.blob())
-              .then(function (b) {
-                o.ext.src = result.webPath;
-                o.ext.pending = 1;
-                if (me.online)
-                  uploader.submitFile(b, "name." + result.format);
-              });
-          }
-        }
-      });
-    },
     async changeRoute() {
       var me = this,
         id = me.id, m = me.$refs.map;
       me.trayLocation = 0;
-      /*me.$refs.red.load();
-      me.$refs.emergencyRed.load();
-      me.$refs.migra_red.load();*/
       if (id < 0) {
         me.getStoredList("cancer").then((cancer) => {
           cancer.forEach((e) => {
@@ -382,15 +299,25 @@ export default _.ui({
           .get("/admin/desarrollo-social/api/cancer/" + id)
           .then((response) => {
             var o = response.data;
-            if (o.province) {
-              o.province = me.pad(o.province, 4);
-              o.region = o.province.substring(0, 2);
+            if (o.red) {
+              o.red = me.pad(o.red, 2);
             }
-            if (o.district) o.district = me.pad(o.district, 6);
-            me.trayLocation = 1;
+            if (o.microred) {
+              o.microred = me.pad(o.microred, 4);
+            }
+            if (o.province_code) {
+              o.province_code = me.pad(o.province_code, 4);
+              o.region = o.province_code.substring(0, 2);
+            }
+            if (o.district_code) o.district_code= me.pad(o.district_code, 6);
+            if (o.ccpp_code) o.ccpp_code= me.pad(o.ccpp_code, 10);
+            me.trayLocation = 0;
             me.o = o;
-            m.addFeature({ draggable: true, lat: me.o.lat, lon: me.o.lon }, { zoom: 14 });
-            me.$refs.province.load({ code: me.o && me.o.region || '02' });
+            if(Number(o.lat)&&Number(o.lon)){
+              m.addFeature({ draggable: true, lat: o.lat, lon: o.lon }, { zoom: 14 });
+              me.trayLocation = 1;
+            }
+            me.$refs.province.load({ code: o && o.region || '02' });
           });
       } else {
         try {
@@ -399,9 +326,9 @@ export default _.ui({
             s = JSON.parse(s);
             var o = this.o;
             if (s.region) o.region = s.region.code;
-            if (s.province) o.province = s.province.code;
-            if (s.district) o.district = s.district.code;
-            if (s.town) o.codigoCCPP = s.town.id;
+            if (s.province) o.province_code = s.province.code;
+            if (s.district) o.district_code = s.district.code;
+            if (s.town) o.ccpp_code = s.town.id;
             /*o.town = s.town;*/
           }
         } catch (e) {

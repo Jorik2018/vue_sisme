@@ -19,7 +19,6 @@
       <label>Red:</label>
       <v-select
         v-model="o.red"
-        autoload="false"
         ref="red"
         v-on:input="$refs.microredSelect.load({ Codigo_Red: o.red })"
         :required="true"
@@ -599,7 +598,6 @@ export default _.ui({
       var me = this,
         id = me.id;
       me.trayLocation = 0;
-      me.$refs.red.load();
       me.$refs.emergencyRed.load();
       me.$refs.migra_red.load();
       if (id < 0) {

@@ -87,13 +87,13 @@
           display-field="name"
         ></v-options>
       </v-select>
-      <label>Direcci&oacute;n:</label>
+      <label>Dirección:</label>
       <v-textarea
         type="text"
         required="true"
         maxlength="55"
         v-model="o.address"
-        title="Direcci&oacute;n"
+        title="Dirección"
       ></v-textarea>
       <label>Cuenta con certificado de discapacidad?:</label>
       <v-switch required="true" v-model="o.certified"></v-switch>
@@ -101,11 +101,11 @@
         v-if="o.certified + '' == 'true'"
         legend="Datos del certificado"
       >
-        <label>Resoluci&oacute;n:</label>
+        <label>Resolución:</label>
         <input v-model="o.nroResolution" maxlength="20" />
         <label>Numero:</label>
         <input v-model="o.nroCertificate" maxlength="20" />
-        <label>Fecha Emisi&oacute;n:</label>
+        <label>Fecha Emisión:</label>
         <v-calendar v-model="o.issuanceDate"></v-calendar>
         <label>Fecha Caducidad:</label>
         <v-calendar v-model="o.expiryDate"></v-calendar>

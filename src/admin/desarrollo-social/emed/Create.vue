@@ -142,10 +142,10 @@ import { Geolocation } from "@capacitor/geolocation";
 import "ol/ol.css";
 import Feature from "ol/Feature";
 import Icon from "ol/style/Icon";
-var ol = window.ol;
+var { _, axios, ol } = window;
 ol.style.Icon = Icon;
 ol.style.Feature = Feature;
-var { _, axios } = window;
+
 export default _.ui({
   props: ["id"],
   data() {
@@ -1052,9 +1052,6 @@ export default _.ui({
       var me = this,
         id = me.id, m = me.$refs.map;
       me.trayLocation = 0;
-      /*me.$refs.red.load();
-      me.$refs.emergencyRed.load();
-      me.$refs.migra_red.load();*/
       if (id < 0) {
         me.getStoredList("emed").then((emed) => {
           emed.forEach((e) => {
