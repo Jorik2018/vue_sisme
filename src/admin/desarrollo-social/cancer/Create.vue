@@ -98,20 +98,36 @@
       </v-fieldset>
 
 
-      <label>Coordenadas:</label>
+      <!--label>Coordenadas:</label>
       <v-map ref="map" v-on:build="mapBuild" style="height: 400px; border: 1px solid lightgrey"
         v-on:translateend="translateend">
         <v-layer-control />
         <v-map-control v-on:click="addMarker" style="bottom: 30px; right: 10px" icon="fa-map-marker" />
-      </v-map>
+      </v-map-->
+      <v-fieldset legend="Coordenadas" style="width: auto">
+        <div class="right">
+          <v-button
+            icon="fa-compass"
+            value="Obtener Geolocalización"
+            v-on:click="printCurrentPosition"
+          />
+        </div>
+        <div
+          class="center"
+          v-if="(o.lat && o.lat != 0) || (o.lon && o.lon != 0) || trayLocation"
+          style="
+            margin-top: 10px;
+            border: 1px solid #ffcf00;
+            background-color: #ffff80;
+            padding: 10px;
+          "
+        >
+          ({{ o.lat }},{{ o.lon }})
+        </div>
+      </v-fieldset>
     </div>
     <center>
       <v-button value="Grabar" icon="fa-save" class="blue" @click.prevent="save"></v-button>
-      <v-button style="margin-left: 10px" value="Ver" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
-  $router.replace(
-    '/admin/desarrollo-social/cancer/' + (o.tmpId ? -o.tmpId : o.id)
-  )
-      "></v-button>
     </center>
   </v-form>
 </template>
@@ -212,6 +228,13 @@ export default _.ui({
     me.changeRoute();
   },
   methods: {
+    async printCurrentPosition() {
+      this.trayLocation = 1;
+      const coordinates = await Geolocation.getCurrentPosition();
+      var c = coordinates.coords;
+      this.o.lat = c.latitude;
+      this.o.lon = c.longitude;
+    },
     onInputFUR(o) {
       if (o) {
         o = new Date(o);
@@ -270,6 +293,7 @@ export default _.ui({
         var c = coordinates.coords;
         me.o.lat = c.latitude;
         me.o.lon = c.longitude;
+        if(m)
         m.addFeature({ draggable: true, lat: me.o.lat, lon: me.o.lon }, { zoom: 14 });
       } else
         m.map.getView().animate({
@@ -287,10 +311,10 @@ export default _.ui({
           cancer.forEach((e) => {
             if (e.tmpId == Math.abs(me.id)) {
               me.o = e;
+              if(m)
               m.addFeature({ draggable: true, lat: me.o.lat, lon: me.o.lon }, { zoom: 14 });
               me.$refs.province.load({ code: me.o.region || "02" });
-              me.trayLocation = e.lat && e.lon;
-              alert(me.trayLocation);
+              me.trayLocation = Number(e.lat) && e.lon;
             }
           });
         });
@@ -314,6 +338,7 @@ export default _.ui({
             me.trayLocation = 0;
             me.o = o;
             if(Number(o.lat)&&Number(o.lon)){
+              if(m)
               m.addFeature({ draggable: true, lat: o.lat, lon: o.lon }, { zoom: 14 });
               me.trayLocation = 1;
             }
