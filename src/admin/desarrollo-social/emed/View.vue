@@ -29,8 +29,10 @@
       <v-fieldset legend="Ubicación">
         <label>Región:</label>
         <div>ANCASH</div>
-        <label>Centro poblado</label>
-        <div>{{ o.ccpp }}</div>
+        <label>Centro poblado:</label>
+        <div>{{ o.ccpp|| '---'  }}</div>
+        <label>Referencia:</label>
+        <div>{{ o.referencia || '---' }}</div>
       </v-fieldset>
       <v-fieldset legend="Recursos movilizados ">
         <div>TODOS CON ORIGEN (IPRESS)</div>

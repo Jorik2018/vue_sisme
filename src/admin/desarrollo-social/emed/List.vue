@@ -51,7 +51,7 @@
                         </v-filter>
                         {{ row.detail }}
                     </td>
-                    <td width="220" header="Desscripción">
+                    <td width="300" header="Desscripción">
                         <v-filter>
                             <input v-model="filters.description" />
                         </v-filter>

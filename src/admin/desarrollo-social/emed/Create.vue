@@ -36,10 +36,10 @@
           </option>
         </v-select>
         <label>Descripción:</label>
-        <v-textarea v-model="o.description" />
+        <v-textarea v-model="o.description" maxlength="500"/>
       </v-fieldset>
 
-      <v-fieldset legend="Ubicación">
+      <v-fieldset legend="Ubicación" class="v-form">
         <label>DIRESA:</label>
         <div>ANCASH</div>
         <label>Provincia:</label>
@@ -61,7 +61,9 @@
           <option value="">Seleccionar Opción</option>
           <v-options store="town" display-field="name" value-field="id" />
         </v-select>
-
+        
+        <label>Referencia:</label>
+        <v-textarea v-model="o.referencia" maxlength="200" />
       </v-fieldset>
 
       <v-fieldset legend="Recursos movilizados ">
