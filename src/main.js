@@ -230,7 +230,7 @@ const  router  =  new  Router({
 				},
 				{
 					path:  'desarrollo-social/cancer/:id',props: true,
-					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/cancer/View.vue')), 'cancer')
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/cancer/Create.vue')), 'cancer')
 				},
 				{
 					path:  'desarrollo-social/cancer/:id/edit',props: true,

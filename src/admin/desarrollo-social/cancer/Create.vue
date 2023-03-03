@@ -89,11 +89,11 @@
         </v-select>
         <div>{{o.province}}/{{o.district}}/{{o.ccpp}}</div>
         <label>Dirección:</label>
-        <v-textarea v-model="o.direccion" />
-        <label>Refencia:</label>
-        <v-textarea v-model="o.refencia" />
+        <v-textarea v-model="o.direccion" maxlength="255"/>
+        <label>Referencia:</label>
+        <v-textarea v-model="o.referencia" maxlength="255"/>
         <label>Sector:</label>
-        <v-textarea v-model="o.sector" />
+        <v-textarea v-model="o.sector" maxlength="255"/>
         
       </v-fieldset>
 

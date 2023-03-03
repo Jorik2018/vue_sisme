@@ -1,6 +1,6 @@
 <template>
     <ion-content :scroll-events="true">
-        <v-form header="Eventos" action="/admin/desarrollo-social/cancer">
+        <v-form header="Cancer" action="/admin/desarrollo-social/cancer">
             <v-table :selectable="true" row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')"
                 store="cancer" @loaded="ll" :scrollable="true" rowKey="id" :pagination="20" @updated="app.bindLinks($el)"
                 :filters="filters" src="/admin/desarrollo-social/api/cancer">
@@ -24,6 +24,12 @@
                         </v-filter>
                         {{ pad(row.id, 4) }}
                     </td>
+                    <td width="220" header="Province" >
+                        <v-filter>
+                            <input v-model="filters.province" />
+                        </v-filter>
+                        {{ row.province }}
+                    </td>
                     <td width="220" header="Establecimiento" >
                         <v-filter>
                             <input v-model="filters.establecimiento" />
@@ -44,7 +50,7 @@
                     </td>
                     <td width="120" header="DNI" class="center" >
                         <v-filter>
-                            <input v-model="filters.dni" />
+                            <input v-model="filters.dni" class="center" />
                         </v-filter>
                         {{ row.dni }}
                     </td>
