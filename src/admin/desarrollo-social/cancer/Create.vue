@@ -94,7 +94,6 @@
         <v-textarea v-model="o.referencia" maxlength="255"/>
         <label>Sector:</label>
         <v-textarea v-model="o.sector" maxlength="255"/>
-        
       </v-fieldset>
 
 
