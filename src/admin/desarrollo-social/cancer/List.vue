@@ -73,6 +73,13 @@
                         </v-filter>
                         {{ row.telefono }}
                     </td>
+                    <td width="90" header="Fecha Nacimiento" class="center">
+                        <v-filter>
+                            <input v-model="filters.fecha_nacimiento" />
+                        </v-filter>
+                        {{ row.fecha_nacimiento ||'---'}}
+                        <br/>{{ row.edad }}
+                    </td>
                     <td width="70" header="Sexo" class="center">
                         <v-filter>
                             <input v-model="filters.sexo" />

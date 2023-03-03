@@ -878,7 +878,7 @@ se desea q los formularios sean srollables para mantener las d
 th.right{
     text-align:  center !important;
 }
-span.readonly{
+*.readonly{
     border-radius: 4px;
     padding:4px; display: block ; 
     background-color: #f1f8f9 !important;

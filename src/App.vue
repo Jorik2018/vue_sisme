@@ -54,6 +54,19 @@ export default defineComponent(
       toggleMenu() {
         this.$refs.menu.toggle();
       },
+      getAge(birthDate) {
+          var today = new Date();
+          
+          birthDate = typeof birthDate=='string'||typeof birthDate=='number'?new Date(birthDate):birthDate;
+          console.log(birthDate);
+          var age = today.getFullYear() - birthDate.getFullYear();
+          var m = today.getMonth() - birthDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+              age--;
+          }
+          console.log(age);
+          return age;
+      },
       logout() {
         axios.config = {};
         this.session = null;

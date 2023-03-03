@@ -16,7 +16,9 @@
         <label>Apellidos y Nombres:</label>
         <input v-model="o.apellidos_nombres" />
         <label>Fecha Nacimiento:</label>
-        <v-calendar v-model="o.fecha_nacimiento" />
+        <v-calendar v-model="o.fecha_nacimiento" @input="inputEdad"/>
+        <label>Edad:</label>
+        <div class="readonly">{{ ((age==o.edad?'':( age||age==0?age:'---')+' -> '))+( o.edad||o.edad==0?o.edad:'---')}}</div>
         <label>Sexo:</label>
         <v-radio-group required="true" v-model="o.sexo">
           <v-radio label="Masculino" value="M"></v-radio>
@@ -144,6 +146,7 @@ export default _.ui({
     return {
       count: 0,
       red: [],
+      age:null,
       financiador:[
         "NINGUNA","SIS", "ESSALUD", "PRIVADA", "PNP" 
       ],
@@ -226,7 +229,11 @@ export default _.ui({
     var me = this;
     me.changeRoute();
   },
+
   methods: {
+    inputEdad(){
+      this.o.edad=this.o.fecha_nacimiento?this.app.getAge(this.o.fecha_nacimiento):null;
+    },
     async printCurrentPosition() {
       this.trayLocation = 1;
       const coordinates = await Geolocation.getCurrentPosition();
@@ -303,7 +310,7 @@ export default _.ui({
     },
     async changeRoute() {
       var me = this,
-        id = me.id, m = me.$refs.map;
+        id = me.id, m = me.$refs.map;me.age=0;
       me.trayLocation = 0;
       if (id < 0) {
         me.getStoredList("cancer").then((cancer) => {
@@ -336,6 +343,7 @@ export default _.ui({
             if (o.ccpp_code) o.ccpp_code= me.pad(o.ccpp_code, 10);
             me.trayLocation = 0;
             me.o = o;
+            me.age=o.edad;
             if(Number(o.lat)&&Number(o.lon)){
               if(m)
               m.addFeature({ draggable: true, lat: o.lat, lon: o.lon }, { zoom: 14 });
