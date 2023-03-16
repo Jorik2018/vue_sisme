@@ -1,0 +1,65 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Build"
+  lane :build do
+    #gradle(task: "clean assembleRelease")
+    gradle(task: "clean bundleRelease")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    #gradle(task: "clean assembleRelease")
+    gradle(task: "clean bundleRelease")
+    crashlytics
+  
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    build_number = google_play_track_version_codes(
+      #package_name: app_id,
+      #json_key: json_key_file_path,
+      #track: "internal",
+      track: "production",
+    )[0];
+    for arg in ARGV
+      if arg=='patch'
+        versionName = google_play_track_release_names(
+          #package_name: app_id,
+          #json_key: json_key_file_path,
+          #track: "internal",
+          track: "production",
+        )[0];
+      end
+    end
+    increment_version_code(
+      gradle_file_path:"./app/build.gradle",
+      version_code: build_number + 1
+    )
+    #gradle(task: "clean assembleRelease")
+    gradle(task: "clean bundleRelease")
+    upload_to_play_store
+  end
+end

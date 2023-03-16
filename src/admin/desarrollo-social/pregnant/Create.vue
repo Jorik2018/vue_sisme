@@ -136,6 +136,7 @@
           v-model="o.fechaNacimiento"
           required="required"
           title="Fecha Nacimiento"
+          :max="today"
         />
         <label>Estado Civil:</label>
         <v-select
@@ -200,7 +201,8 @@
         <v-calendar
           v-model="o.gestanteFUR"
           required="required"
-          title="Gestante FUR"
+          title="Gestante FUR" :max="today"
+          @invalid="invalidDate"
           @input="onInputFUR"
         />
         <label>FPP:</label>
@@ -399,6 +401,7 @@ export default _.ui({
   data() {
     return {
       count: 0,
+      today:null,
       red: [],
       risk: [
         "INVIDENTE",
@@ -441,6 +444,7 @@ export default _.ui({
   },
   created() {
     var me = this;
+    if(!me.today)me.today=_.toDate(new Date(),'date-');
     this.$on("sync", (o) => {
       me.getStoredList("pregnant").then((pregnants) => {
         pregnants.forEach((e) => {
@@ -675,6 +679,9 @@ export default _.ui({
       const c = await Geolocation.getCurrentPosition();
       me.o.lat = c.coords.latitude;
       me.o.lon = c.coords.longitude;
+    },
+    invalidDate(e){
+      this.MsgBox('Fecha no valida '+e.value);
     },
     getCoordinates() {
       var me = this;

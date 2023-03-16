@@ -9,19 +9,8 @@
     "lint": "vue-cli-service lint",
     "apk": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android\\app\\build\\outputs\\apk\\release ",
     "bundle": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew bundle && cd .. && start android\\app\\build\\outputs\\bundle\\release ",
-    "resources": "capacitor-resources -p android,ios"
-  },
-  "aa": {
-    "@capacitor/android": "^4.1.0",
-    "@capacitor/app": "^4.0.1",
-    "@capacitor/cli": "^4.1.0",
-    "@capacitor/core": "^4.1.0",
-    "@capacitor/geolocation": "^4.0.1",
-    "@capacitor/network": "^4.0.1",
-    "@capacitor/camera": "^1.0.5",
-    "@capacitor/filesystem": "^1.1.0",
-    "@capacitor/ios": "^3.2.2",
-    "@capacitor/local-notifications": "^1.0.5"
+    "resources": "capacitor-resources -p android,ios",
+    "deploy": "cls && npm run build & npx cap copy && cd android && bundle exec fastlane android deploy patch && cd .."
   },
   "dependencies": {
     "@capacitor/android": "^4.0.0",
@@ -38,7 +27,7 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
-    "isobit-ui": "^0.2.99",
+    "isobit-ui": "^0.2.106",
     "ol": "^6.6.1",
     "pinia": "^2.0.29",
     "vue": "^2.7.14",
@@ -72,7 +61,6 @@
     },
     "rules": {}
   },
-
   "browserslist": [
     "> 1%",
     "last 2 versions",
