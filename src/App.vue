@@ -150,18 +150,12 @@ export default defineComponent(
     mounted() {
       var me = this;
       window.o = me.o;
-      _.app = me;
       var session = me.session;
       if (session.token) {
-        axios.defaults.headers.common = {
-          Authorization:
-            `Bearer ` + (session.token ? session.token : session.uid),
-        };
         _.app.profileImg = session.people
           ? session.people.urlPerfil
           : null;
         me.connected = session.connected;
-        me.increment();
       }
       me.bindLinks();
     },

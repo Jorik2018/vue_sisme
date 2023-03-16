@@ -15,7 +15,7 @@ Vue.use(Ionic);
 Vue.config.ignoredElements = [/^ion-/,/^v-filter/];   // add this line
 Vue.config.productionTip = false;
 const publicPath=process.env.VUE_APP_PUBLIC_PATH||'/';
-
+window.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 const  router  =  new  Router({
 	base:publicPath,
 	mode: 'history',
