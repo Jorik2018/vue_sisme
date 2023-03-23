@@ -171,7 +171,7 @@ export default _.ui({
   created() {
     var me=this;
     me.app.title = "Cuenta";
-    window.logo = require("@/fs/images/No_image.svg");
+    window.logo = require("@/cdn/images/No_image.svg");
     axios.get("/api/user/" + (me.session.uid || "me")).then(function (d) {
       var o = d.data;
       o.ext = {};

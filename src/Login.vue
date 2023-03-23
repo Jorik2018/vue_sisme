@@ -1,7 +1,7 @@
 <template>
   <div style="background-color: white; height: 100%; overflow: auto">
     <img
-      src="@/fs/images/fondo-login.svg"
+      src="@/cdn/images/fondo-login.svg"
       width="100%"
       style="position: absolute; object-fit: cover; height: 600px; bottom: 0px"
     />

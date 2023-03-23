@@ -1,6 +1,6 @@
 <template>
 	<div>
- <img v-if="can('admin/desarrollo-social/covid/vaccine')" width="100%" src="@/fs/images/covid-new.jpg" />
+ <img v-if="can('admin/desarrollo-social/covid/vaccine')" width="100%" src="@/cdn/images/covid-new.jpg" />
 <a v-if="can('admin/desarrollo-social/covid/vaccine')" style="border: 1px solid rgb(220 178 125);
     display: block;
     padding: 10px;

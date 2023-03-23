@@ -175,7 +175,6 @@ export default window._.ui({
         ["/admin/directory/api/province/0/0", "province"],
         ["/api/poll/sample/0/0", "sample"],
       ].forEach((e) => {
-
         axios.get(e[0]+(o.district&&e[0]=='town'?('?district='+o.district.code):'')).then(function (data) {
           var objectStore = db
             .transaction([e[1]], "readwrite")

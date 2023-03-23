@@ -253,7 +253,7 @@ const  router  =  new  Router({
 });
 
 router.beforeEach((to, from, next) => {
-	var session = localStorage.getItem('session');
+	var session =  localStorage.getItem('session');
 	//console.log(session);
 	if(to.path=='/logout'){
 		if(session){
@@ -267,14 +267,16 @@ router.beforeEach((to, from, next) => {
 	if (to.path == '/login' && session) {
 		next('/admin');
 	}else if (to.path !== '/login' && !session) {
+		
 		if (to.path == '/register'||to.path == '/password') {
+			
 			next();
 		}else {
 			next('/login');
 	}
 	}else if (to.path == '/') {
 		next('/admin');
-	}else {
+	}else {console.log('=next  =========='+to.path);
 		next();
 	}
 });

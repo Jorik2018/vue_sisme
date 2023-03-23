@@ -154,7 +154,7 @@ export default defineComponent(
     components: { IonMenu },
     created() {
       var me = this;
-      this.imgError = require("@/fs/images/smile.png");
+      this.imgError = require("@/cdn/images/smile.png");
       if (me.session.people) me.app.profile = me.session.people.urlPerfil;
     },
     mounted() {
