@@ -26,7 +26,7 @@
     <center>
       <v-button
         value="Grabar"
-        icon="fa-save"
+        icon="fa-save" 
         v-on:click.prevent="save"
       ></v-button>
     </center>
@@ -38,6 +38,7 @@ export default _.ui({
   props: ["id", "action"],
   data() {
     return {
+      keep:0,
       o: { emedId: null,type: null },
     };
   },
@@ -79,7 +80,7 @@ export default _.ui({
         me.o.id = r.data.id;
         me.o.tmpId = r.data.tmpId;
       }
-      //me.$router.back();
+      me.$router.back();
     },
   },
   created() {

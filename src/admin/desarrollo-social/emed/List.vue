@@ -24,6 +24,12 @@
                         </v-filter>
                         {{ pad(row.id, 4) }}
                     </td>
+                    <td width="80" class="center" header="Codigo">
+                        <v-filter>
+                            <input v-model="filters.code" />
+                        </v-filter>
+                        {{ row.code }}
+                    </td>
                     <td width="120" header="Fecha y hora" class=center>
                         <v-filter>
                             <input v-model="filters.datetime" />

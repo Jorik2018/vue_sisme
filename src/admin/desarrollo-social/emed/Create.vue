@@ -10,6 +10,8 @@
       <label>ID:</label>
       <div>{{ pad(o.id || 0, 4) }}</div>
       <v-fieldset legend="Datos generales" class="v-form">
+        <label>Codigo:</label>
+        <input v-model="o.code"/>
         <label>Fecha:</label>
         <v-calendar required v-model="o.date" />
         <label>Hora:</label>

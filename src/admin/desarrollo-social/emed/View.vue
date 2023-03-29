@@ -13,6 +13,8 @@
         {{ pad(o.id, 4) }}
       </div>
       <v-fieldset legend="Datos generales">
+        <label>Codigo:</label>
+        <div>{{ o.code || '---' }}</div>
         <label>Fecha:</label>
         <div>{{ o.date | date('date-') }}</div>
         <label>Hora:</label>
@@ -146,7 +148,8 @@
       </v-fieldset>
     </div>
     <center style="margin-bottom: 10px">
-      <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
+      <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id"
+       icon="fa-eye" class="blue" @click.prevent="
   $router.replace(
     '/admin/desarrollo-social/emed/' +
     (o.tmpId ? -o.tmpId : o.id) +

@@ -125,7 +125,7 @@ export default _.ui({
         me.o.id = r.data.id;
         me.o.tmpId = r.data.tmpId;
       }
-      //me.$router.back();
+      me.$router.back();
     },
   },
   created() {

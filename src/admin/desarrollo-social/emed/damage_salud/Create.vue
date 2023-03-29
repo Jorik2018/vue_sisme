@@ -21,7 +21,7 @@
       <label>Apellidos y Nombres:</label>
       <input maxlength="100" v-model="o.nombre_completo"/>
       <label>Edad:</label>
-      <v-number v-model="o.edad"/>
+      <input v-model="o.edad"/>
       <label>Diagnóstico:</label>
       <v-textarea v-model="o.diagnostico"/>
       <label>Gravedad:</label>
@@ -101,7 +101,7 @@ export default _.ui({
         me.o.id = r.data.id;
         me.o.tmpId = r.data.tmpId;
       }
-      //me.$router.back();
+      me.$router.back();
     },
   },
   created() {
