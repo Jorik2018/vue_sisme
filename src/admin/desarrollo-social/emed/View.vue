@@ -1,5 +1,6 @@
 <template>
-  <v-form action="/admin/desarrollo-social/api/emed" :title="o.synchronized" header="Ver EMED" @resize="onResize"
+  <v-form action="/admin/desarrollo-social/api/emed" 
+  :title="o.synchronized" header="Ver EMED" @resize="onResize"
     store="emed" :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
         ? 'yellow'

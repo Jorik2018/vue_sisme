@@ -3,6 +3,7 @@
     action="/admin/desarrollo-social/api/pregnant"
     :title="o.synchronized"
     header="Ver Gestante"
+    @resize="onResize"
     store="pregnant"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -93,6 +94,7 @@
         <v-table
           autoload="false"
           class="visit"
+          :scrollable="true" :width="width" :style="{ maxHeight: maxHeight }"
           src="/admin/desarrollo-social/api/pregnant/visit/0/0"
           :value="o.visits"
           store="pregnant_visit"
@@ -108,7 +110,7 @@
             <td header="Fecha" class="center" width="120">
               {{ row.fechaVisita | date }}
             </td>
-            <td header="Detalle">{{ row.detalle }}</td>
+            <td header="Detalle" width="220">{{ row.detalle }}</td>
             <td header="Prox. Visita" class="center" width="120">
               {{ row.fechaProxVisita | date }}
             </td>
@@ -128,6 +130,8 @@
           <v-button icon="fa-plus" @click="addPeople(o)"></v-button>
         </div>
       </v-fieldset>
+      <label>Estado Migracion:</label>
+      <div>{{ o.migracionEstado||'--' }}</div>
     </div>
     <center style="margin-bottom: 10px">
       <v-button
@@ -186,6 +190,7 @@ export default _.ui({
   },
   data() {
     return {
+      maxHeight: '400px',
       visitSelected: null,
       k: 0,
       dd: [],
@@ -221,6 +226,7 @@ export default _.ui({
         { id: "V", name: "VIUDA/O" },
         { id: "O", name: "OTROS" },
       ],
+      width: null,
       degreeInstruction: [
         { id: "SI", name: "SIN INSTRUCCION" },
         { id: "I", name: "INICIAL" },
@@ -238,52 +244,33 @@ export default _.ui({
         { id: "J", name: "JUBILADA/O" },
         { id: "E", name: "ESTUDIANTE" },
       ],
-      relation: [
-        [0, 27, 0, 11, "X"],
-        [0, 28, 0, 11, "X"],
-        [0, 29, 0, 11, "X"],
-        [0, 30, 0, 11, "X"],
-        [0, 31, 0, 11, "X"],
-        [0, 32, 0, 11, "X"],
-        [0, 33, 0, 200, "X"],
-        [0, 34, 0, 11, "X"],
-        [0, 35, 0, 11, "X"],
-        [0, 36, 0, 11, "X"],
-        [0, 37, 0, 11, "X"],
-        [0, 38, 0, 17, "X"],
-        [0, 39, 0, 11, "X"],
-        [0, 40, 0, 200, "X"],
-        [0, 41, 12, 17, "X"],
-        [0, 42, 12, 29, "X"],
-        [0, 43, 12, 17, "X"],
-        [0, 44, 12, 17, "X"],
-        [0, 45, 12, 17, "X"],
-        [0, 46, 12, 17, "X"],
-        [0, 47, 12, 29, "X"],
-        [0, 48, 12, 17, "X"],
-        [0, 49, 12, 59, "X"],
-        [0, 50, 18, 29, "X"],
-        [0, 51, 18, 200, "X"],
-        [0, 52, 18, 200, "X"],
-        [0, 53, 18, 29, "X"],
-        [0, 54, 18, 29, "X"],
-        [0, 55, 18, 65, "F"],
-        [0, 56, 18, 59, "X"],
-        [0, 57, 30, 200, "X"],
-        [0, 58, 30, 59, "X"],
-        [0, 59, 35, 200, "M"],
-        [0, 60, 45, 200, "F"],
-        [0, 61, 50, 69, "F"],
-        [0, 62, 50, 200, "M"],
-        [0, 63, 60, 200, "X"],
-        [0, 64, 60, 200, "X"],
-        [0, 65, 60, 200, "X"],
-        [0, 66, 60, 200, "X"],
-      ],
       o: { synchronized: null, ext: {} },
     };
   },
   methods: {
+    
+    getScrollBarWidth() {
+      var w = this.w;
+      if (!w) {
+        let el = document.createElement("div");
+        el.style.cssText = "overflow:scroll; visibility:hidden; position:absolute;";
+        document.body.appendChild(el);
+        this.w = w = el.offsetWidth - el.clientWidth;
+        el.remove();
+      }
+      return w;
+    },
+    onResize(e) {
+      var w = e.$target.$el.offsetWidth - 44 - this.getScrollBarWidth();
+
+      Array.prototype.forEach.call(
+        this.$el.querySelectorAll(".v-datatable"),
+        (e) => {
+          e.style.width = w + "px";
+          this.width = w;
+        }
+      );
+    },
     close() {},
     addPeople(o) {
       this.open(

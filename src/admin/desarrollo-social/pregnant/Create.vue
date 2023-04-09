@@ -362,9 +362,11 @@
       <label>Estado:</label>
         <v-select v-model="o.migracionEstado" required="required">
           <option value="">Select One...</option>
-          <option value="GESTANTE">GESTANTE</option>
-          <option value="PUERPERA">PUERPERA</option>
-          <option value="MER">MER</option>
+
+          <option :value="item" :key="item"
+          v-for="item in ['GESTANTE','GESTANTE CAPTADA','PUERPERA','MER']">
+            {{ item }}
+          </option>
         </v-select>
     </div>
     <center>
