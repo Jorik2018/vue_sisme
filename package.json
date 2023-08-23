@@ -6,7 +6,7 @@
     "update_serve": "npm install isobit-ui@latest --force && SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "serve:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "apk": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android\\app\\build\\outputs\\apk\\release ",
     "bundle": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew bundle && cd .. && start android\\app\\build\\outputs\\bundle\\release ",
