@@ -1,5 +1,5 @@
 <template>
-  <v-form action="/admin/desarrollo-social/api/emed" :title="o.synchronized" header="Ver EMED" @resize="onResize"
+  <v-form action="/api/desarrollo-social/emed" :title="o.synchronized" header="Ver EMED" @resize="onResize"
     store="emed" :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
         ? 'yellow'
@@ -56,7 +56,7 @@
       </v-fieldset>
       <v-fieldset legend="Daños a salud">
         <v-table autoload="false" class="visit" :scrollable="true" :width="width" :style="{ maxHeight: maxHeight }"
-          src="/admin/desarrollo-social/api/emed/damage-salud/0/0" :value="o.damage_salud" store="emed_damage_salud"
+          src="/api/desarrollo-social/emed/damage-salud/0/0" :value="o.damage_salud" store="emed_damage_salud"
           row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" ref="damage_salud" :filters="filters"
           @row-select="selections.damage_salud = $event.current">
           <template v-slot:default="{ row, index }">
@@ -84,7 +84,7 @@
         </div>
       </v-fieldset>
       <v-fieldset legend="Daños a IPRESS">
-        <v-table autoload="false" class="visit" src="/admin/desarrollo-social/api/emed/damage-ipress/0/0"
+        <v-table autoload="false" class="visit" src="/api/desarrollo-social/emed/damage-ipress/0/0"
           :style="{ maxHeight: maxHeight }" :scrollable="true" :width="width" :value="o.damagesIPRESS"
           store="emed_damage_ipress" row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')"
           ref="damage_ipress" :filters="filters" @row-select="selections.damage_ipress = $event.current">
@@ -110,7 +110,7 @@
       </v-fieldset>
       <v-fieldset legend="Acciones realizadas en salud">
         <v-table autoload="false" :scrollable="true" :width="width" class="visit" :style="{ maxHeight: maxHeight }"
-          src="/admin/desarrollo-social/api/emed/action/0/0" :value="o.actions" store="emed_action"
+          src="/api/desarrollo-social/emed/action/0/0" :value="o.actions" store="emed_action"
           row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" ref="action" :filters="filters"
           @row-select="selections.action = $event.current">
           <template v-slot:default="{ row, index }">
@@ -305,7 +305,7 @@ export default _.ui({
           });
         });
         axios
-          .get("/admin/desarrollo-social/api/emed/" + id)
+          .get("/api/desarrollo-social/emed/" + id)
           .then((response) => {
             var o = response.data;
             o.files = o.files || [];
@@ -344,7 +344,7 @@ export default _.ui({
     async deleteFile(file) {
       var me = this, o = me.o;
       if (me.online && file.id > 0) {
-        await axios.delete('/admin/desarrollo-social/api/emed/file/' + file.id);
+        await axios.delete('/api/desarrollo-social/emed/file/' + file.id);
       }
       o.files = o.files.filter((e) => e.id != file.id);
       if (!me.online) {
@@ -379,7 +379,7 @@ export default _.ui({
           .objectStore("emed")
           .put(o);
       } else {
-        axios.post("/admin/desarrollo-social/api/emed/file",{src:result.src,emedId:result.emedId})
+        axios.post("/api/desarrollo-social/emed/file",{src:result.src,emedId:result.emedId})
       }
     },
     uploaderClick(u) {

@@ -1,7 +1,7 @@
 <template>
 	<v-form header="CONSULTA COVID" action="/admin/desarrollo-social/covid"> 
  <div> <v-fieldset legend="BUSQUEDA POR DOCUMENTO IDENTIDAD" class="v-form"> 
-   <v-autocomplete placeholder="Ingrese mas de 5 caracteres y presione ENTER" ref="peopleAutocomplete" v-bind:show-selection="true" inputClass="center" v-on:input="inputPeople" v-bind:params="{distinct:1}" minQueryLength="5" required="required" v-model="o" v-on:complete="peopleComplete" src="/admin/desarrollo-social/api/covid"> 
+   <v-autocomplete placeholder="Ingrese mas de 5 caracteres y presione ENTER" ref="peopleAutocomplete" v-bind:show-selection="true" inputClass="center" v-on:input="inputPeople" v-bind:params="{distinct:1}" minQueryLength="5" required="required" v-model="o" v-on:complete="peopleComplete" src="/api/desarrollo-social/covid"> 
     <template v-slot:label="{selected}"> 
      <template v-if="selected">
        {{selected.id}}: {{selected.apellidoPaterno}} {{selected.apellidoMaterno}} {{selected.names}} 

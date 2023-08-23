@@ -1,5 +1,5 @@
 <template>
-    <v-form action="/admin/desarrollo-social/api/sivico/people" 
+    <v-form action="/api/desarrollo-social/sivico/people" 
         :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"
         store="people" :header="(o.id?'Editar':'Crear')+' Persona'"> 
         <div class="v-form"> 
@@ -337,7 +337,7 @@
                             }
                         };
                     }else
-                        axios.get('/admin/desarrollo-social/api/sivico/people/' + id).then(function (response) {
+                        axios.get('/api/desarrollo-social/sivico/people/' + id).then(function (response) {
                             me.o = response.data;
                         });
                 }

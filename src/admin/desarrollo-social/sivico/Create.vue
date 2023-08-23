@@ -1,5 +1,5 @@
 <template>
-    <v-form action="/admin/desarrollo-social/api/sivico" :header="(o.id?'Editar':'Crear')+' MCI'" 
+    <v-form action="/api/desarrollo-social/sivico" :header="(o.id?'Editar':'Crear')+' MCI'" 
         :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"  store="pool" > 
         <div class="v-form">
             <label>ID:</label> 
@@ -330,7 +330,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                     o.tempFile=result.tempFile;
                     if(o.id>0){
                         result.id=o.id;
-                        axios.post('/admin/desarrollo-social/api/sivico/attach-image',result).then(()=>{
+                        axios.post('/api/desarrollo-social/sivico/attach-image',result).then(()=>{
                             delete o.ext.pending;
                             delete o.tempFile;
                             if(o.tmpId){
@@ -426,7 +426,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                             });
                         });
                     }else if (Number(id)){
-                        axios.get('/admin/desarrollo-social/api/sivico/' + id).then(function (response) {
+                        axios.get('/api/desarrollo-social/sivico/' + id).then(function (response) {
                             var o = response.data;
                             if(o.red)o.red=me.pad(o.red,2);
                             

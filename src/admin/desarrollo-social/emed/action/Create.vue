@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/emed/action"
+    action="/api/desarrollo-social/emed/action"
     store="emed_action"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -64,7 +64,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/emed/action/" + id)
+              .get("/api/desarrollo-social/emed/action/" + id)
               .then(function (response) {
                 me.filters.emedId = response.data.emedId;
                 me.o = response.data;

@@ -1,33 +1,33 @@
 <template>
-	<v-form id="DsPeopleCreateForm" action="/admin/desarrollo-social/api/census" v-bind:header="(o.id?'Editar':'Crear')+' Empadronamiento'" storage="census"> 
+	<v-form id="DsPeopleCreateForm" action="/api/desarrollo-social/census" v-bind:header="(o.id?'Editar':'Crear')+' Empadronamiento'" storage="census"> 
  <div class="v-form" v-if="o"> <label>Familia:</label> 
   <div>
    {{o.masterId}}
   </div> 
   <template v-if="!o.ext.bossId"> <label>Regi&amp;oacute;n:</label> <v-select v-model="o.region" storage="region_selected" v-bind:required="true" v-on:input="$refs.province.load({regionId:o.region})"> 
     <option>Select One...</option> 
-    <v-options value-field="code" storage="region" url="/admin/directory/api/region/0/0"> 
+    <v-options value-field="code" storage="region" url="/api/directory/region/0/0"> 
      <template v-slot="{item}">
        {{item.name}} 
      </template> 
     </v-options> 
    </v-select> <label>Provincia:</label> <v-select ref="province" storage="province_selected" v-model="o.province" v-bind:autoload="false" v-bind:disabled="!o.region" v-bind:required="true" v-on:input="$refs.district.load({provinceId:o.province})"> 
     <option>Select One...</option> 
-    <v-options value-field="code" url="/admin/directory/api/province/0/0"> 
+    <v-options value-field="code" url="/api/directory/province/0/0"> 
      <template v-slot="{item}">
        {{item.name}} 
      </template> 
     </v-options> 
    </v-select> <label>Distrito:</label> <v-select ref="district" v-model="o.district" v-bind:autoload="false" v-bind:disabled="!o.province" v-bind:required="true" v-on:input="$refs.ccpp.load({district:o.district});$refs.establishment.load({location:o.district});"> 
     <option>Select One...</option> 
-    <v-options value-field="code" url="/admin/directory/api/district/0/0"> 
+    <v-options value-field="code" url="/api/directory/district/0/0"> 
      <template v-slot="{item}">
        {{item.name}} 
      </template> 
     </v-options> 
    </v-select> <label v-bind:title="o.ccpp">Localidad:</label> <v-select ref="ccpp" v-model="o.ccpp" v-bind:autoload="false" storage="ccpp" v-bind:disabled="!o.district" v-bind:required="true"> 
     <option>Select One...</option> 
-    <v-options value-field="id" url="/admin/directory/api/town/0/0"> 
+    <v-options value-field="id" url="/api/directory/town/0/0"> 
      <template v-slot="{item}">
        {{item.name}} 
      </template> 
@@ -76,7 +76,7 @@
   </v-select> <label>Vulnerabilidad:</label> 
   <template v-if="o.sex=='F'"> <v-checkbox v-model="o.pregnant" v-on:input="o.puerpera=o.pregnant?0:o.puerpera" label="Embarazada"></v-checkbox> <v-checkbox v-model="o.puerpera" v-on:input="o.pregnant=o.puerpera?0:o.pregnant" label="Puerpera"></v-checkbox> 
   </template> <v-checkbox v-model="o.diabetes" label="Diabetes"></v-checkbox> <v-checkbox v-model="o.obesity" label="Obesidad"></v-checkbox> <v-checkbox v-model="o.disability" label="Discapacitado"></v-checkbox> <v-checkbox v-model="o.hypertensive" label="Hipertenso"></v-checkbox> <label>Intervenci&oacute;n COVID?:</label> <v-switch required="true" v-model="o.covid"></v-switch> <v-fieldset v-if="(o.covid+'')=='true'" legend="Ultima Intervencion"> 
-   <label>Sintomatologìa:</label> 
+   <label>Sintomatologï¿½a:</label> 
    <v-radio-group required="true" v-model="o.sintomatologia"> 
     <v-radio value="1" label="SI"></v-radio> 
     <v-radio value="0" label="NO"></v-radio> 
@@ -104,7 +104,7 @@
    </template> 
   </v-fieldset> <label>Establecimiento:</label> <v-select ref="establishment" v-model="o.establishment" v-bind:autoload="false" v-bind:disabled="!o.district" v-bind:required="true"> 
    <option>Select One...</option> 
-   <v-options value-field="id" storage="establishment" url="/admin/desarrollo-social/api/establishment/0/0"> 
+   <v-options value-field="id" storage="establishment" url="/api/desarrollo-social/establishment/0/0"> 
     <template v-slot="{item}">
       {{item.name}} 
     </template> 
@@ -184,7 +184,7 @@
                                 } else {
                                     //si el padre no es un registro guardado se pedira q se guarde
                                     //Se debe crear 1 registro para poder recuperar el centro de salud
-                                    axios.get('/admin/desarrollo-social/api/tracing/' + v[0]).then(function (response) {
+                                    axios.get('/api/desarrollo-social/tracing/' + v[0]).then(function (response) {
                                         me.o.district = response.data.district;
                                         me.$refs.establishment.load({location: Vue.pad(me.o.district, 0)});
                                     });
@@ -193,11 +193,11 @@
                             me.o = o;
                             me.getCoordinates();
                         } else {
-                            axios.get('/admin/desarrollo-social/api/census/' + id).then(function (response) {
+                            axios.get('/api/desarrollo-social/census/' + id).then(function (response) {
                                 me.o = response.data;
                                 console.log(me.o);
                                 if (!me.o.district) {
-                                    axios.get('/admin/desarrollo-social/api/tracing/' + me.o.masterId).then(function (response) {
+                                    axios.get('/api/desarrollo-social/tracing/' + me.o.masterId).then(function (response) {
                                         me.o.district = response.data.district;
                                         me.$refs.establishment.load({location: me.o.district});
                                     });

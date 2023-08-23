@@ -1,5 +1,5 @@
 <template>
-  <v-form action="/admin/desarrollo-social/api/cancer" :header="(o.id ? 'Editar' : 'Crear') + '  Registro Cancer'"
+  <v-form action="/api/desarrollo-social/cancer" :header="(o.id ? 'Editar' : 'Crear') + '  Registro Cancer'"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
         ? 'yellow'
@@ -326,7 +326,7 @@ export default _.ui({
         });
       } else if (Number(id)) {
         axios
-          .get("/admin/desarrollo-social/api/cancer/" + id)
+          .get("/api/desarrollo-social/cancer/" + id)
           .then((response) => {
             var o = response.data;
             if (o.red) {

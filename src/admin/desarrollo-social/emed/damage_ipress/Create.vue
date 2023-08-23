@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/emed/damage-ipress"
+    action="/api/desarrollo-social/emed/damage-ipress"
     store="emed_damage_ipress"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -107,7 +107,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/emed/damage-ipress/" + id)
+              .get("/api/desarrollo-social/emed/damage-ipress/" + id)
               .then((response) => {
                 var o = response.data;
                 if(o.red)o.red=me.pad(o.red,2);

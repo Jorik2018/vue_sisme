@@ -1,5 +1,5 @@
 <template>
-  <v-form action="/admin/desarrollo-social/api/emed" :header="(o.id ? 'Editar' : 'Crear') + '  Evento'" :class="
+  <v-form action="/api/desarrollo-social/emed" :header="(o.id ? 'Editar' : 'Crear') + '  Evento'" :class="
     o.id < 0 || (o.tmpId && !o.synchronized)
       ? 'yellow'
       : o.tmpId
@@ -952,7 +952,7 @@ export default _.ui({
       if (o.id > 0) {
         result.id = o.id;
         axios
-          .post("/admin/desarrollo-social/api/emed/attach-image", result)
+          .post("/api/desarrollo-social/emed/attach-image", result)
           .then(() => {
             if (o.tmpId) {
               var objectStore = _.db.transaction(["emed"], "readwrite")
@@ -1070,7 +1070,7 @@ export default _.ui({
         });
       } else if (Number(id)) {
         axios
-          .get("/admin/desarrollo-social/api/emed/" + id)
+          .get("/api/desarrollo-social/emed/" + id)
           .then((response) => {
             var o = response.data;
             if (o.province) {

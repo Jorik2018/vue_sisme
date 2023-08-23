@@ -1,5 +1,5 @@
 <template>
-    <v-form action="/admin/desarrollo-social/api/sivico/agreement" store="agreement"
+    <v-form action="/api/desarrollo-social/sivico/agreement" store="agreement"
         :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"
         v-bind:header="(o.id?'Editar':'Crear')+' Acuerdo'"> 
         <div class="v-form">
@@ -14,7 +14,7 @@
                 <label>Persona:</label>
                 <v-select v-model="o.peopleId" ref="people" :required="true" > 
                     <option>Select One...</option> 
-                    <v-options value-field="id" :data="peoples" src="/admin/desarrollo-social/api/sivico/people/0/0"
+                    <v-options value-field="id" :data="peoples" src="/api/desarrollo-social/sivico/people/0/0"
                         :filters="filters"> 
                         <template v-slot="{item}">
                         {{item.code}}: {{item.surnames}} {{item.names}} 
@@ -71,7 +71,7 @@
                             });
                         });
                     } else 
-                        axios.get('/admin/desarrollo-social/api/sivico/agreement/' + id).then(function (response) {
+                        axios.get('/api/desarrollo-social/sivico/agreement/' + id).then(function (response) {
                             me.filters.masterId=response.data.masterId;
                             me.o = response.data;
                         });

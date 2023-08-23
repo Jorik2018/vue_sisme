@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/emed/damage-salud"
+    action="/api/desarrollo-social/emed/damage-salud"
     store="emed_damage_salud"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -84,7 +84,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/emed/damage-salud/" + id)
+              .get("/api/desarrollo-social/emed/damage-salud/" + id)
               .then(function (response) {
                 me.filters.emed = response.data.emedId;
                 me.o = response.data;

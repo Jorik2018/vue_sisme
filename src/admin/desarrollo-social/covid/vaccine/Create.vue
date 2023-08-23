@@ -13,7 +13,7 @@
           required="required"
           v-model="o"
           v-on:complete="peopleComplete"
-          src="/admin/desarrollo-social/api/covid/vaccine-covid"
+          src="/api/desarrollo-social/covid/vaccine-covid"
         >
           <template v-slot:label="{ selected }">
             <template v-if="selected">

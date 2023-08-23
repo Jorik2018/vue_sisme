@@ -11,7 +11,7 @@
         :pagination="20"
         @updated="app.bindLinks($el)"
         :filters="filters"
-        src="/admin/desarrollo-social/api/pregnant"
+        src="/api/desarrollo-social/pregnant"
       >
         <template v-slot:header>
           <v-button

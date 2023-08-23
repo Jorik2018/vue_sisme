@@ -94,7 +94,7 @@
           >
             <option value="">Seleccionar Opci&oacute;n</option>
             <v-options
-              url="/admin/directory/api/region/0/0"
+              url="/api/directory/region/0/0"
               display-field="name"
             />
           </v-select>
@@ -113,7 +113,7 @@
           >
             <option value="">Seleccionar Opci&oacute;n</option>
             <v-options
-              url="/admin/directory/api/province/0/0"
+              url="/api/directory/province/0/0"
               display-field="name"
             />
           </v-select>
@@ -129,7 +129,7 @@
           >
             <option value="">Seleccionar Opci&oacute;n</option>
             <v-options
-              url="/admin/directory/api/district/0/0"
+              url="/api/directory/district/0/0"
               display-field="name"
             />
           </v-select>

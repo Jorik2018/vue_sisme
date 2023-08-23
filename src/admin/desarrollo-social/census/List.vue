@@ -11,7 +11,7 @@
       v-bind:pagination="20"
       row-style-class="row.tmpSynchronized?'green':(row.tmpId>0?'yellow':'')"
       storage="census"
-      src="/admin/desarrollo-social/api/census"
+      src="/api/desarrollo-social/census"
       v-bind:filters="filters"
     >
       <template v-slot:header="">
@@ -297,7 +297,7 @@ export default _.ui({
         document.querySelector("#downloadDlg"),
         function (b) {
           if (b == 0) {
-            _.download("/admin/desarrollo-social/api/census/download", o);
+            _.download("/api/desarrollo-social/census/download", o);
           }
         },
         ["Descargar", "Cancelar"]

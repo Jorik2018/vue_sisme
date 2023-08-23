@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/emed/source"
+    action="/api/desarrollo-social/emed/source"
     store="emed_damage_ipress"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -124,7 +124,7 @@ export default _.ui({
           me.o = { emedId: id, ext: {}, lat: null, lon: null, number: null };
           if (me.app.connected)
             axios
-              .get("/admin/desarrollo-social/api/emed/" + id + "/source/number")
+              .get("/api/desarrollo-social/emed/" + id + "/source/number")
               .then((result) => {
                 me.o.number = result.data;
               });
@@ -145,7 +145,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/emed/source/" + id)
+              .get("/api/desarrollo-social/emed/source/" + id)
               .then(function (response) {
                 me.filters.emedId = response.data.emedId;
                 me.o = response.data;
@@ -155,7 +155,7 @@ export default _.ui({
         me.o = { emedId: id, log: null, lat: null, ext: {} };
         me.filters.emedId = id;
         axios
-          .get("/admin/desarrollo-social/api/emed/" + id + "/source/number")
+          .get("/api/desarrollo-social/emed/" + id + "/source/number")
           .then((result) => {
             me.o.number = result.data;
           });

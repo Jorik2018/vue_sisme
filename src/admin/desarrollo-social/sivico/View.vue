@@ -1,5 +1,5 @@
 <template>
-    <v-form action="/admin/desarrollo-social/api/sivico" :title="o.synchronized" header="Ver MCI" store="pool"
+    <v-form action="/api/desarrollo-social/sivico" :title="o.synchronized" header="Ver MCI" store="pool"
         :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"> 
         <div class="v-form"> <label>ID:</label> 
             <div>
@@ -41,7 +41,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
             </v-fieldset>
             <v-fieldset legend="Integrantes"> 
                 <v-table autoload="false"
-                    store="people" src="/admin/desarrollo-social/api/sivico/people/0/0" 
+                    store="people" src="/api/desarrollo-social/sivico/people/0/0" 
                     row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" 
                     ref="people" :filters="filters" @row-select="peopleSelected=$event.current"> 
                     <template v-slot:default="{row}"> 
@@ -59,7 +59,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
             </v-fieldset> 
             <v-fieldset legend="Acuerdos"> 
                 <v-table store="agreement" autoload="false" :value="o.agreements" 
-                    src="/admin/desarrollo-social/api/sivico/agreement/0/0" ref="agreement" 
+                    src="/api/desarrollo-social/sivico/agreement/0/0" ref="agreement" 
                     row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" 
                     :filters="filters" @row-select="agreementSelected=$event.current"> 
                     <template v-slot="{row}">
@@ -463,7 +463,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                                 }
                             });
                         });
-                        axios.get('/admin/desarrollo-social/api/sivico/' + id).then(function (response) {
+                        axios.get('/api/desarrollo-social/sivico/' + id).then(function (response) {
                             me.o = response.data;
                             if(!loaded)me.loadTables();
                         });

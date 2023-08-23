@@ -1,14 +1,14 @@
 <template>
-	<v-form v-bind:header="(o.id?'Editar ':'Crear ')+'Seguimiento Socioeconomico'" storage="tracing" action="/admin/desarrollo-social/api/tracing"> 
+	<v-form v-bind:header="(o.id?'Editar ':'Crear ')+'Seguimiento Socioeconomico'" storage="tracing" action="/api/desarrollo-social/tracing"> 
  <div class="v-form"> <label>Provincia:</label> <v-select v-model="o.province" name="province" storage="province_selected" required="required" v-on:input="$refs.districtSelect.load({provinceId:parseInt(o.province)})"> 
    <option value="">Select One...</option> 
-   <v-options url="/admin/directory/api/province/0/0?regionId=2" storage="province" value-field="code" display-field="name"></v-options> 
+   <v-options url="/api/directory/province/0/0?regionId=2" storage="province" value-field="code" display-field="name"></v-options> 
   </v-select> <label>Distrito:</label> <v-select ref="districtSelect" v-bind:autoload="false" storage="district_selected" v-bind:disabled="!o.province" v-model="o.district" name="district" required="required" v-on:input="$refs.localitySelect.load({district:o.district})"> 
    <option value="">Select One...</option> 
-   <v-options url="/admin/directory/api/district/0/0" storage="district" value-field="code" display-field="name"></v-options> 
+   <v-options url="/api/directory/district/0/0" storage="district" value-field="code" display-field="name"></v-options> 
   </v-select> <label>Poblado:</label> <v-select ref="localitySelect" v-bind:autoload="false" v-bind:disabled="!o.district" v-model="o.locality"> 
    <option value="">Select One...</option> 
-   <v-options url="/admin/directory/api/town/0/0" value-field="id" storage="town" display-field="name"></v-options> 
+   <v-options url="/api/directory/town/0/0" value-field="id" storage="town" display-field="name"></v-options> 
   </v-select> <label>Direcci&oacute;n:</label> <v-textarea type="text" rows="1" maxlength="100" v-model="o.address" title="Direcci&oacute;n"></v-textarea> <label>C&oacute;digo Casa:</label> 
   <input type="text" v-model="o.houseCode" maxlength="6" title="C&oacute;digo Casa" /> <label>Condici&oacute;n Vivienda:</label> <v-radio-group required="true" v-model="o.houseCondition"> 
    <v-radio label="Abierta" value="1"></v-radio> 
@@ -53,7 +53,7 @@
                 &lt;v-checkbox value="Pago del telefono, internet y cable" /&gt;
             &lt;/v-checkbox-group--> <label>Regi&oacute;n de Origen:</label> <v-select v-model="o.originRegion" required="required"> 
     <option value="">Select One...</option> 
-    <v-options url="/admin/directory/api/region/0/0" storage="region" value-field="code" display-field="name"></v-options> 
+    <v-options url="/api/directory/region/0/0" storage="region" value-field="code" display-field="name"></v-options> 
    </v-select> <label>Condici&oacute;n de Vivienda:</label> <v-radio-group required="true" v-model="o.housingCondition"> 
     <v-radio v-for="(item,i) in housingCondition" v-bind:key="i" v-bind:label="item" v-bind:value="''+(i+1)"></v-radio> 
    </v-radio-group> <label>Agua:</label> <v-radio-group required="true" v-model="o.water"> 
@@ -125,7 +125,7 @@
             changeRoute(){
                 var me = this,id=me.id;
                 if (id){
-                    axios.get('/admin/desarrollo-social/api/tracing/' + id).then(function (r) {
+                    axios.get('/api/desarrollo-social/tracing/' + id).then(function (r) {
                         me.o = r.data;
                     });
                 }else{

@@ -1,7 +1,7 @@
 <template>
   <v-form
     id="DisabledCreateForm"
-    action="/admin/desarrollo-social/api/disabled"
+    action="/api/desarrollo-social/disabled"
     v-bind:header="(o.id ? 'Editar ' : 'Crear ') + 'Discapacitado'"
     storage="disabled"
   >
@@ -47,7 +47,7 @@
       >
         <option value="">Select One...</option>
         <v-options
-          url="/admin/directory/api/province/0/0?regionId=2"
+          url="/api/directory/province/0/0?regionId=2"
           storage="province"
           value-field="code"
           display-field="name"
@@ -66,7 +66,7 @@
       >
         <option value="">Select One...</option>
         <v-options
-          url="/admin/directory/api/district/0/0"
+          url="/api/directory/district/0/0"
           storage="district"
           value-field="code"
           display-field="name"
@@ -81,7 +81,7 @@
       >
         <option value="">Select One...</option>
         <v-options
-          url="/admin/directory/api/town/0/0"
+          url="/api/directory/town/0/0"
           value-field="id"
           storage="town"
           display-field="name"
@@ -299,7 +299,7 @@ export default _.ui({
           }
         } else
           axios
-            .get("/admin/desarrollo-social/api/disabled/" + id)
+            .get("/api/desarrollo-social/disabled/" + id)
             .then(function (response) {
               var o = response.data;
               me.count++;

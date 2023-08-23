@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/emed/resource"
+    action="/api/desarrollo-social/emed/resource"
     store="emed_resource"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -116,7 +116,7 @@ export default _.ui({
           if(me.app.connected)
           axios
             .get(
-              "/admin/desarrollo-social/api/emed/" + id + "/resource/number"
+              "/api/desarrollo-social/emed/" + id + "/resource/number"
             )
             .then((result) => {
               me.o.number = result.data;
@@ -138,7 +138,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/emed/resource/" + id)
+              .get("/api/desarrollo-social/emed/resource/" + id)
               .then(function (response) {
                 me.filters.emedId = response.data.emedId;
                 me.o = response.data;
@@ -148,7 +148,7 @@ export default _.ui({
         me.o = { emedId: id, log: null, lat: null, ext: {} };
         me.filters.emedId = id;
         axios
-          .get("/admin/desarrollo-social/api/emed/" + id + "/resource/number")
+          .get("/api/desarrollo-social/emed/" + id + "/resource/number")
           .then((result) => {
             me.o.number = result.data;
           });

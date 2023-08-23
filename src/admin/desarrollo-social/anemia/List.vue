@@ -1,6 +1,6 @@
 <template>
 	<v-form id="DsSeguimientoDetList" header="Control de Anemia" action="/admin/desarrollo-social/anemia"> 
- <v-table v-bind:selectable="true" v-bind:scrollable="true" rowKey="id" v-bind:pagination="20" src="/admin/desarrollo-social/api/hemoglobin" v-bind:filters="filters" v-on:row-select="rowSelectedCount=getRowSelectedCount()"> 
+ <v-table v-bind:selectable="true" v-bind:scrollable="true" rowKey="id" v-bind:pagination="20" src="/api/desarrollo-social/hemoglobin" v-bind:filters="filters" v-on:row-select="rowSelectedCount=getRowSelectedCount()"> 
   <template v-slot:header=""> <v-button value="Crear" v-if="true" icon="fa-plus" class="on" v-on:click.prevent="create"></v-button> <v-button value="Editar" v-if="true" icon="fa-pen" v-on:click.prevent="edit" v-bind:disabled="rowSelectedCount==0"></v-button> <v-button value="Eliminar" v-if="true" icon="fa-trash" v-on:click.prevent="destroy" v-bind:disabled="rowSelectedCount==0"></v-button> <v-button title="Refrescar" icon="fa-sync" class="on" v-on:click.prevent="refresh"></v-button> 
   </template> 
   <template v-slot:default="{row}"> 

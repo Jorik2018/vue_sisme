@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/pregnant/visit"
+    action="/api/desarrollo-social/pregnant/visit"
     store="pregnant_visit"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -79,7 +79,7 @@ export default _.ui({
           if(me.app.connected)
           axios
             .get(
-              "/admin/desarrollo-social/api/pregnant/" + id + "/visit/number"
+              "/api/desarrollo-social/pregnant/" + id + "/visit/number"
             )
             .then((result) => {
               me.o.number = result.data;
@@ -101,7 +101,7 @@ export default _.ui({
             });
           } else
             axios
-              .get("/admin/desarrollo-social/api/pregnant/visit/" + id)
+              .get("/api/desarrollo-social/pregnant/visit/" + id)
               .then(function (response) {
                 me.filters.pregnantId = response.data.pregnantId;
                 me.o = response.data;
@@ -111,7 +111,7 @@ export default _.ui({
         me.o = { pregnantId: id, log: null, lat: null, ext: {} };
         me.filters.pregnantId = id;
         axios
-          .get("/admin/desarrollo-social/api/pregnant/" + id + "/visit/number")
+          .get("/api/desarrollo-social/pregnant/" + id + "/visit/number")
           .then((result) => {
             me.o.number = result.data;
           });

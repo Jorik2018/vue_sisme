@@ -14,7 +14,7 @@
 		<div ref="content" style="overflow-y:auto;height: -webkit-fill-available;">	
 			
 			<v-dataview ref="dataview" v-bind:autoload="false" class="aaa" 
-			src="/admin/desarrollo-social/api/sivico/search" pagination="10" :updated="app.bindLinks($el)" 
+			src="/api/desarrollo-social/sivico/search" pagination="10" :updated="app.bindLinks($el)" 
 				v-bind:filters="filters" >
 				<template v-slot="{item}" >
 				<a class="people" style="display:block;" v-bind:href="'/admin/desarrollo-social/sivico/'+item.id" 

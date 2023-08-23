@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/pregnant"
+    action="/api/desarrollo-social/pregnant"
     :title="o.synchronized"
     header="Ver Gestante"
     @resize="onResize"
@@ -95,7 +95,7 @@
           autoload="false"
           class="visit"
           :scrollable="true" :width="width" :style="{ maxHeight: maxHeight }"
-          src="/admin/desarrollo-social/api/pregnant/visit/0/0"
+          src="/api/desarrollo-social/pregnant/visit/0/0"
           :value="o.visits"
           store="pregnant_visit"
           row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')"
@@ -315,7 +315,7 @@ export default _.ui({
           });
         });
         axios
-          .get("/admin/desarrollo-social/api/pregnant/" + id)
+          .get("/api/desarrollo-social/pregnant/" + id)
           .then(function (response) {
             me.o = response.data;
             if (!loaded) me.loadTables();

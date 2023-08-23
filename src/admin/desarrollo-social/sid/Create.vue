@@ -1,5 +1,5 @@
 <template>
-	<v-form id="SidCreateForm" v-bind:header="(o.id?'Editar':'Crear')+' SID'" action="/admin/desarrollo-social/api/sid"> 
+	<v-form id="SidCreateForm" v-bind:header="(o.id?'Editar':'Crear')+' SID'" action="/api/desarrollo-social/sid"> 
  <div> <v-fieldset legend="Informaci&oacute;n General" class="v-form"> 
    <label>Representante Familia:</label> 
    <input type="text" required="true" autocapitalize="word" maxlength="50" pattern="[a-zA-Z]+" name="user" v-model="o.people" /> 
@@ -12,12 +12,12 @@
    <label>Provincia:</label> 
    <v-select v-model="o.province" name="province" required="required" v-on:input="$refs.districtSelect.load({provinceId:parseInt(o.province)});"> 
     <option value="">Select One...</option> 
-    <v-options url="/admin/directory/api/province/0/0?regionId=2" value-field="code" display-field="name"></v-options> 
+    <v-options url="/api/directory/province/0/0?regionId=2" value-field="code" display-field="name"></v-options> 
    </v-select> 
    <label>Distrito:</label> 
    <v-select ref="districtSelect" v-bind:autoload="false" v-bind:disabled="!o.province" name="sidDistrito" v-model="o.district" required="required" v-on:input="$refs.establishmentSelect.load({location:o.district+'%'})"> 
     <option value="">Select One...</option> 
-    <v-options url="/admin/directory/api/district/0/0" value-field="code" display-field="name"></v-options> 
+    <v-options url="/api/directory/district/0/0" value-field="code" display-field="name"></v-options> 
    </v-select> 
    <label>Direcci&oacute;n:</label> 
    <v-textarea type="text" required="true" v-model="o.address" title="Direcci&oacute;n"></v-textarea> 
@@ -26,7 +26,7 @@
    <label>Establecimiento Salud:</label> 
    <v-select v-bind:disabled="!o.district" ref="establishmentSelect" v-bind:autoload="false" name="eess" v-model="o.eess"> 
     <option value="0">Select One...</option> 
-    <v-options url="/admin/desarrollo-social/api/establishment/0/0" v-bind:filters="{location:o.district+'%'}" value-field="id" display-field="name"></v-options> 
+    <v-options url="/api/desarrollo-social/establishment/0/0" v-bind:filters="{location:o.district+'%'}" value-field="id" display-field="name"></v-options> 
    </v-select> 
   </v-fieldset> 
   <div class="dark">
@@ -193,7 +193,7 @@
                     }
                 }
                 if (id){
-                    axios.get('/admin/desarrollo-social/api/sid/' + id).then(function (r) {
+                    axios.get('/api/desarrollo-social/sid/' + id).then(function (r) {
                         var o=r.data;
                         //o.hLavada = o.hLavada ? o.hLavada.split('|') : [];
                         //o.comoDisponenBasura = o.comoDisponenBasura ? o.comoDisponenBasura.split('|') : [];

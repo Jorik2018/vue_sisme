@@ -1,6 +1,6 @@
 <template>
     <v-form v-bind:header="(o.id ? 'Editar ' : 'Crear ') + ' Control Anemia'"
-        action="/admin/desarrollo-social/api/hemoglobin">
+        action="/api/desarrollo-social/hemoglobin">
         <div class="v-form"> <label for="dni">DNI / CUI:</label>
             <input type="tel" pattern="[0-9]{8}" class="center" maxlength="9" id="dni" v-model="o.ext.peopleId"
                 required="required" />
@@ -47,21 +47,21 @@
                 <v-select v-model="o.province" name="sidProvincia" required="required"
                     v-on:input="$refs.districtSelect.load({ provinceId: parseInt(o.province) });">
                     <option value="">Select One...</option>
-                    <v-options url="/admin/directory/api/province/0/0?regionId=2" value-field="code"
+                    <v-options url="/api/directory/province/0/0?regionId=2" value-field="code"
                         display-field="name"></v-options>
                 </v-select>
                 <label>Distrito:</label>
                 <v-select v-bind:disabled="!o.province" name="sidDistrito" v-model="o.district" required="required"
                     v-on:input="$refs.establishmentSelect.load({ location: o.sidDistrito + '%' })">
                     <option value="">Select One...</option>
-                    <v-options ref="districtSelect" url="/admin/directory/api/district/0/0" value-field="code"
+                    <v-options ref="districtSelect" url="/api/directory/district/0/0" value-field="code"
                         display-field="name"></v-options>
                 </v-select>
                 <label>Localidad:</label>
                 <v-select v-bind:disabled="!o.province" name="sidDistrito" v-model="o.district" required="required"
                     v-on:input="$refs.establishmentSelect.load({ location: o.sidDistrito + '%' })">
                     <option value="">Select One...</option>
-                    <v-options ref="districtSelect" url="/admin/directory/api/district/0/0" value-field="code"
+                    <v-options ref="districtSelect" url="/api/directory/district/0/0" value-field="code"
                         display-field="name"></v-options>
                 </v-select>
                 <label>Altitud de la Localidad (msnm):</label>
@@ -257,7 +257,7 @@ export default {
                 id = action == 'create' ? 0 : action;
             }
             if (id) {
-                axios.get('/admin/desarrollo-social/api/hemoglobin/' + id).then(function (r) {
+                axios.get('/api/desarrollo-social/hemoglobin/' + id).then(function (r) {
                     me.o = r.data;
                     me.o.ext = { peopleId: me.o.pk.peopleId };
                 });
@@ -300,7 +300,7 @@ export default {
             var me = this;
             if (me.o.ext.peopleId) {
                 axios.error = function () { MsgBox('No se encontro datos') };
-                axios.get('/admin/desarrollo-social/api/hemoglobin/last-control/' + me.o.ext.peopleId, { ee: 777 }).then(function (r) {
+                axios.get('/api/desarrollo-social/hemoglobin/last-control/' + me.o.ext.peopleId, { ee: 777 }).then(function (r) {
                     var d = r.data;
                     me.o.sex = d.sex;
                     me.o.birthDate = d.birthDate;

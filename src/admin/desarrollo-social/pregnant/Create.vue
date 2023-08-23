@@ -1,6 +1,6 @@
 <template>
   <v-form
-    action="/admin/desarrollo-social/api/pregnant"
+    action="/api/desarrollo-social/pregnant"
     :header="(o.id ? 'Editar' : 'Crear') + ' Gestante'"
     :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
@@ -515,7 +515,7 @@ export default _.ui({
       if (o.id > 0) {
         result.id = o.id;
         axios
-          .post("/admin/desarrollo-social/api/pregnant/attach-image", result)
+          .post("/api/desarrollo-social/pregnant/attach-image", result)
           .then(() => {
             delete o.ext.pending;
             delete o.tempFile;
@@ -621,7 +621,7 @@ export default _.ui({
         });
       } else if (Number(id)) {
         axios
-          .get("/admin/desarrollo-social/api/pregnant/" + id)
+          .get("/api/desarrollo-social/pregnant/" + id)
           .then(function (response) {
             var o = response.data;
             if (o.red) o.red = me.pad(o.red, 2);

@@ -6,7 +6,7 @@
             store="pool" @loaded="ll"
             :scrollable="true" rowKey="id" :pagination="20" 
             v-on:updated="app.bindLinks($el)"
-                :filters="filters" src="/admin/desarrollo-social/api/sivico"> 
+                :filters="filters" src="/api/desarrollo-social/sivico"> 
             <template v-slot:header> 
                 <v-button value="Enviar" v-if="app.connected"  icon="fa-save" 
                     :disabled="!rowSelectedCount" v-on:click.prevent="sync"></v-button>

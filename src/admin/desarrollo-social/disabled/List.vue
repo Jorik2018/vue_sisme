@@ -1,6 +1,6 @@
 <template>
 	<v-form id="DisabledList" header="Discapacitados" action="/admin/desarrollo-social/disabled"> 
- <v-table v-bind:selectable="true" v-bind:scrollable="true" v-on:synchronized="postSync" row-style-class="row.tmpSynchronized?'green':(row.tmpId>0?'yellow':'')" rowKey="id" storage="disabled" v-bind:pagination="20" src="/admin/desarrollo-social/api/disabled" v-bind:filters="filters"> 
+ <v-table v-bind:selectable="true" v-bind:scrollable="true" v-on:synchronized="postSync" row-style-class="row.tmpSynchronized?'green':(row.tmpId>0?'yellow':'')" rowKey="id" storage="disabled" v-bind:pagination="20" src="/api/desarrollo-social/disabled" v-bind:filters="filters"> 
   <template v-slot:header=""> <v-button value="Crear" v-if="canRegister()" icon="fa-plus" class="on" v-on:click.prevent="create"></v-button> <v-button value="Editar" v-if="canRegister()" icon="fa-pen" v-on:click.prevent="edit" v-bind:disabled="rowSelectedCount==0"></v-button> <v-button value="Eliminar" v-if="canRegister()" icon="fa-trash" v-on:click.prevent="destroy" v-bind:disabled="rowSelectedCount==0"></v-button> <v-button title="Refrescar" icon="fa-sync" v-on:click.prevent="refresh"></v-button> <v-uploader v-on:input="upload" value="Importar"></v-uploader> <v-button title="Enviar al Servidor" v-if="online" icon="fa-database" class="on" v-on:click.prevent="sync"></v-button> 
   </template> 
   <template v-slot:default="{row,index}"> 
@@ -144,7 +144,7 @@
             methods:{
                 
                 upload(o) {
-                    axios.post('/admin/desarrollo-social/api/disabled/import/' + o.tempFile).then(function (e) {
+                    axios.post('/api/desarrollo-social/disabled/import/' + o.tempFile).then(function (e) {
                         console.log(e)
                     });
                 },
@@ -158,7 +158,7 @@
                     if(o.tmpSrc){
                         fetch(o.tmpSrc).then(r=>r.blob()).then(function(b) {
                             me.submitFile(b,'name.jpeg',function(r){
-                                axios.post('/admin/desarrollo-social/api/disabled/change-image',{id:o.id,tmpFile:r.tempFile}).then(function(r){
+                                axios.post('/api/desarrollo-social/disabled/change-image',{id:o.id,tmpFile:r.tempFile}).then(function(r){
                                     delete o.tmpSrc;
                                     _.MsgBox(r.data)
                                 });

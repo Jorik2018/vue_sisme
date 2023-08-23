@@ -1,7 +1,7 @@
 <template>
 	<v-form id="DsSeguimientoDetList" header="Seguimiento Socioecon&oacute;mico" action="/admin/desarrollo-social/tracing"> 
  <v-table v-bind:selectable="true" v-bind:scrollable="true" rowKey="id" v-on:synchronized="postSync" storage="tracing" v-bind:pagination="20" 
- row-style-class="row.tmpSynchronized?'green':(row.tmpId>0?'yellow':'')" src="/admin/desarrollo-social/api/tracing" v-bind:filters="filters"> 
+ row-style-class="row.tmpSynchronized?'green':(row.tmpId>0?'yellow':'')" src="/api/desarrollo-social/tracing" v-bind:filters="filters"> 
   <template v-slot:header=""> <v-button value="Crear" v-if="canRegister()" icon="fa-plus" class="on" v-on:click.prevent="create"></v-button> <v-button value="Editar" v-if="canRegister()" icon="fa-pen" v-on:click.prevent="edit" v-bind:disabled="!rowSelectedCount"></v-button> <v-button value="Agregar Persona" v-if="canRegister()" icon="fa-user-plus" v-on:click.prevent="add(getSelected())" v-bind:disabled="rowSelectedCount==0||!canRegister(getSelected()[0])"></v-button> <v-button value="Eliminar" v-if="canRegister()" icon="fa-trash" v-on:click.prevent="destroy" v-bind:disabled="!rowSelectedCount"></v-button> <v-button value="Descargar" icon="fa-download" v-if="perms.ADMIN_DESARROLLO_SOCIAL||user.uid==1" v-on:click.prevent="download"></v-button> <v-button title="Refrescar" icon="fa-sync" class="on" v-on:click.prevent="refresh"></v-button> <v-button title="Enviar al Servidor" v-if="online" icon="fa-database" class="on" v-on:click.prevent="sync"></v-button> <v-button value="Empadronamiento" v-if="online" icon="fa-user-friends" class="on" v-on:click.prevent="census"></v-button> 
   </template> 
   <template v-slot:default="{row}"> 
@@ -70,7 +70,7 @@
                 var me=this,o={format:me.option.toLowerCase(),filename:'tracing.'+me.option.toLowerCase()};
                 MsgBox(document.querySelector('#downloadDlg'),function(b){
                     if(b==0){
-                        _.download('/admin/desarrollo-social/api/tracing/download',o);
+                        _.download('/api/desarrollo-social/tracing/download',o);
                     }
                 },['Descargar','Cancelar']);
             },

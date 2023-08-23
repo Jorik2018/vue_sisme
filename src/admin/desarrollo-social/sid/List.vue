@@ -1,6 +1,6 @@
 <template>
 	<v-form id="SidList" header="SID" action="/admin/desarrollo-social/sid"> 
- <v-table v-bind:selectable="true" v-bind:scrollable="true" rowKey="id" src="/admin/desarrollo-social/api/sid" v-bind:pagination="20" v-bind:filters="filters" v-on:row-select="rowSelectedCount=getRowSelectedCount()"> 
+ <v-table v-bind:selectable="true" v-bind:scrollable="true" rowKey="id" src="/api/desarrollo-social/sid" v-bind:pagination="20" v-bind:filters="filters" v-on:row-select="rowSelectedCount=getRowSelectedCount()"> 
   <template v-slot:header=""> <v-button icon="fa-plus" v-on:click.prevent="create" class="on" v-if="true" value="Crear"></v-button> <v-button icon="fa-pen" v-on:click.prevent="edit" v-if="true" v-bind:disabled="rowSelectedCount==0" value="Editar"></v-button> <v-button icon="fa-trash" v-on:click.prevent="destroy" v-if="true" v-bind:disabled="rowSelectedCount==0" value="Eliminar"></v-button> <v-button icon="fa-download" v-on:click.prevent="get('download')" value="Descargar"></v-button> <v-button v-on:click.prevent="refresh" title="Refrescar" icon="fa-sync"></v-button> 
   </template> 
   <template v-slot:default="{row}"> 
@@ -48,12 +48,12 @@
    </v-filter><v-filter index="2"> 
     <v-select v-model="filters.province" index="3" v-on:input="$refs.districtSelect.load({provinceId:filters.province})"> 
      <option value="">Select One...</option> 
-     <v-options url="/admin/directory/api/province/0/0?regionId=2" value-field="code" display-field="name"></v-options> 
+     <v-options url="/api/directory/province/0/0?regionId=2" value-field="code" display-field="name"></v-options> 
     </v-select> 
    </v-filter><v-filter index="3"> 
     <v-select v-model="filters.district" v-bind:disabled="!filters.province" index="4"> 
      <option value="">Select One...</option> 
-     <v-options url="/admin/directory/api/district/0/0" value-field="code" ref="districtSelect" display-field="name"></v-options> 
+     <v-options url="/api/directory/district/0/0" value-field="code" ref="districtSelect" display-field="name"></v-options> 
     </v-select> 
    </v-filter><v-filter index="4"> 
     <input v-model="filters.address" /> 
