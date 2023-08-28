@@ -150,23 +150,6 @@ export default _.ui({
       financiador:[
         "NINGUNA","SIS", "ESSALUD", "PRIVADA", "PNP" 
       ],
-      risk: [
-        "INVIDENTE",
-        "DIFICULTAD PIERNAS",
-        "DISCAPACIDAD CARA",
-        "DISCAPACIDAD CARA Y LABIOS",
-        "DISCAPACIDAD MENTAL",
-        "EXTREMIDADES",
-        "MINUSVALIDA",
-        "PARALISIS",
-        "SORDO MUDO",
-        "SINDROME DOWN",
-        "SORDERA",
-        "SORDO MUDO",
-        "TARTAMUDO",
-        "TRANSTORNO DE CADERA",
-        "Otro",
-      ],
       resultadoVisita: ["EJECUTADO", "RECHAZADO", "ABANDONADO"],
       trayLocation: null,
       o: {

@@ -45,7 +45,7 @@
         <v-select
           ref="establishment"
           v-model="o.ipress"
-          :autoload="true"
+          :autoload="false"
           :disabled="!o.microred"
         >
           <option>Select One...</option>

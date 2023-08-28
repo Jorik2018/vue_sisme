@@ -158,6 +158,9 @@ export default _.ui({
         },
         toInt(o) {
             return Array.isArray(o) ? o.length : o;
+        },
+        rewrite(url){
+            return '/admin'+url;
         }
     }
 });

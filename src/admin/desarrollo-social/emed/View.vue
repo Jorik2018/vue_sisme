@@ -115,7 +115,7 @@
       </v-fieldset>
       <v-fieldset legend="Acciones realizadas en salud">
         <v-table autoload="false" :scrollable="true" :width="width" class="visit" :style="{ maxHeight: maxHeight }"
-          src="/api/desarrollo-social/emed/action/0/0" :value="o.actions" store="emed_action"
+          src="/api/desarrollo-social/emed/action/0/0" :value="o.actions" store="emed_action" 
           row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" ref="action" :filters="filters"
           @row-select="selections.action = $event.current">
           <template v-slot:default="{ row, index }">
@@ -445,6 +445,9 @@ export default _.ui({
               });
         }
       });
+    },
+    rewrite(url){
+        return '/admin'+url;
     }
   },
   mounted() {

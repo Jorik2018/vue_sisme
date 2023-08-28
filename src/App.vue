@@ -107,9 +107,9 @@ export default defineComponent(
       },
     },
     created() {
-      var me = this;
+      let me = this;
       _.app = me;
-      var session = me.session;
+      let session = me.session;
       if (session.token) {
         axios.defaults.headers.common = {
           Authorization:
@@ -118,7 +118,7 @@ export default defineComponent(
         me.profileImg = session.people ? session.people.urlPerfil : null;
         me.connected = session.connected;
       } else me.$router.push("/");
-      var sf = function (status) {
+      let sf = function (status) {
         status.connected = status.connected && me.connected;
         _.networkStatus = status;
         me.networkStatus = status;
@@ -126,7 +126,7 @@ export default defineComponent(
       Network.addListener("networkStatusChange", sf);
       Network.getStatus().then(sf);
       window.o = me.o;
-      _.initDB(12, [
+      _.initDB(14, [
         ["region", { keyPath: "id" }, "/api/directory/region/0/0"],
         ["province", { keyPath: "code" }, "/api/directory/province/0/0"],
         ["district", { keyPath: "code" }, "/api/directory/district/0/0"],
