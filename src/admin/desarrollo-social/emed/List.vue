@@ -156,6 +156,9 @@ export default _.ui({
         this.app.bindLinks(this.$el);
     },
     methods: {
+        rewrite(url){
+        return '/admin'+url;
+    },
         ll(e) { console.log(e) },
         rss(e) {
             e = e.selection;
