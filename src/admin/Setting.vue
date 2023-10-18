@@ -168,10 +168,11 @@ export default window._.ui({
         "town","red","microred","cie","establishment","district","region","province","sample"
       ].forEach((store) => {
         let e = window._.stores.filter(e => e[0] == store)[0];
-        axios.get(e[0]+(o.district&&e[0]=='town'?('?district='+o.district.code):'')).then((data) => {
+        if(!e[2])return;
+        axios.get(e[2]+(o.district&&e[0]=='town'?('?district='+o.district.code):'')).then((data) => {
           let objectStore = db
-            .transaction([e[1]], "readwrite")
-            .objectStore(e[1]);
+            .transaction([e[0]], "readwrite")
+            .objectStore(e[0]);
           data = data.data;
           try {
             objectStore.clear().onsuccess = () => {
