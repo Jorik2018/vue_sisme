@@ -193,8 +193,6 @@ export default window._.ui({
       });
     },
     async save() {
-      var storedList = await window._.getStoredList('establishment');
-      console.log(storedList.length);
       localStorage.setItem("setting", JSON.stringify(this.o));
       this.app.toast("Configuracion grabada!");
     },
