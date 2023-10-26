@@ -8,7 +8,8 @@
     "serve:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "apk": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android\\app\\build\\outputs\\apk\\release ",
+    "apk": "cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android\\app\\build\\outputs\\apk\\release ",
+    "apk:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && cls && npm run build & npx cap copy && cd android && gradlew build && cd .. && start android\\app\\build\\outputs\\apk\\release ",
     "bundle": "npm run build & npx cap copy && cd android && gradlew bundle && cd .. && start android\\app\\build\\outputs\\bundle\\release ",
     "resources": "capacitor-resources -p android,ios",
     "deploy": "cls && npm run build & npx cap copy && cd android && bundle exec fastlane android deploy patch && cd .."
