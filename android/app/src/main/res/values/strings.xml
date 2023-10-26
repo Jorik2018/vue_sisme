@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">SEG. RSHS</string>
-    <string name="title_activity_main">SEG. RSHS</string>
+    <string name="app_name">Qhatipay</string>
+    <string name="title_activity_main">Qhatipay</string>
     <string name="package_name">com.grupoipeys.sac</string>
     <string name="custom_url_scheme">com.grupoipeys.sac</string>
 </resources>
