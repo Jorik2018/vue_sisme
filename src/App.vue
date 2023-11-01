@@ -20,23 +20,16 @@ export default defineComponent(
       const counterStore = useCounterStore();
       return { increment: counterStore.increment };
     },
-    watch: {
-      connected(v) {
-        window._.networkStatus.connected = v;
-        this.networkStatus.connected = v;
-      },
-    },
     data() {
       return {
         counter: 0,
         BUILT_ON: process.env.VUE_APP_BUILT_ON,
-        connected: true,
         showMenu: false,
         showUser: false,
-
         overlay: null,
         cartItem: [],
         networkStatus: { connected: null },
+        //session: { connected: null },
         lifeStage: [
           { id: 1, name: "NIÑO", min: 0, max: 11 },
           { id: 2, name: "ADOLESCENTE", min: 12, max: 17 },
@@ -116,15 +109,14 @@ export default defineComponent(
             `Bearer ` + (session.token ? session.token : session.uid),
         };
         me.profileImg = session.people ? session.people.urlPerfil : null;
-        me.connected = session.connected;
-      } else me.$router.push("/");
-      let sf = function (status) {
-        status.connected = status.connected && me.connected;
+      } else 
+        me.$router.push("/");
+      let networkStatusChange = (status) => {
         _.networkStatus = status;
         me.networkStatus = status;
       };
-      Network.addListener("networkStatusChange", sf);
-      Network.getStatus().then(sf);
+      Network.addListener("networkStatusChange", networkStatusChange);
+      Network.getStatus().then( networkStatusChange);
       window.o = me.o;
       _.initDB(14, [
         ["region", { keyPath: "id" }, "/api/directory/region/0/0"],
