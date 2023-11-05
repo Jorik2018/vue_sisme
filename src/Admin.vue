@@ -3,8 +3,8 @@
 		<AppMenu></AppMenu>
 		<ion-router-outlet id="main" style="display:none"></ion-router-outlet>
 		<ion-header>
-			<div class="primary center" v-bind:class="{'v-red':!app.networkStatus.connected}" style="padding-top: 3px;padding-bottom: 7px;z-index:20;border-bottom: 1px solid #a9acb1;">
-				<a v-show="app.networkStatus.connected" 
+			<div class="primary center" v-bind:class="{'v-red':!app.connected}" style="padding-top: 3px;padding-bottom: 7px;z-index:20;border-bottom: 1px solid #a9acb1;">
+				<a v-show="app.connected" 
 					style="position: absolute;right: 0px;padding: 10px;
     display: inline-block;font-size: 20px;" 
 				href="/search">
@@ -61,8 +61,8 @@ export default window.ui({
 	components:{AppMenu},
 	watch: {
 		$route() {
-			console.log("ENTRO A ROUTE")
-			Vue.resize();
+			//console.log("ENTRO A ROUTE")
+			//Vue.resize();
 			var me=this;
 			me.resultVisible=false;
 			me.mask=window._.unmask(me.mask);

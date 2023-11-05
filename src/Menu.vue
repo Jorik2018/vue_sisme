@@ -117,13 +117,16 @@
         <!--ion-item v-if="session.perms.supervise" href="/shami/supervise">
 					<i class="fa fa-users"></i>Monitores
 				</ion-item-->
-        <ion-item class="_">
+        <ion-item class="_" v-show="online">
           <i class="fa fa-exclamation-triangle"></i>
-          <v-checkbox
+          <v-checkbox 
             v-model="app.connected"
-            v-on:input="vv(app.connected)"
             label="Connectado"
           />
+        </ion-item>
+        <ion-item class="_" v-show="!online">
+          <i class="fa fa-exclamation-triangle"></i>
+          Sin Conección 
         </ion-item>
         <hr
           style="background: #d5d5d5; margin-top: 10px; margin-bottom: 10px"
@@ -167,12 +170,7 @@ export default defineComponent(
     methods: {
       hide() {
         this.$ionic.menuController.close("menuprincipal");
-      },
-      vv(v) {
-        var session = this.session;
-        session.connected = v;
-        this.session = session;
-      },
+      }
     },
   })
 );

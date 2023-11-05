@@ -1,4 +1,4 @@
-package com.grupoipeys.sac;
+package com.grupoipeys.qhatipay;
 
 import com.getcapacitor.BridgeActivity;
 

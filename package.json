@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "update_serve": "npm install isobit-ui@latest --force && SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "update_serve": "npm install isobit-ui@latest --force && vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "serve:legacy": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -29,7 +29,7 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
-    "isobit-ui": "^0.2.113",
+    "isobit-ui": "^0.2.178",
     "ol": "^6.6.1",
     "pinia": "^2.0.29",
     "vue": "^2.7.14",
