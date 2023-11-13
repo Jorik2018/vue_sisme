@@ -31,3 +31,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 https://stackoverflow.com/questions/54478828/vue-cli-3-build-outputs-files-with-tilde
 https://stackoverflow.com/questions/66425921/how-to-correctly-set-optimization-splitchunks-automaticnamedelimiter-value-using
+
+
+npm install @capacitor/assets
+npx @capacitor/assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#222222' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#111111'

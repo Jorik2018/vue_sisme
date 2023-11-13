@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+/android2
+/android3
 
 # local env files
 .env
