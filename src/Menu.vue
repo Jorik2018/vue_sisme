@@ -36,8 +36,8 @@
                         border-radius: 50%;
                       "
                     >
-                      <!--img v-bind:key="'men-'+app.ki" style="width: 100%;object-fit: cover;height: 100%;" v-bind:src="baseURL+'/fs/shami/profile/'+app.profileImg" 
-												v-on:error="$event.target.src=imgError"-->
+                      <img v-bind:key="'men-'+app.ki" style="width: 100%;object-fit: cover;height: 100%;" v-bind:src="baseURL+'/fs/profile/'+app.profileImg" 
+												v-on:error="$event.target.src=imgError">
                     </div>
                   </td>
                   <td style="text-align: left; padding-left: 10px">
@@ -104,6 +104,9 @@
         </ion-item>
         <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/emed">
           <i class="fa fa-table"></i>EMED
+        </ion-item>
+        <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/vea">
+          <i class="fa fa-table"></i>VEA Materno
         </ion-item>
         <ion-item v-if="perms.CANCER_READ" href="/admin/desarrollo-social/cancer">
           <i class="fa fa-table"></i>Cancer

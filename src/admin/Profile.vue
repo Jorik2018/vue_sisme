@@ -15,7 +15,7 @@
             :key="img"
             style="width: 100%"
             onerror="this.src=window.logo;this.className='error'"
-            :src="baseURL + '/thumb/160/foto/' + o.id + '.jpg'"
+            :src="baseURL + '/thumb/160/profile/' + app.profileImg"
           />
         </div>
         <div>{{ o.fullName }}</div>
@@ -155,10 +155,10 @@
   </div>
 </template>
   <script>
-import { Plugins, CameraResultType, CameraSource } from "@capacitor/core";
+import { Camera, CameraResultType } from '@capacitor/camera';
 var {_,axios} = window;
 export default _.ui({
-  data: function () {
+  data () {
     return {
       o: null,
       count: 0,
@@ -172,7 +172,7 @@ export default _.ui({
     var me=this;
     me.app.title = "Cuenta";
     window.logo = require("@/cdn/images/No_image.svg");
-    axios.get("/api/user/" + (me.session.uid || "me")).then(function (d) {
+    axios.get("/api/user/" + (me.session.uid || "me")).then((d) => {
       var o = d.data;
       o.ext = {};
       if (!o.people) o.people = {};
@@ -183,11 +183,10 @@ export default _.ui({
     changeImage(url) {
       var me = this;
       axios
-        .post("/admin/commerce/api/store/change-image", {
-          image: url,
-          people: me.session[0].idPer,
+        .post("/api/user/image", {
+          image: url
         })
-        .then(function (result) {
+        .then((result) => {
           me.urlPerfil = result.data.trim();
           me.img++;
         });
@@ -220,10 +219,10 @@ export default _.ui({
     test(u) {
       var me = this;
       me.count++;
-      Plugins.Camera.getPhoto({
+      Camera.getPhoto({
         quality: 100,
         allowEditing: true,
-        source: CameraSource.Prompt,
+        //source: CameraSource.Prompt,
         resultType: CameraResultType.Uri,
       }).then(function (result) {
         me.count--;

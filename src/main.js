@@ -93,6 +93,22 @@ const  router  =  new  Router({
 					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/emed/damage_ipress/Create.vue')), 'emed')
 				},
 				{
+					path:  'desarrollo-social/vea-materno',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/vea-materno/List.vue')), 'pregnant')
+				},
+				{
+					path:  'desarrollo-social/vea-materno/create',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/vea-materno/Create.vue')), 'pregnant')
+				},
+				{
+					path:  'desarrollo-social/vea-materno/:id',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/vea-materno/View.vue')), 'pregnant')
+				},
+				{
+					path:  'desarrollo-social/vea-materno/:id/edit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/vea-materno/Create.vue')), 'pregnant')
+				},
+				{
 					path:  'desarrollo-social/pregnant',
 					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/pregnant/List.vue')), 'pregnant')
 				},

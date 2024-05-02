@@ -1,9 +1,9 @@
 <template>
     <ion-content :scroll-events="true">
-        <v-form header="Eventos" action="/admin/desarrollo-social/emed">
+        <v-form header="VEA Materno" action="/admin/desarrollo-social/vea-materno">
             <v-table :selectable="true" row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')"
-                store="emed" @loaded="ll" :scrollable="true" rowKey="id" :pagination="20" @updated="app.bindLinks($el)"
-                :filters="filters" src="/api/desarrollo-social/emed">
+                store="vea-materno" @loaded="ll" :scrollable="true" rowKey="id" :pagination="20" @updated="app.bindLinks($el)"
+                :filters="filters" src="/api/desarrollo-social/vea-materno">
                 <template v-slot:header>
                     <v-button value="Enviar" v-if="app.connected" icon="fa-save" :disabled="!rowSelectedCount"
                         @click.prevent="sync"></v-button>
@@ -20,103 +20,89 @@
                 <template v-slot="{ row }">
                     <td width="80" class="center" header="ID">
                         <v-filter>
-                            <input v-model="filters.id" />
+                            <input disabled />
                         </v-filter>
                         {{ pad(row.id, 4) }}
                     </td>
-                    <td width="80" class="center" header="Codigo">
-                        <v-filter>
-                            <input v-model="filters.code" />
-                        </v-filter>
-                        {{ row.code }}
-                    </td>
-                    <td width="120" header="Fecha y hora" class=center>
-                        <v-filter>
-                            <input v-model="filters.datetime" />
-                        </v-filter>
-                        {{ row.date | date('date-') }} {{ row.time }}
-                    </td>
-
-
-
-                    <td width="120" header="Categoria">
-                        <v-filter>
-                            <input v-model="filters.category" />
-                        </v-filter>
-                        {{ row.category }}
-                    </td>
-                    <td width="200" header="Evento">
-                        <v-filter>
-                            <input v-model="filters.type" />
-                        </v-filter>
-                        {{ row.type }}
-                    </td>
-                    <td width="220" header="Detalle">
-                        <v-filter>
-                            <input v-model="filters.detail" />
-                        </v-filter>
-                        {{ row.detail }}
-                    </td>
-                    <td width="300" header="Desscripción">
-                        <v-filter>
-                            <input v-model="filters.description" />
-                        </v-filter>
-                        {{ row.description }}
-                    </td>
-                    <td width="120" class="center" header="DIRESA"> {{ row.diresa }} </td>
-                    <td width="140" class="center" header="Red">
-                        <v-filter>
-                            <v-select v-model="filters.red" ref="red"
-                                voninput="$refs.microredSelect.load({ Codigo_Red: o.red })" :required="true">
-                                <option>Select One...</option>
-                                <v-options store="red" display-field="name" value-field="code" />
-                            </v-select>
-                        </v-filter>
-                        {{ pad(row.red, 2) }}
-                    </td>
-                    <td width="90" class="center" header="MicroRed"> {{ row.microred }} </td>
-                    <td width="90" class="center" header="Provincia">
+                    <td width="220" header="Province" >
                         <v-filter>
                             <input v-model="filters.province" />
                         </v-filter>
                         {{ row.province }}
                     </td>
-                    <td width="90" class="center" header="Distrito">
+                    <td width="220" header="Establecimiento" >
                         <v-filter>
-                            <input v-model="filters.district" />
+                            <input v-model="filters.establecimiento" />
                         </v-filter>
-                        {{ row.district }}
+                        {{ row.establecimiento }}
                     </td>
-                    <td width="200" header="Dirección">
+                    <td width="220" header="CCPP" >
+                        <v-filter>
+                            <input v-model="filters.ccpp" />
+                        </v-filter>
+                        {{ row.ccpp }}
+                    </td>
+                    <td width="220" header="Dirección" >
                         <v-filter>
                             <input v-model="filters.direccion" />
                         </v-filter>
-                        {{ row.address }}
+                        {{ row.direccion }}
                     </td>
-                    <td width="120" header="Ambulancias" class=center>
+                    <td width="120" header="DNI" class="center" >
                         <v-filter>
-                            <input v-model="filters.ambulancias" />
+                            <input v-model="filters.dni" class="center" />
                         </v-filter>
-                        {{ row.ambulancias }}
+                        {{ row.dni }}
                     </td>
-                    <td width="120" header="Personal" class=center>
+                    <td width="320" header="Apellidos y Nombres" >
                         <v-filter>
-                            <input v-model="filters.personal" />
+                            <input v-model="filters.apellidos_nombres" />
                         </v-filter>
-                        {{ row.personal }}
+                        {{ row.apellidos_nombres }}
                     </td>
-
-                    <td width="120" header="Brigadistas" class=center>
+                    <td width="120" header="Financiador" class="center">
                         <v-filter>
-                            <input v-model="filters.brigadistas" />
+                            <input v-model="filters.financiador" />
                         </v-filter>
-                        {{ row.brigadistas }}
+                        {{ row.financiador }}
                     </td>
-                    <td width="120" header="Equipo Técnico" class=center>
+                    
+                    <td width="120" header="Telefono" class="center">
                         <v-filter>
-                            <input v-model="filters.equipo_tecnico" />
+                            <input v-model="filters.telefono" />
                         </v-filter>
-                        {{ row.equipo_tecnico }}
+                        {{ row.telefono }}
+                    </td>
+                    <td width="90" header="Fecha Nacimiento (Edad)" class="center">
+                        <v-filter>
+                            <input v-model="filters.fecha_nacimiento" />
+                        </v-filter>
+                        {{ row.fecha_nacimiento ||'---'}}
+                        <br/><template v-if="row.edad||row.edad==0">({{ row.edad }})</template>
+                    </td>
+                    <td width="70" header="Sexo" class="center">
+                        <v-filter>
+                            <input v-model="filters.sexo" />
+                        </v-filter>
+                        {{ row.sexo }}
+                    </td>
+                    <td width="140" header="Telefono Contacto" class="center">
+                        <v-filter>
+                            <input v-model="filters.telefono_contacto" />
+                        </v-filter>
+                        {{ row.telefono_contacto }}
+                    </td>
+                    <td width="220" header="Inserted" class="center">
+                        <v-filter>
+                            <input v-model="filters.insert_date" />
+                        </v-filter>
+                        {{ row.insert_date | date}}
+                    </td>
+                    <td width="220" header="Updated" class="center">
+                        <v-filter>
+                            <input v-model="filters.updated_date" />
+                        </v-filter>
+                        {{ row.updated_date |date}}
                     </td>
                 </template>
             </v-table>
@@ -156,9 +142,6 @@ export default _.ui({
         this.app.bindLinks(this.$el);
     },
     methods: {
-        rewrite(url){
-        return '/admin'+url;
-    },
         ll(e) { console.log(e) },
         rss(e) {
             e = e.selection;
@@ -171,10 +154,13 @@ export default _.ui({
             !o || o.user == u.id;*/
         },
         view(o) {
-            this.open('/admin/desarrollo-social/emed/' + (o.tmpId ? (-o.tmpId) : o.id));
+            this.open('/admin/desarrollo-social/vea-materno/' + (o.tmpId ? (-o.tmpId) : o.id));
         },
         toInt(o) {
             return Array.isArray(o) ? o.length : o;
+        },
+        rewrite(url){
+            return '/admin'+url;
         }
     }
 });

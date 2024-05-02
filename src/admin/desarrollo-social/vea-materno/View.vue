@@ -1,6 +1,6 @@
 <template>
-  <v-form action="/api/desarrollo-social/emed" :title="o.synchronized" header="Ver EMED" @resize="onResize"
-    store="emed" :class="
+  <v-form action="/api/desarrollo-social/vea-materno" :title="o.synchronized" header="VEA Materno" @resize="onResize"
+    store="vea-materno" :class="
       o.id < 0 || (o.tmpId && !o.synchronized)
         ? 'yellow'
         : o.tmpId
@@ -12,26 +12,6 @@
       <div>
         {{ pad(o.id, 4) }}
       </div>
-      <v-fieldset legend="Datos generales">
-        <label>Fecha:</label>
-        <div>{{ o.date | date('date-') }}</div>
-        <label>Hora:</label>
-        <div>{{ o.time || '---' }}</div>
-        <label>Tipo:</label>
-        <div>{{ o.category || '---' }}</div>
-        <label>Evento:</label>
-        <div>{{ o.type || '---' }}</div>
-        <label>Detalle:</label>
-        <div>{{ o.detail || '---' }}</div>
-        <label>Descripción:</label>
-        <div>{{ o.description || '---' }}</div>
-      </v-fieldset>
-      <v-fieldset legend="Ubicación">
-        <label>Región:</label>
-        <div>ANCASH</div>
-        <label>Centro poblado</label>
-        <div>{{ o.ccpp }}</div>
-      </v-fieldset>
       <v-fieldset legend="Recursos movilizados ">
         <div>TODOS CON ORIGEN (IPRESS)</div>
         <label>N° Ambulancias:</label>
@@ -40,7 +20,7 @@
         <div>{{ o.personal || '---' }}</div>
         <label>N° Brigadistas de salud:</label>
         <div>{{ o.brigadistas || '---' }}</div>
-        <label>N° Equipo Técnico EMED:</label>
+        <label>N° Equipo Técnico vea-materno:</label>
         <div>{{ o.equipo_tecnico || '---' }}</div>
       </v-fieldset>
 
@@ -54,99 +34,11 @@
           " target="_blank">({{ o.lat ? o.lat : "---" }},{{ o.lon }})</a>
         </div>
       </v-fieldset>
-      <v-fieldset legend="Daños a salud">
-        <v-table autoload="false" class="visit" :scrollable="true" :width="width" :style="{ maxHeight: maxHeight }"
-          src="/api/desarrollo-social/emed/damage-salud/0/0" :value="o.damage_salud" store="emed_damage_salud"
-          row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" ref="damage_salud" :filters="filters"
-          @row-select="selections.damage_salud = $event.current">
-          <template v-slot:default="{ row, index }">
-            <td header="N°" class="center" width="40">
-              {{ pad(index+ 1, 2) }}
-            </td>
-            <td header="Apellidos y nombres" class="center" width="120">
-              {{ row.code }}: {{ row.nombre_completo }}
-            </td>
-            <td header="Edad" width="80">{{ row.edad }}</td>
-            <td header="Diagnostico" width="120">{{ row.diagnostico }}</td>
-            <td header="Gravedad" width="120">{{ row.gravedad }}</td>
-            <td header="Situación" class="center" width="120">
-              {{ row.situacion }}
-            </td>
-            <td header="Observación" class="center" width="120">
-              {{ row.observacion }}
-            </td>
-          </template>
-        </v-table>
-        <div class="right" style="margin-top: 10px">
-          <v-button icon="fa-trash" :disabled="!selections.damage_salud" @click="destroy"></v-button>
-          <v-button icon="fa-pen" :disabled="!selections.damage_salud" @click="edit"></v-button>
-          <v-button icon="fa-plus" @click="add('damage_salud', o)"></v-button>
-        </div>
-      </v-fieldset>
-      <v-fieldset legend="Daños a IPRESS">
-        <v-table autoload="false" class="visit" src="/api/desarrollo-social/emed/damage-ipress/0/0"
-          :style="{ maxHeight: maxHeight }" :scrollable="true" :width="width" :value="o.damagesIPRESS"
-          store="emed_damage_ipress" row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')"
-          ref="damage_ipress" :filters="filters" @row-select="selections.damage_ipress = $event.current">
-          <template v-slot:default="{ row, index }">
-            <td header="N°" class="center" width="40">
-              {{ pad(index + 1, 2) }}
-            </td>
-            <td header="IPRESS" class="center" width="120">
-              {{ row.ipress }}
-            </td>
-            <td header="Categoria" class="center" width="120">
-              {{ row.category }}
-            </td>
-            <td header="Estado" class="center" width="120">{{ row.status }}</td>
-            <td header="Observación" width="220">{{ row.remark }}</td>
-          </template>
-        </v-table>
-        <div class="right" style="margin-top: 10px">
-          <v-button icon="fa-trash" :disabled="!selections.damage_ipress" @click="destroy"></v-button>
-          <v-button icon="fa-pen" :disabled="!selections.damage_ipress" @click="edit"></v-button>
-          <v-button icon="fa-plus" @click="add('damage_ipress', o)"></v-button>
-        </div>
-      </v-fieldset>
-      <v-fieldset legend="Acciones realizadas en salud">
-        <v-table autoload="false" :scrollable="true" :width="width" class="visit" :style="{ maxHeight: maxHeight }"
-          src="/api/desarrollo-social/emed/action/0/0" :value="o.actions" store="emed_action"
-          row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" ref="action" :filters="filters"
-          @row-select="selections.action = $event.current">
-          <template v-slot:default="{ row, index }">
-            <td header="N°" class="center" width="40">
-              {{ pad(index+ 1, 2) }}
-            </td>
-            <td header="Fecha" class="center" width="120">{{ row.fecha | date('date-') }}</td>
-            <td header="Hora" class="center" width="120">{{ row.hora }}</td>
-            <td header="Descripción" width="300">{{ row.descripcion }}</td>
-          </template>
-        </v-table>
-        <div class="right" style="margin-top: 10px">
-          <v-button icon="fa-trash" :disabled="!selections.action" @click="destroy"></v-button>
-          <v-button icon="fa-pen" :disabled="!selections.action" @click="edit"></v-button>
-          <v-button icon="fa-plus" @click="add('action', o)"></v-button>
-        </div>
-      </v-fieldset>
-      <v-fieldset legend="Imagenes">
-        <div>
-          <div v-for="item in o.files" :key="item.tempFile" style="position:relative">
-            <div style="position:absolute;font-size: 30px;top:20px;right:20px;" @click="deleteFile(item)"><i
-                style="font-size: 30px;" class="fa fa-trash"></i></div>
-            <img :style="{ border: '3px solid ' + (item.src ? 'white' : '#25eb25') }" :src="item.localSrc || item.src"
-              @click="syncImagen(item)" />
-          </div>
-        </div>
-        <div class="right" style="margin-top: 10px">
-          <v-uploader icon="fa-camera" ref="uploader" style="margin-top: 10px" value="Obtener Imagen"
-            :click="uploaderClick" v-on:input="changeImage($event)"></v-uploader>
-        </div>
-      </v-fieldset>
     </div>
     <center style="margin-bottom: 10px">
       <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
   $router.replace(
-    '/admin/desarrollo-social/emed/' +
+    '/admin/desarrollo-social/vea-materno/' +
     (o.tmpId ? -o.tmpId : o.id) +
     '/edit'
   )
@@ -164,7 +56,7 @@ export default _.ui({
   props: ["id"],
   created() {
     var me = this;
-    me.getStoredList("emed").then((emeds) => {
+    me.getStoredList("vea-materno").then((emeds) => {
 
       me.$on("destroyed", (e, storeName) => {
         e.forEach((o) => {
@@ -181,8 +73,8 @@ export default _.ui({
                 e[sn] = e[sn].filter(r => r.tmpId != o.tmpId)
                 || []);
               _.db
-                .transaction(["emed"], "readwrite")
-                .objectStore("emed")
+                .transaction(["vea-materno"], "readwrite")
+                .objectStore("vea-materno")
                 .put(e);
             }
           });
@@ -193,7 +85,7 @@ export default _.ui({
       });
     });
     this.$on("sync", (o) => {
-      me.getStoredList("emed").then((emeds) => {
+      me.getStoredList("vea-materno").then((emeds) => {
         emeds.forEach((e) => {
           if (e.tmpId == Math.abs(o.tmpId)) {
             e.visits.forEach((visit) => {
@@ -207,8 +99,8 @@ export default _.ui({
               visit.emedId = o.id;
             });
             _.db
-              .transaction(["emed"], "readwrite")
-              .objectStore("emed")
+              .transaction(["vea-materno"], "readwrite")
+              .objectStore("vea-materno")
               .put(e);
           }
         });
@@ -256,7 +148,7 @@ export default _.ui({
     close() { },
     add(table, o) {
       this.open(
-        "/admin/desarrollo-social/emed/" + o.id + "/add/" + table.replace('_', '-'),
+        "/admin/desarrollo-social/vea-materno/" + o.id + "/add/" + table.replace('_', '-'),
         this.$refs[table].load
       );
     },
@@ -271,8 +163,8 @@ export default _.ui({
         id = me.id;
 
       if (id < 0) {
-        me.getStoredList("emed").then((emed) => {
-          emed.forEach((e) => {
+        me.getStoredList("vea-materno").then((items) => {
+          items.forEach((e) => {
             if (e.tmpId == Math.abs(me.id)) {
               var o = e;
               o.files = o.files || [];
@@ -281,16 +173,14 @@ export default _.ui({
               me.setStoredList("emed_damage_salud", o.damage_salud || []);
               me.setStoredList("emed_file", o.files || []);
               me.o = o;
-              me.filters.emed = e.id;
               me.loadTables();
             }
           });
         });
       } else if (Number(id)) {
-        me.filters.emed = me.id;
         var loaded = 0;
-        me.getStoredList("emed").then((emed) => {
-          emed.forEach((e) => {
+        me.getStoredList("vea-materno").then((items) => {
+          items.forEach((e) => {
             if (e.id == me.id) {
               var o = e;
               me.setStoredList("emed_action", o.action || []);
@@ -298,14 +188,13 @@ export default _.ui({
               me.setStoredList("emed_damage_salud", o.damage_salud || []);
               me.setStoredList("emed_file", o.files || []);
               me.o = o;
-              me.filters.emed = e.id;
               me.loadTables();
               loaded = 1;
             }
           });
         });
         axios
-          .get("/api/desarrollo-social/emed/" + id)
+          .get("/api/desarrollo-social/vea-materno/" + id)
           .then((response) => {
             var o = response.data;
             o.files = o.files || [];
@@ -344,13 +233,13 @@ export default _.ui({
     async deleteFile(file) {
       var me = this, o = me.o;
       if (me.online && file.id > 0) {
-        await axios.delete('/api/desarrollo-social/emed/file/' + file.id);
+        await axios.delete('/api/desarrollo-social/vea-materno/file/' + file.id);
       }
       o.files = o.files.filter((e) => e.id != file.id);
       if (!me.online) {
         _.db
-          .transaction(["emed"], "readwrite")
-          .objectStore("emed")
+          .transaction(["vea-materno"], "readwrite")
+          .objectStore("vea-materno")
           .put(o);
       }
     },
@@ -375,11 +264,11 @@ export default _.ui({
         result.tmpId = 1 * (new Date());
         result.id = -result.tmpId;
         _.db
-          .transaction(["emed"], "readwrite")
-          .objectStore("emed")
+          .transaction(["vea-materno"], "readwrite")
+          .objectStore("vea-materno")
           .put(o);
       } else {
-        axios.post("/api/desarrollo-social/emed/file",{src:result.src,emedId:result.emedId})
+        axios.post("/api/desarrollo-social/vea-materno/file",{src:result.src,emedId:result.emedId})
       }
     },
     uploaderClick(u) {
