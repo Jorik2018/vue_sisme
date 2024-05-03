@@ -105,7 +105,7 @@
         <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/emed">
           <i class="fa fa-table"></i>EMED
         </ion-item>
-        <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/vea">
+        <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/vea-materno">
           <i class="fa fa-table"></i>VEA Materno
         </ion-item>
         <ion-item v-if="perms.CANCER_READ" href="/admin/desarrollo-social/cancer">

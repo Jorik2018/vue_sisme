@@ -24,11 +24,23 @@
                         </v-filter>
                         {{ pad(row.id, 4) }}
                     </td>
-                    <td width="220" header="Province" >
+                    <td width="100" header="Semana" class="center">
                         <v-filter>
-                            <input v-model="filters.province" />
+                            <input v-model="filters.semana" />
                         </v-filter>
-                        {{ row.province }}
+                        {{ row.semana }}
+                    </td>
+                    <td width="220" header="Red" >
+                        <v-filter>
+                            <input v-model="filters.red" />
+                        </v-filter>
+                        {{ row.red }}
+                    </td>
+                    <td width="220" header="Microred" >
+                        <v-filter>
+                            <input v-model="filters.microred" />
+                        </v-filter>
+                        {{ row.microred }}
                     </td>
                     <td width="220" header="Establecimiento" >
                         <v-filter>
@@ -36,61 +48,11 @@
                         </v-filter>
                         {{ row.establecimiento }}
                     </td>
-                    <td width="220" header="CCPP" >
+                    <td width="220" header="Captadas antes de las 14 semanas de Gestación" class="center">
                         <v-filter>
-                            <input v-model="filters.ccpp" />
+                            <input v-model="filters.n1" />
                         </v-filter>
-                        {{ row.ccpp }}
-                    </td>
-                    <td width="220" header="Dirección" >
-                        <v-filter>
-                            <input v-model="filters.direccion" />
-                        </v-filter>
-                        {{ row.direccion }}
-                    </td>
-                    <td width="120" header="DNI" class="center" >
-                        <v-filter>
-                            <input v-model="filters.dni" class="center" />
-                        </v-filter>
-                        {{ row.dni }}
-                    </td>
-                    <td width="320" header="Apellidos y Nombres" >
-                        <v-filter>
-                            <input v-model="filters.apellidos_nombres" />
-                        </v-filter>
-                        {{ row.apellidos_nombres }}
-                    </td>
-                    <td width="120" header="Financiador" class="center">
-                        <v-filter>
-                            <input v-model="filters.financiador" />
-                        </v-filter>
-                        {{ row.financiador }}
-                    </td>
-                    
-                    <td width="120" header="Telefono" class="center">
-                        <v-filter>
-                            <input v-model="filters.telefono" />
-                        </v-filter>
-                        {{ row.telefono }}
-                    </td>
-                    <td width="90" header="Fecha Nacimiento (Edad)" class="center">
-                        <v-filter>
-                            <input v-model="filters.fecha_nacimiento" />
-                        </v-filter>
-                        {{ row.fecha_nacimiento ||'---'}}
-                        <br/><template v-if="row.edad||row.edad==0">({{ row.edad }})</template>
-                    </td>
-                    <td width="70" header="Sexo" class="center">
-                        <v-filter>
-                            <input v-model="filters.sexo" />
-                        </v-filter>
-                        {{ row.sexo }}
-                    </td>
-                    <td width="140" header="Telefono Contacto" class="center">
-                        <v-filter>
-                            <input v-model="filters.telefono_contacto" />
-                        </v-filter>
-                        {{ row.telefono_contacto }}
+                        {{ row.n1 }}
                     </td>
                     <td width="220" header="Inserted" class="center">
                         <v-filter>
