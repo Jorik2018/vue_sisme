@@ -67,6 +67,24 @@
         <label>N° Usuarias nuevas en Planificación Familiar :</label>
         <v-number v-model="o.n16" />
       </v-fieldset>
+      <v-fieldset legend="INSUMOS Y EQUIPOS">
+        <label>IPRESS con insumos para tamizaje a gestantes (PAQUETE BASICO), abastecidos en meses según CPM:</label>
+        <v-number v-model="o.ipress1" />
+        <label>IPRESS con Claves Obstetricas implementados (Clave roja, azul y amarilla):</label>
+        <v-number v-model="o.ipress2" />
+        <label>IPRESS con Sulfato Ferroso, abastecidos.:</label>
+        <v-number v-model="o.ipress3" />
+        <label>IPRESS con insumos de PPFF abastecidos en todos los métodos:</label>
+        <v-number v-model="o.ipress4" />
+        <label>IPRESS con formato HIS abastecidos:</label>
+        <v-number v-model="o.ipress5" />
+        <label>IPRESS con formato FUA abastecidos:</label>
+        <v-number v-model="o.ipress6" />
+      </v-fieldset>
+      <label>Observaciones:</label>
+      <v-textarea v-model="o.observations">
+
+      </v-textarea>
     </div>
     <center>
       <v-button value="Grabar" icon="fa-save" class="blue" @click.prevent="save"></v-button>
