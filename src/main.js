@@ -33,6 +33,10 @@ const  router  =  new  Router({
 					component:  r => require.ensure([], () => r(require('./admin/Setting.vue')), 'admin')
 				},
 				{
+					path:  'poll',
+					component:  r => require.ensure([], () => r(require('./admin/poll/List.vue')), 'poll')
+				},
+				{
 					path:  'desarrollo-social/covid',
 					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/covid/Create.vue')), 'covid')
 				},

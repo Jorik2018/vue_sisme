@@ -16,6 +16,8 @@
         <v-calendar required v-model="o.date" />
         <label>Hora:</label>
         <v-calendar type="time" required v-model="o.time" />
+
+        <template v-if="perms.EMED_DET">
         <label>Tipo:</label>
         <v-select v-model="o.category" required="required">
           <option value="">Select One...</option>
@@ -37,6 +39,8 @@
             {{ item }}
           </option>
         </v-select>
+      </template>
+
         <label>Descripción:</label>
         <v-textarea v-model="o.description" maxlength="500"/>
       </v-fieldset>
@@ -67,8 +71,7 @@
         <label>Referencia:</label>
         <v-textarea v-model="o.referencia" maxlength="200" />
       </v-fieldset>
-
-      <v-fieldset legend="Recursos movilizados ">
+      <v-fieldset v-if="perms.EMED_DET" legend="Recursos movilizados ">
         <div>TODOS CON ORIGEN (IPRESS)</div>
         <label>N° Ambulancias:</label>
         <v-number v-model="o.ambulancias" />
@@ -85,7 +88,7 @@
         <v-layer-control />
         <v-map-control v-on:click="addMarker" style="bottom: 30px; right: 10px" icon="fa-map-marker" />
       </v-map>
-      <v-fieldset legend="Fuente de Información">
+      <v-fieldset legend="Fuente de Información" v-if="perms.EMED_DET">
         <label>Institución:</label>
         <input v-model="o.fuente_institucion" />
         <label>Apellidos y nombres:</label>
@@ -111,7 +114,7 @@
           <label>Celular:</label>
           <input v-model="o.fuente_responsable_celular" />
         </v-fieldset>
-        <v-fieldset legend="Fuente verificación">
+        <v-fieldset legend="Fuente verificación" v-if="perms.EMED_DET">
           <label>EMED Salud:</label>
           <v-select v-model="o.fuente_verifica_emed" required="required">
             <option value="">Select One...</option>

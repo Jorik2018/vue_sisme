@@ -1,5 +1,4 @@
 <template>
-  <ion-content :scroll-events="true">
     <v-form class="v-form" header="Configuración" store="setting">
       <div :key="k">
         <v-button
@@ -110,7 +109,6 @@
         />
       </div>
     </v-form>
-  </ion-content>
 </template>
 <script>
 import { IonContent } from "@ionic/vue";
