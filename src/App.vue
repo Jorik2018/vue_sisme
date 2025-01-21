@@ -117,13 +117,13 @@ export default defineComponent(
       Network.addListener("networkStatusChange", networkStatusChange);
       Network.getStatus().then( networkStatusChange);
       window.o = me.o;
-      _.initDB(15, [
+      _.initDB(16, [
         ["region", { keyPath: "id" }, "/api/directory/region/0/0"],
         ["province", { keyPath: "code" }, "/api/directory/province/0/0"],
         ["district", { keyPath: "code" }, "/api/directory/district/0/0"],
         ["town", { keyPath: "id" }, "/api/directory/town/0/0", "district"],
         ["sample", { keyPath: "id" }],
-        ["pool", { keyPath: "tmpId" }],
+        ["poll", { keyPath: "tmpId" }],
         ["people", { keyPath: "tmpId" }],
         ["pregnant", { keyPath: "tmpId" }],
         ["vea-materno", { keyPath: "tmpId" }],
