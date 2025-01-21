@@ -63,8 +63,8 @@
                     if (action == 'add') {
                         me.o = {masterId: id, ext: {}};
                         me.filters.masterId=id;
-                        me.getStoredList('pool').then((pool)=>{
-                            pool.forEach(e =>{
+                        me.getStoredList('poll').then((poll)=>{
+                            poll.forEach(e =>{
                                 if(e.tmpId==Math.abs(me.id)){
                                     me.peoples=e.peoples;
                                 }
@@ -92,25 +92,25 @@
         created(){
             var me=this;
             this.$on('sync',(data,o)=>{
-                me.getStoredList('pool').then((pools)=>{
+                me.getStoredList('poll').then((pools)=>{
                     pools.forEach(e =>{
                         if(o.masterId<0&&e.tmpId==Math.abs(o.masterId)||e.id==o.masterId){
                             e.agreements.forEach((e2,i)=>{
                                 if(e2.tmpId==o.tmpId)e.agreement[i]=o;
                             });
-                            window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                            window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                         }
                     });
                 });
             });
             this.$on('stored',(o,data)=>{
                 
-                me.getStoredList('pool').then((pools)=>{
+                me.getStoredList('poll').then((pools)=>{
                     pools.forEach(e =>{
                         if(o.masterId<0&&e.tmpId==Math.abs(o.masterId)||e.id==o.masterId){
                             e.agreements=data;
                             delete e.synchronized;
-                            window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                            window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                         }
                     });
                 });

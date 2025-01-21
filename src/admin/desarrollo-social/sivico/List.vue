@@ -3,7 +3,7 @@
         <v-form header="Registro MCI" action="/admin/desarrollo-social/sivico"> 
             <v-table :selectable="true" 
             row-style-class="row.synchronized?'green':(row.tmpId>0?'yellow':'')" 
-            store="pool" @loaded="ll"
+            store="poll" @loaded="ll"
             :scrollable="true" rowKey="id" :pagination="20" 
             v-on:updated="app.bindLinks($el)"
                 :filters="filters" src="/api/desarrollo-social/sivico"> 

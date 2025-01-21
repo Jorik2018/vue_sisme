@@ -362,24 +362,24 @@
         created(){
             var me=this;
             this.$on('sync',(data,o)=>{
-                me.getStoredList('pool').then((pools)=>{
+                me.getStoredList('poll').then((pools)=>{
                     pools.forEach(e =>{
                         if(o.masterId<0&&e.tmpId==Math.abs(o.masterId)||e.id==o.masterId){
                             e.peoples.forEach((e2,i)=>{
                                 if(e2.tmpId==o.tmpId)e.peoples[i]=o;
                             });
-                            window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                            window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                         }
                     });
                 });
             });
             this.$on('stored',(o,data)=>{
-                me.getStoredList('pool').then((pools)=>{
+                me.getStoredList('poll').then((pools)=>{
                     pools.forEach(e =>{
                         if(o.masterId<0&&e.tmpId==Math.abs(o.masterId)||e.id==o.masterId){
                             delete e.synchronized;
                             e.peoples=data;
-                            window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                            window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                         }
                     });
                 });

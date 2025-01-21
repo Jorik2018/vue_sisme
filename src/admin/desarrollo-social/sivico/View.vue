@@ -1,5 +1,5 @@
 <template>
-    <v-form action="/api/desarrollo-social/sivico" :title="o.synchronized" header="Ver MCI" store="pool"
+    <v-form action="/api/desarrollo-social/sivico" :title="o.synchronized" header="Ver MCI" store="poll"
         :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"> 
         <div class="v-form"> <label>ID:</label> 
             <div>
@@ -106,7 +106,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                     console.log(o);
                 });
                 this.$on('sync',(o)=>{
-                    me.getStoredList('pool').then((pools)=>{
+                    me.getStoredList('poll').then((pools)=>{
                         pools.forEach(e =>{
                             if(e.tmpId==Math.abs(o.tmpId)){
                                 e.peoples.forEach(e=>{
@@ -129,7 +129,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                                         });
                                     e.masterId=o.id;
                                 });
-                                window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                                window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                             }
                         });
                     });
@@ -430,8 +430,8 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                     var me = this, id = me.id;
                     
                     if(id<0){
-                        me.getStoredList('pool').then((pool)=>{
-                            pool.forEach(e =>{
+                        me.getStoredList('poll').then((poll)=>{
+                            poll.forEach(e =>{
                                 if(e.tmpId==Math.abs(me.id)){
                                     
                                     
@@ -451,8 +451,8 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                     }else if (Number(id)) {
                         me.filters.masterId=me.id;
                         var loaded=0;
-                        me.getStoredList('pool').then((pool)=>{
-                            pool.forEach(e =>{
+                        me.getStoredList('poll').then((poll)=>{
+                            poll.forEach(e =>{
                                 if(e.id==me.id){
                                     me.o=e;
                                     me.trayLocation=e.lat&&e.lon;

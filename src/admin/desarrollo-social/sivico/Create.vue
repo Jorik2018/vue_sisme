@@ -1,6 +1,6 @@
 <template>
     <v-form action="/api/desarrollo-social/sivico" :header="(o.id?'Editar':'Crear')+' MCI'" 
-        :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"  store="pool" > 
+        :class="o.id<0||(o.tmpId&&!o.synchronized)?'yellow':(o.tmpId?'green':'')"  store="poll" > 
         <div class="v-form">
             <label>ID:</label> 
             <div>{{pad(o.id?o.id:0,4)}}</div>
@@ -283,7 +283,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
             created(){
                 var me=this;
                 this.$on('sync',(o)=>{
-                    me.getStoredList('pool').then((pools)=>{
+                    me.getStoredList('poll').then((pools)=>{
                         pools.forEach(e =>{
                             if(e.tmpId==Math.abs(o.tmpId)){
                                 e.peoples.forEach(e=>{
@@ -306,7 +306,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                                         });
                                     e.masterId=o.id;
                                 });
-                                window._.db.transaction(['pool'], "readwrite").objectStore('pool').put(e);
+                                window._.db.transaction(['poll'], "readwrite").objectStore('poll').put(e);
                             }
                         });
                     });
@@ -334,7 +334,7 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
                             delete o.ext.pending;
                             delete o.tempFile;
                             if(o.tmpId){
-                                var objectStore =window._.db.transaction(["pool"], "readwrite").objectStore("pool");
+                                var objectStore =window._.db.transaction(["poll"], "readwrite").objectStore("poll");
                                 var item = objectStore.get(o.tmpId);
                                 item.onsuccess = function() {objectStore.put(o);};
                             }
@@ -415,9 +415,9 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
 
                     
                     if(id<0){
-                        console.log(me.getStoredList('pool'));
-                        me.getStoredList('pool').then((pool)=>{
-                            pool.forEach(e =>{
+                        console.log(me.getStoredList('poll'));
+                        me.getStoredList('poll').then((poll)=>{
+                            poll.forEach(e =>{
                                 if(e.tmpId==Math.abs(me.id)){
                                     me.o=e;
                                     me.$refs.province.load({code:me.o.region||'02'});
