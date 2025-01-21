@@ -6,9 +6,9 @@
             <label>Nombres:</label>
             <input v-model="o.names" class="ucase" required="true" />
             <label>Ap. Paterno:</label>
-            <input v-model="o.paternalSurname" required="true" />
+            <input v-model="o.firstSurname" required="true" />
             <label>Ap. Materno:</label>
-            <input v-model="o.maternalSurname" required="true" />
+            <input v-model="o.lastSurname" required="true" />
             <label>RUC:</label>
             <input v-model="o.ruc" class="center" />
         </div>
