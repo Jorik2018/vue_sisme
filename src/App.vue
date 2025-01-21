@@ -112,7 +112,6 @@ export default defineComponent(
       } else 
         me.$router.push("/");
       let networkStatusChange = (status) => {
-        _.networkStatus = status;
         me.networkStatus = status;
       };
       Network.addListener("networkStatusChange", networkStatusChange);
@@ -130,6 +129,7 @@ export default defineComponent(
         ["vea-materno", { keyPath: "tmpId" }],
         ["pregnant_visit", { keyPath: "tmpId" }],
         ["agreement", { keyPath: "tmpId" }],
+        
         ["red", { keyPath: "code" }, "/api/desarrollo-social/red/0/0"],
         ["microred", { keyPath: "ID" }, "/api/desarrollo-social/microred/0/0"],
         ["establishment", { keyPath: "code" }, "/api/desarrollo-social/establishment/0/0"],
