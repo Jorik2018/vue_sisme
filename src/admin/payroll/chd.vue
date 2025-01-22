@@ -20,7 +20,7 @@
 </template>
 
 <script>
-var {_,axios} = window;
+var {_} = window;
 export default _.ui({
     data() {
         return {
@@ -33,7 +33,8 @@ export default _.ui({
 
         send() {
             const me = this;
-            axios.post('/api/payroll/chd', me.o).then(({ data }) => {
+            me.saveAs('/api/payroll/chd', me.o);
+            /*axios.post('/api/payroll/chd', me.o).then(({ data }) => {
                 const fo = new FormData();
                 fo.append(
                     "file",
@@ -44,7 +45,7 @@ export default _.ui({
                 fo.append("template", "hc");
                 me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
 
-            });
+            });*/
         }
     }
 })
