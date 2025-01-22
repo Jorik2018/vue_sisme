@@ -5,12 +5,12 @@
             <v-autocomplete placeholder="Ingrese mas de 2 letras y presione ENTER" src="api/hr/employee"
                 v-model="o.employee">
                 <template v-slot:label="{ selected }">
-                    {{ selected.code }}: {{ selected.fullname }}
+                    {{ selected.code }}: {{ selected.fullName }}
                 </template>
                 <template v-slot="{ row }">
                     <a v-bind:href="'/admin/directorio/' + row.id" onclick="return false">
                         <span>{{ row.code }}</span>:
-                        {{ row.fullname ? row.fullname.toUpperCase() : null }}
+                        {{ row.fullName ? row.fullName.toUpperCase() : null }}
                     </a>
                 </template>
             </v-autocomplete>
