@@ -120,13 +120,15 @@
 
 
 
-        <ion-item v-if="1||perms.PAYROLL_READ" href="/admin/hr/employee">
+        <ion-item v-if="perms.PAYROLL_READ" href="/admin/hr/employee">
         <i class="fa fa-table"></i>Empleados
       </ion-item>
-      <ion-item  v-if="1||perms.PAYROLL_READ" href="/admin/payroll/chd">
+      <ion-item  v-if="perms.PAYROLL_READ" href="/admin/payroll/chd">
         <i class="fa fa-table"></i>Constancia de Pago de Haberes y Descuentos
       </ion-item>
-
+      <ion-item  v-if="perms.PAYROLL_READ" href="/admin/payroll/people">
+        <i class="fa fa-table"></i>Registrar Montos Anuales
+      </ion-item>
         <!--ion-item v-if="session.perms.supervise" href="/shami/supervise">
 					<i class="fa fa-users"></i>Monitores
 				</ion-item-->

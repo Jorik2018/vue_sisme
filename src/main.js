@@ -37,6 +37,11 @@ const  router  =  new  Router({
 					component: () => import('./admin/payroll/chd.vue')
 				},
 				{
+					path: 'payroll/people',
+					component: () => import('./admin/payroll/Create.vue')
+				},
+				
+				{
 					path:  '',
 					component:  r => require.ensure([], () => r(require('./Blank.vue')), 'admin')
 				},
