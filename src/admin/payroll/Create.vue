@@ -24,8 +24,8 @@
           <v-button icon="fa fa-save" value="Grabar" @click="save" :disabled="!(o.employee && o.year)" />
         </div>
       </div>
-      <v-table :value="items" ref="table" :key="tableKey" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;" selectable="false"
-        v-on:updated="tableUpdated" scrollable="true" height="100">
+      <v-table :value="items" ref="table" :key="tableKey" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;"
+        selectable="false" v-on:updated="tableUpdated" scrollable="true" height="100">
         <template v-slot:default="{ row }">
           <td header="Concepto" width="160" :type="row.type" :flag="row.flag">
             <input placeholder="Ingresar Nombre" v-model="row.concept" class="ucase" required />
@@ -78,25 +78,8 @@ export default _.ui({
   props: ["id"],
   data() {
     return {
-      tableKey:0,
-      items: [
-        {
-          concept: 'INGRESOS',
-          type: '-1',
-          flag: 1
-        },
-        {type: 1},
-        {
-          concept: 'DESCUENTOS',
-          type: '-2',
-          flag: 1
-        }, {type: 2},
-        {
-          concept: 'APORTACIONES',
-          type: '-3',
-          flag: 1
-        }, {type: 3},
-      ],
+      tableKey: 0,
+      items:this.completedata([]),
       o: {
         id: null,
         employee: null,
@@ -105,11 +88,43 @@ export default _.ui({
     };
   },
   methods: {
+    completedata(data) {
+      const groups = {
+        1: "INGRESOS",
+        2: "EGRESOS",
+        3: "APORTACIONES"
+      };
+
+      let result = [];
+
+      // Iterar por los grupos predefinidos para asegurar que aparezcan en orden
+      Object.entries(groups).forEach(([groupType, groupText]) => {
+        const groupTypeInt = parseInt(groupType);
+        let groupHasData = false;
+
+        // Agregar el encabezado del grupo con texto
+        result.push({ type: -groupTypeInt, group: groupTypeInt, concept: groupText ,flag:1});
+
+        // Procesar los elementos de la data original que pertenezcan al grupo
+        data.forEach(item => {
+          if (item.type === groupTypeInt) {
+            groupHasData = true;
+            result.push(item);
+          }
+        });
+
+        // Si no hay elementos del grupo, agregar un objeto vacío con el tipo del grupo
+        if (!groupHasData) {
+          result.push({ type: groupTypeInt });
+        }
+      });
+
+      return result;
+    },
     refresh() {
       const me = this;
       axios.post('/api/payroll/people', { ...this.o }).then(({ data }) => {
-        me.items.length = 0;
-        me.items.push(...data);
+        me.items=me.completedata(data);
         me.tableKey++;
       });
     },
@@ -119,22 +134,13 @@ export default _.ui({
       });
     },
     tableUpdated(datatable) {
-      console.log('uUPDATED--');
       const me = this;
       const table = datatable.$el.querySelector('.v-datatable-data');
-      console.log()
       datatable.$el.querySelector('.v-widget-header').style.minHeight = '30px';
       datatable.$el.querySelector('.v-datatable-scrollable-body').style.height = '-webkit-fill-available';
-      /*this.addRow(table, 'INGRESOS', 1)
-      this.addRow(table, 'DESCUENTOS', 2)
-      this.addRow(table, 'APORTACIONES', 3)*/
       table.querySelectorAll('td[flag="1"]').forEach(tdElement => {
-        // Get the parent <tr>
         const trElement = tdElement.closest('tr');
-        // Get all <td> elements within the same <tr>
         const allTdElements = trElement.querySelectorAll('td');
-
-        // Hide all other <td> elements within the same <tr>
         allTdElements.forEach(sibling => {
           if (sibling !== tdElement) {
             sibling.style.display = 'none'; // Hide sibling <td> elements
@@ -156,14 +162,14 @@ export default _.ui({
         const textNode = document.createTextNode(inputValue);
         const iconSpan = document.createElement('span');
         const iconElement = document.createElement('i');
-        iconElement.className = 'fa fa-plus'; 
+        iconElement.className = 'fa fa-plus';
         iconElement.style.borderRadius = '50%'; // Make the icon circular
         iconElement.style.backgroundColor = '#e7e7e7'; // Background color for the circle
         iconElement.style.color = '#000000';
         iconElement.style.padding = '3px'; // Padding to make it look circular
         iconSpan.style.marginLeft = '10px'; // Add space between text and icon
         iconSpan.addEventListener('click', () => {
-          me.addItem({ type: -tdElement.getAttribute('type')});
+          me.addItem({ type: -tdElement.getAttribute('type') });
         });
         divElement.appendChild(textNode);
         iconSpan.appendChild(iconElement);
