@@ -21,7 +21,9 @@
         <div
           style="display: flex; flex-grow: 1; margin-bottom: 3px; justify-content: space-between; align-items: flex-end;">
           <v-button icon="fa fa-refresh" @click="refresh" :disabled="!(o.employee && o.year)" />
-          <v-button icon="fa fa-save" value="Grabar" @click="save" :disabled="!(o.employee && o.year)" />
+          <div>
+          <v-button icon="fa fa-download" @click="download" style="margin-right: 10px;" :disabled="!(o.employee && o.year)" />
+          <v-button icon="fa fa-save" @click="save" :disabled="!(o.employee && o.year)" /></div>
         </div>
       </div>
       <v-table :value="items" ref="table" :key="tableKey" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;"
@@ -88,6 +90,22 @@ export default _.ui({
     };
   },
   methods: {
+    download() {
+            const me = this;
+            //me.saveAs('/api/payroll/chd', me.o);
+            axios.post('/api/payroll/chd', me.o).then(({ data }) => {
+                const fo = new FormData();
+                fo.append(
+                    "file",
+                    new Blob([JSON.stringify(data)], { type: "text/plain" }),
+                    "data.json"
+                );
+                fo.append("filename", "data.json");
+                fo.append("template", "hc");
+                me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
+
+            });
+        },
     completedata(data) {
       const groups = {
         1: "INGRESOS",
