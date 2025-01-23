@@ -24,47 +24,47 @@
           <v-button icon="fa fa-save" value="Grabar" @click="save" :disabled="!(o.employee && o.year)" />
         </div>
       </div>
-      <v-table :value="items" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;" selectable="false"
+      <v-table :value="items" ref="table" :key="tableKey" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;" selectable="false"
         v-on:updated="tableUpdated" scrollable="true" height="100">
         <template v-slot:default="{ row }">
-          <td header="Concepto" width="160" :type="row.type">
-            <input v-model="row.concept" class="ucase" required />
+          <td header="Concepto" width="160" :type="row.type" :flag="row.flag">
+            <input placeholder="Ingresar Nombre" v-model="row.concept" class="ucase" required />
           </td>
           <td header="ENE" width="130">
-            <v-number v-model="row[1]" />
+            <v-number :disabled="!row.concept" v-model="row[1]" />
           </td>
           <td header="FEB" width="130">
-            <v-number v-model="row[2]" />
+            <v-number :disabled="!row.concept" v-model="row[2]" />
           </td>
           <td header="MAR" width="130">
-            <v-number v-model="row[3]" />
+            <v-number :disabled="!row.concept" v-model="row[3]" />
           </td>
           <td header="ABR" width="130">
-            <v-number v-model="row[4]" />
+            <v-number :disabled="!row.concept" v-model="row[4]" />
           </td>
           <td header="MAY" width="130">
-            <v-number v-model="row[5]" />
+            <v-number :disabled="!row.concept" v-model="row[5]" />
           </td>
           <td header="JUN" width="130">
-            <v-number v-model="row[6]" />
+            <v-number :disabled="!row.concept" v-model="row[6]" />
           </td>
           <td header="JUL" width="130">
-            <v-number v-model="row[7]" />
+            <v-number :disabled="!row.concept" v-model="row[7]" />
           </td>
           <td header="AGO" width="130">
-            <v-number v-model="row[8]" />
+            <v-number :disabled="!row.concept" v-model="row[8]" />
           </td>
           <td header="SEP" width="130">
-            <v-number v-model="row[9]" />
+            <v-number :disabled="!row.concept" v-model="row[9]" />
           </td>
           <td header="OCT" width="130">
-            <v-number v-model="row[10]" />
+            <v-number :disabled="!row.concept" v-model="row[10]" />
           </td>
           <td header="NOV" width="130">
-            <v-number v-model="row[11]" />
+            <v-number :disabled="!row.concept" v-model="row[11]" />
           </td>
           <td header="DIC" width="130">
-            <v-number v-model="row[12]" />
+            <v-number :disabled="!row.concept" v-model="row[12]" />
           </td>
         </template>
       </v-table>
@@ -78,17 +78,24 @@ export default _.ui({
   props: ["id"],
   data() {
     return {
-      items:[
+      tableKey:0,
+      items: [
         {
-          concept:'INGRESOS',
-          type:'-1'
-        },{
-          concept:'DESCUENTOS',
-          type:'-1'
-        },{
-          concept:'APORTACIONES',
-          type:'-1'
-        }
+          concept: 'INGRESOS',
+          type: '-1',
+          flag: 1
+        },
+        {type: 1},
+        {
+          concept: 'DESCUENTOS',
+          type: '-2',
+          flag: 1
+        }, {type: 2},
+        {
+          concept: 'APORTACIONES',
+          type: '-3',
+          flag: 1
+        }, {type: 3},
       ],
       o: {
         id: null,
@@ -99,11 +106,11 @@ export default _.ui({
   },
   methods: {
     refresh() {
-      const me=this;
+      const me = this;
       axios.post('/api/payroll/people', { ...this.o }).then(({ data }) => {
-        me.items.length=0;
+        me.items.length = 0;
         me.items.push(...data);
-        me.arrange();
+        me.tableKey++;
       });
     },
     save() {
@@ -112,62 +119,71 @@ export default _.ui({
       });
     },
     tableUpdated(datatable) {
+      console.log('uUPDATED--');
+      const me = this;
       const table = datatable.$el.querySelector('.v-datatable-data');
-console.log(table);
-      /*item.$el.querySelector('.v-widget-header').style.minHeight = '30px';
-      item.$el.querySelector('.v-datatable-scrollable-body').style.height = '-webkit-fill-available';
-      this.addRow(table, 'INGRESOS', 1)
+      console.log()
+      datatable.$el.querySelector('.v-widget-header').style.minHeight = '30px';
+      datatable.$el.querySelector('.v-datatable-scrollable-body').style.height = '-webkit-fill-available';
+      /*this.addRow(table, 'INGRESOS', 1)
       this.addRow(table, 'DESCUENTOS', 2)
       this.addRow(table, 'APORTACIONES', 3)*/
+      table.querySelectorAll('td[flag="1"]').forEach(tdElement => {
+        // Get the parent <tr>
+        const trElement = tdElement.closest('tr');
+        // Get all <td> elements within the same <tr>
+        const allTdElements = trElement.querySelectorAll('td');
+
+        // Hide all other <td> elements within the same <tr>
+        allTdElements.forEach(sibling => {
+          if (sibling !== tdElement) {
+            sibling.style.display = 'none'; // Hide sibling <td> elements
+          }
+        });
+
+        // Set colspan to the number of <td> elements in the row
+        tdElement.setAttribute('colspan', allTdElements.length);
+        const inputElement = tdElement.querySelector('input');
+        const inputValue = inputElement.value; // Extract value from the input
+
+        // Create a <div> to hold the text and the icon
+        const divElement = document.createElement('div');
+        divElement.style.display = 'flex';
+        divElement.style.alignItems = 'center'; // Align items vertically centered
+        trElement.style.backgroundColor = '#b31111';
+        trElement.style.color = '#ffffff';
+        trElement.style.cursor = 'default';
+        const textNode = document.createTextNode(inputValue);
+        const iconSpan = document.createElement('span');
+        const iconElement = document.createElement('i');
+        iconElement.className = 'fa fa-plus'; 
+        iconElement.style.borderRadius = '50%'; // Make the icon circular
+        iconElement.style.backgroundColor = '#e7e7e7'; // Background color for the circle
+        iconElement.style.color = '#000000';
+        iconElement.style.padding = '3px'; // Padding to make it look circular
+        iconSpan.style.marginLeft = '10px'; // Add space between text and icon
+        iconSpan.addEventListener('click', () => {
+          me.addItem({ type: -tdElement.getAttribute('type')});
+        });
+        divElement.appendChild(textNode);
+        iconSpan.appendChild(iconElement);
+        iconSpan.style.cursor = 'pointer';
+        divElement.appendChild(iconSpan);
+        tdElement.innerHTML = ''; // Clear the <td> content
+        tdElement.appendChild(divElement);
+      });
     },
     addItem(item) {
+      console.log(this.$refs.table);
 
-      const lastIndex = this.items.length - 1 - this.items.slice().reverse().findIndex(el => el.type === item.type);
+      const lastIndex = this.items.length - 1 - this.items.slice().reverse().findIndex(el => el.type == item.type);
       if (lastIndex >= 0) {
         this.items.splice(lastIndex + 1, 0, item);
       } else {
         this.items.push(item);
       }
-this.arrange();
-
+      this.tableKey++;
     },
-    arrange(){
-      setTimeout(() => {
-        const t = this.$el.querySelector('.v-datatable-data');
-        t.querySelectorAll('.v-group').forEach((group) => {
-          const td = t.querySelector('td[type="' + group.id.split('-')[1] + '"]');
-          if (td) {
-            const tr = td.parentElement;
-            tr.parentElement.insertBefore(group, tr);
-          }
-        })
-      }, 1000);
-    },
-    //addRow(table, name, type) {
-      /*const me = this;
-      if (table.querySelector('#type-' + type)) return;
-      const newRow = document.createElement('tr')
-      newRow.className = 'v-group v-row';
-      const cell1 = document.createElement('td');
-      const button = document.createElement('span');
-      const icon = document.createElement('i');
-      icon.classList.add('fa', 'fa-plus');
-      button.style.cursor = 'pointer';
-      button.style.marginRight = '5px';
-      button.addEventListener('click', () => {
-        me.addItem({ type });
-      });
-      button.appendChild(icon);
-      cell1.appendChild(button);
-      const cell = document.createElement('span');
-      cell.textContent = name;
-      cell1.appendChild(cell);
-      cell1.setAttribute('colspan', '13');
-      newRow.appendChild(cell1);
-      newRow.id = 'type-' + type;
-      newRow.group = type;
-      table.appendChild(newRow);*/
-    //}
   },
 });
 </script>
