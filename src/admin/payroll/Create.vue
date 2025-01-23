@@ -77,10 +77,19 @@ var { _, axios } = window;
 export default _.ui({
   props: ["id"],
   data() {
-    let items = [];
-
     return {
-      items,
+      items:[
+        {
+          concept:'INGRESOS',
+          type:'-1'
+        },{
+          concept:'DESCUENTOS',
+          type:'-1'
+        },{
+          concept:'APORTACIONES',
+          type:'-1'
+        }
+      ],
       o: {
         id: null,
         employee: null,
@@ -90,8 +99,11 @@ export default _.ui({
   },
   methods: {
     refresh() {
+      const me=this;
       axios.post('/api/payroll/people', { ...this.o }).then(({ data }) => {
-        console.log(data);
+        me.items.length=0;
+        me.items.push(...data);
+        me.arrange();
       });
     },
     save() {
@@ -99,16 +111,14 @@ export default _.ui({
         console.log(data);
       });
     },
-    tableUpdated(item) {
-      const table = item.$el.querySelector('.v-datatable-data');
-      if (this.items.length == 0) {
-        table.deleteRow(0);
-      }
-      item.$el.querySelector('.v-widget-header').style.minHeight = '30px';
+    tableUpdated(datatable) {
+      const table = datatable.$el.querySelector('.v-datatable-data');
+console.log(table);
+      /*item.$el.querySelector('.v-widget-header').style.minHeight = '30px';
       item.$el.querySelector('.v-datatable-scrollable-body').style.height = '-webkit-fill-available';
       this.addRow(table, 'INGRESOS', 1)
       this.addRow(table, 'DESCUENTOS', 2)
-      this.addRow(table, 'APORTACIONES', 3)
+      this.addRow(table, 'APORTACIONES', 3)*/
     },
     addItem(item) {
 
@@ -118,6 +128,10 @@ export default _.ui({
       } else {
         this.items.push(item);
       }
+this.arrange();
+
+    },
+    arrange(){
       setTimeout(() => {
         const t = this.$el.querySelector('.v-datatable-data');
         t.querySelectorAll('.v-group').forEach((group) => {
@@ -128,10 +142,9 @@ export default _.ui({
           }
         })
       }, 1000);
-
     },
-    addRow(table, name, type) {
-      const me = this;
+    //addRow(table, name, type) {
+      /*const me = this;
       if (table.querySelector('#type-' + type)) return;
       const newRow = document.createElement('tr')
       newRow.className = 'v-group v-row';
@@ -153,8 +166,8 @@ export default _.ui({
       newRow.appendChild(cell1);
       newRow.id = 'type-' + type;
       newRow.group = type;
-      table.appendChild(newRow);
-    }
+      table.appendChild(newRow);*/
+    //}
   },
 });
 </script>

@@ -14,13 +14,13 @@
                     </a>
                 </template>
             </v-autocomplete>
-            <v-button style="margin-top: 10px;" icon="fa fa-download" value="Generar Constancia" v-on:click="send" />
+            <v-button :disabled="!o.employee" style="margin-top: 10px;" icon="fa fa-download" value="Generar Constancia" v-on:click="send" />
         </div>
     </v-form>
 </template>
 
 <script>
-var {_} = window;
+var {_,axios} = window;
 export default _.ui({
     data() {
         return {
@@ -33,8 +33,8 @@ export default _.ui({
 
         send() {
             const me = this;
-            me.saveAs('/api/payroll/chd', me.o);
-            /*axios.post('/api/payroll/chd', me.o).then(({ data }) => {
+            //me.saveAs('/api/payroll/chd', me.o);
+            axios.post('/api/payroll/chd', me.o).then(({ data }) => {
                 const fo = new FormData();
                 fo.append(
                     "file",
@@ -45,7 +45,7 @@ export default _.ui({
                 fo.append("template", "hc");
                 me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
 
-            });*/
+            });
         }
     }
 })
