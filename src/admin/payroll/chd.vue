@@ -43,6 +43,7 @@ export default _.ui({
                 );
                 fo.append("filename", "data.json");
                 fo.append("template", "hc");
+                fo.append("original", "1");
                 me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
 
             });
