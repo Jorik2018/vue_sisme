@@ -1,22 +1,21 @@
 <template>
-  <v-form header="Crear Empleado" action="/api/hr/employee">
+  <v-form :header="o.code?('Empleado: '+o.code+' - '+o.fullName):'...' " action="/api/hr/employee">
     <div class="v-form">
       <label>DNI:</label>
-      <input v-model="o.code" required="true" class="center" type="number" />
+      <div>{{ o.code }}</div>
       <label>Nombres:</label>
-      <input v-model="o.names" class="ucase" required="true" />
+      <div>{{ o.names }}</div>
       <label>Ap. Paterno:</label>
-      <input v-model="o.firstSurname" required="true" />
+      <div>{{ o.firstSurname }}</div>
       <label>Ap. Materno:</label>
-      <input v-model="o.lastSurname" required="true" />
+      <div>{{ o.lastSurname }}</div>
       <label>RUC:</label>
-      <input v-model="o.ruc" class="center" />
+      <div>{{ o.ruc }}</div>
     </div>
     <center>
-      <v-button value="Grabar" icon="fa-save" class="blue" @click.prevent="save"></v-button>
-      <v-button style="margin-left: 10px" value="Ver" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
+      <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
         $router.replace(
-          '/admin/hr/employee/' + (o.tmpId ? -o.tmpId : o.id)
+          '/admin/hr/employee/' + (o.tmpId ? -o.tmpId : o.id)+'/edit'
         )
         "></v-button>
     </center>

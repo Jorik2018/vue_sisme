@@ -111,7 +111,10 @@ export default _.ui({
       const groups = {
         1: "INGRESOS",
         2: "EGRESOS",
-        3: "APORTACIONES"
+        3: "APORTACIONES",
+        4: "INGRESOS",
+        5: "EGRESOS",
+        6: "APORTACIONES"
       };
 
       let result = [];
