@@ -1,5 +1,5 @@
 <template>
-  <v-form :header="o.code?('Empleado: '+o.code+' - '+o.fullName):'...' " action="/api/hr/employee">
+  <v-form :header="o.code ? ('Empleado: ' + o.code + ' - ' + o.fullName) : '...'" action="/api/hr/employee">
     <div class="v-form">
       <label>DNI:</label>
       <div>{{ o.code }}</div>
@@ -11,11 +11,34 @@
       <div>{{ o.lastSurname }}</div>
       <label>RUC:</label>
       <div>{{ o.ruc }}</div>
+      <v-fieldset legend="Cargos">
+        <v-table autoload="false" src="/api/hr/employee/position/0/0"
+          :style="{ maxHeight: maxHeight }" :scrollable="true" :width="width" :value="o.position"
+          ref="position" :filters="filters" >
+          <template v-slot:default="{ row, index }">
+            <td header="N°" class="center" width="40">
+              {{ pad(index + 1, 2) }}
+            </td>
+            <td header="Cargo" class="center" width="200">
+              {{ row.position }}
+            </td>
+            <td header="Area" class="center" width="250">
+              {{ row.dependency }}
+            </td>
+          </template>
+        </v-table>
+
+        <div class="right" style="margin-top: 10px">
+          <v-button icon="fa-trash" :disabled="!selections.position" @click="destroy"></v-button>
+          <v-button icon="fa-pen" :disabled="!selections.position" @click="edit"></v-button>
+          <v-button icon="fa-plus" @click="add('position', o)"></v-button>
+        </div>
+      </v-fieldset>
     </div>
     <center>
       <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
         $router.replace(
-          '/admin/hr/employee/' + (o.tmpId ? -o.tmpId : o.id)+'/edit'
+          '/admin/hr/employee/' + (o.tmpId ? -o.tmpId : o.id) + '/edit'
         )
         "></v-button>
     </center>
@@ -27,8 +50,10 @@ export default _.ui({
   props: ["id"],
   data() {
     return {
+      selections: { position: null },
       o: {
-        id: null
+        id: null,
+        position:[]
       },
     };
   },
@@ -36,13 +61,25 @@ export default _.ui({
     this.changeRoute();
   },
   methods: {
+    add(table, o) {
+      this.open(
+        "/admin/hr/employee/" + o.id + "/position/create",
+        this.$refs[table].load
+      );
+    },
+    loadTables() {
+      var refs = this.$refs;
+      for (var e in refs) {
+        if (refs[e] && refs[e].load) refs[e].load();
+      }
+    },
     changeRoute() {
       const id = this.id;
       if (id) {
         axios
           .get("/api/hr/employee/" + id)
           .then(({ data }) => {
-            this.o=data;
+            this.o = data;
           });
       }
     }

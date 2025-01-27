@@ -4,11 +4,10 @@
       src="/api/hr/employee" pagination="50" scrollable="true" :filters="filters" @updated="app.bindLinks($el)">
       <template v-slot:header>
         <v-button value="Crear" icon="fa-plus" class="on" v-on:click.prevent="create"></v-button>
-        <v-button value="Grabar" icon="fa-save" v-show="app.connected" class="on"
-          v-on:click.prevent="sync({ sufix: '/' + app.poll })"></v-button>
-
         <v-button value="Editar" v-if="1 || can(perms.DESARROLLO_SOCIAL_REGISTER_SIVICO)" icon="fa-pen"
           v-on:click.prevent="edit" :disabled="!rowSelectedCount"></v-button>
+          <v-button value="Ver" icon="fa-search" v-on:click.prevent="view(getSelected()[0])" 
+          :disabled="!rowSelectedCount"></v-button>
         <v-button value="Eliminar" icon="fa-trash" v-show="rowSelectedCount2" v-on:click.prevent="destroy"
           :disabled="!rowSelectedCount"></v-button>
         <v-button title="Refrescar" icon="fa-sync" v-on:click.prevent="refresh"></v-button>
@@ -74,7 +73,10 @@ export default window.ui({
     },
     rewrite(url) {
       return '/admin' + url;
-    }
+    },
+    view(o) {
+            this.open('/admin/hr/employee/' + (o.tmpId?(-o.tmpId):o.id));
+        },
   },
 });
 </script>
