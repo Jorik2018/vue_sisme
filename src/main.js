@@ -45,6 +45,10 @@ const  router  =  new  Router({
 					component:  r => require.ensure([], () => r(require('./admin/hr/employee/position/Create.vue')), 'employee')
 				},
 				{
+					path:  'hr/employee/position/:id/edit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/hr/employee/position/Create.vue')), 'employee')
+				},
+				{
 					path: 'payroll/chd',
 					component: () => import('./admin/payroll/chd.vue')
 				},

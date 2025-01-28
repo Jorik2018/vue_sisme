@@ -1,6 +1,8 @@
 <template>
-  <v-form header="Agregar Cargo" action="/api/hr/employee">
+  <v-form header="Agregar Cargo" action="/api/hr/experience">
     <div class="v-form">
+      <label>Employee:</label>
+      <div>{{ people.fullName }}</div>
       <label>Fecha Ini:</label>
       <v-calendar v-model="o.startDate" required="true" />
       <label>Cargo:</label>
@@ -10,36 +12,49 @@
     </div>
     <center>
       <v-button value="Grabar" icon="fa-save" class="blue" @click.prevent="save"></v-button>
-      <v-button style="margin-left: 10px" value="Ver" :disabled="!o.id" icon="fa-eye" class="blue" @click.prevent="
-        $router.replace(
-          '/admin/hr/employee/' + (o.tmpId ? -o.tmpId : o.id)
-        )
-        "></v-button>
     </center>
   </v-form>
 </template>
 <script>
 var { _, axios } = window;
 export default _.ui({
-  props: ["id"],
+  props: ["employee","id"],
   data() {
     return {
       o: {
         id: null
       },
+      people:{fullName:null}
     };
   },
   mounted() {
     this.changeRoute();
   },
   methods: {
+    close(r) {
+      const me = this;
+      console.log(r);
+      /*if (r.success === true) {
+        me.o.id = r.data.id;
+        me.o.tmpId = r.data.tmpId;
+      }*/
+      me.$router.back();
+    },
     changeRoute() {
       const id = this.id;
       if (id) {
         axios
-          .get("/api/hr/employee/" + id)
+          .get("/api/hr/experience/" + id)
           .then(({ data }) => {
-            this.o=data;
+            this.o = data;
+            this.people=data.people;
+          });
+      } else {
+        axios
+          .get("/api/hr/employee/" + this.employee)
+          .then(({ data }) => {
+            this.people.fullName=data.fullName;
+            this.o={employeeId: data.id};
           });
       }
     }

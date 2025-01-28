@@ -12,17 +12,18 @@
       <label>RUC:</label>
       <div>{{ o.ruc }}</div>
       <v-fieldset legend="Cargos">
-        <v-table autoload="false" src="/api/hr/employee/position/0/0"
-          :style="{ maxHeight: maxHeight }" :scrollable="true" :width="width" :value="o.position"
+        <v-table autoload="false" :key="tkey" src="/api/hr/employee/position/0/0"
+          :style="{ maxHeight: maxHeight }" :scrollable="true" :value="o.experience"
+          @row-select="selections.position = $event.current" selectable="false"
           ref="position" :filters="filters" >
           <template v-slot:default="{ row, index }">
             <td header="N°" class="center" width="40">
               {{ pad(index + 1, 2) }}
             </td>
-            <td header="Cargo" class="center" width="200">
+            <td header="Cargo" width="200">
               {{ row.position }}
             </td>
-            <td header="Area" class="center" width="250">
+            <td header="Area" width="250">
               {{ row.dependency }}
             </td>
           </template>
@@ -50,10 +51,12 @@ export default _.ui({
   props: ["id"],
   data() {
     return {
+      tkey:0,
       selections: { position: null },
+      maxHeight: '400px',
       o: {
         id: null,
-        position:[]
+        experience:[]
       },
     };
   },
@@ -80,8 +83,12 @@ export default _.ui({
           .get("/api/hr/employee/" + id)
           .then(({ data }) => {
             this.o = data;
+            this.tkey++;
           });
       }
+    },
+    rewrite(url){
+        return '/admin'+url;
     }
   },
 });
