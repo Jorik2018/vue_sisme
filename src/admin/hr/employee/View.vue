@@ -20,6 +20,9 @@
             <td header="N°" class="center" width="40">
               {{ pad(index + 1, 2) }}
             </td>
+            <td header="Fecha" width="120" class="center">
+              {{ row.startDate }}
+            </td>
             <td header="Cargo" width="200">
               {{ row.position }}
             </td>
