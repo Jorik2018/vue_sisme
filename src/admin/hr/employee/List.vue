@@ -15,7 +15,7 @@
       <template v-slot:default="{ row }">
         <td header="ID" width="80" class="center">{{ pad(row.id, 4) }}</td>
         <td header="Codigo" width="120" class="center">{{ row.code }}</td>
-        <td header="Nombre Completo" width="320" class="center">{{ row.fullName }}</td>
+        <td header="Nombre Completo" width="320">{{ row.fullName }}</td>
       </template>
     </v-table>
   </v-form>

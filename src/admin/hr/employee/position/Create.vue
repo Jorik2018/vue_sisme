@@ -1,5 +1,5 @@
 <template>
-  <v-form header="Agregar Cargo" action="/api/hr/experience">
+  <v-form :header="(o.id?'Editar':'Agregar')+' Cargo'" action="/api/hr/experience">
     <div class="v-form">
       <label>Employee:</label>
       <div>{{ people.fullName }}</div>
