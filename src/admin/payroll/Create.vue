@@ -86,7 +86,7 @@
           </td>
         </template>
         <template v-slot:footer-group="{ group }">
-          <td></td>
+          <td :type="group.name"></td>
           <td v-for="n in 12" style="padding:0px 24px;background-color: #ffffb0;font-weight: bolder;text-align: right;" :key="n" >{{ group.values.sum(n).toFixed(2) }}</td>
         </template>
       </v-table>
@@ -210,7 +210,13 @@ export default _.ui({
   color : #ffffff;
   cursor : default;
 }
-
+.v-datatable /deep/ input{
+  border: none !important;
+  border-radius: 0px !important;
+}
+.v-datatable /deep/ td{
+  padding: 0px !important;
+}
 .v-datatable input[type="number"] {
   --width: 160px;
 }
