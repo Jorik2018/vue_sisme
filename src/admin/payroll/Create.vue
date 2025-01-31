@@ -87,7 +87,7 @@
         </template>
         <template v-slot:footer-group="{ group }">
           <td :type="group.name"></td>
-          <td v-for="n in 12" style="padding:0px 24px;background-color: #ffffb0;font-weight: bolder;text-align: right;" :key="n" >{{ group.values.sum(n).toFixed(2) }}</td>
+          <td v-for="n in 12" style="padding:0px 24px !important;background-color: #ffffb0;font-weight: bolder;text-align: right;" :key="n" >{{ group.values.sum(n).toFixed(2) }}</td>
         </template>
       </v-table>
     </div>
