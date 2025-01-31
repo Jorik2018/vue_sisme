@@ -6,11 +6,14 @@ import App from './App.vue'
 import Ionic from '@ionic/vue';
 import '@ionic/core/css/ionic.bundle.css';
 import { createPinia, PiniaVuePlugin } from 'pinia'
+import VTable from './v-table.vue';
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 Vue.config.productionTip = false;
-Vue.use(Router);
 Vue.use(IsobitUI);
+Vue.component('v-table', VTable);
+Vue.use(Router);
+
 Vue.use(Ionic);
 Vue.config.ignoredElements = [/^ion-/,/^v-filter/];   // add this line
 Vue.config.productionTip = false;
