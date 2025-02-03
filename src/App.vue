@@ -117,31 +117,6 @@ export default defineComponent(
       Network.addListener("networkStatusChange", networkStatusChange);
       Network.getStatus().then( networkStatusChange);
       window.o = me.o;
-      _.initDB(16, [
-        ["region", { keyPath: "id" }, "/api/directory/region/0/0"],
-        ["province", { keyPath: "code" }, "/api/directory/province/0/0"],
-        ["district", { keyPath: "code" }, "/api/directory/district/0/0"],
-        ["town", { keyPath: "id" }, "/api/directory/town/0/0", "district"],
-        ["sample", { keyPath: "id" }],
-        ["poll", { keyPath: "tmpId" }],
-        ["people", { keyPath: "tmpId" }],
-        ["pregnant", { keyPath: "tmpId" }],
-        ["vea-materno", { keyPath: "tmpId" }],
-        ["pregnant_visit", { keyPath: "tmpId" }],
-        ["agreement", { keyPath: "tmpId" }],
-        
-        ["red", { keyPath: "code" }, "/api/desarrollo-social/red/0/0"],
-        ["microred", { keyPath: "ID" }, "/api/desarrollo-social/microred/0/0"],
-        ["establishment", { keyPath: "code" }, "/api/desarrollo-social/establishment/0/0"],
-        ["setting", { keyPath: "code" }],
-        ["cie", { keyPath: "code" }, "/api/desarrollo-social/cie/0/0"],
-        ["emed", { keyPath: "tmpId" }],
-        ["emed_action", { keyPath: "tmpId" }],
-        ["emed_damage_ipress", { keyPath: "tmpId" }],
-        ["emed_damage_salud", { keyPath: "tmpId" }],
-        ["emed_file", { keyPath: "tmpId" }],
-        ["cancer", { keyPath: "tmpId" }]
-      ]);
     },
     mounted() {
       this.bindLinks();

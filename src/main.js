@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import './cdn/vue-ui.js'
-import IsobitUI from 'isobit-ui'
+import IsobitUI from './isobit-ui'
 import App from './App.vue'
 import Ionic from '@ionic/vue';
 import '@ionic/core/css/ionic.bundle.css';
 import { createPinia, PiniaVuePlugin } from 'pinia'
-import VTable from './v-table.vue';
+
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 Vue.config.productionTip = false;
 Vue.use(IsobitUI);
-Vue.component('v-table', VTable);
 Vue.use(Router);
-
 Vue.use(Ionic);
 Vue.config.ignoredElements = [/^ion-/,/^v-filter/];   // add this line
 Vue.config.productionTip = false;
@@ -336,9 +334,37 @@ router.beforeEach((to, from, next) => {
 		next();
 	}
 });
-new Vue({
-	router,
-	render: h => h(App),
-	created(){window.$app=this;},
-	pinia
-}).$mount('#app')
+
+window._.initDB(16, [
+	["region", { keyPath: "id" }, "/api/directory/region/0/0"],
+	["province", { keyPath: "code" }, "/api/directory/province/0/0"],
+	["district", { keyPath: "code" }, "/api/directory/district/0/0"],
+	["town", { keyPath: "id" }, "/api/directory/town/0/0", "district"],
+	["sample", { keyPath: "id" }],
+	["poll", { keyPath: "tmpId" }],
+	["people", { keyPath: "tmpId" }],
+	["pregnant", { keyPath: "tmpId" }],
+	["vea-materno", { keyPath: "tmpId" }],
+	["pregnant_visit", { keyPath: "tmpId" }],
+	["agreement", { keyPath: "tmpId" }],
+	
+	["red", { keyPath: "code" }, "/api/desarrollo-social/red/0/0"],
+	["microred", { keyPath: "ID" }, "/api/desarrollo-social/microred/0/0"],
+	["establishment", { keyPath: "code" }, "/api/desarrollo-social/establishment/0/0"],
+	["setting", { keyPath: "code" }],
+	["cie", { keyPath: "code" }, "/api/desarrollo-social/cie/0/0"],
+	["emed", { keyPath: "tmpId" }],
+	["emed_action", { keyPath: "tmpId" }],
+	["emed_damage_ipress", { keyPath: "tmpId" }],
+	["emed_damage_salud", { keyPath: "tmpId" }],
+	["emed_file", { keyPath: "tmpId" }],
+	["cancer", { keyPath: "tmpId" }]
+  ]).then(()=>{
+	new Vue({
+		router,
+		render: h => h(App),
+		created(){window.$app=this;},
+		pinia
+	}).$mount('#app')
+  });
+

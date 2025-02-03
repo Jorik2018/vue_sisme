@@ -16,7 +16,7 @@
       <div>{{ pad(o.id ? o.id : 0, 4) }}</div>
       <label>DIRESA:</label>
       <div>ANCASH</div>
-      <label>Red:</label>
+      <label>Red:{{ o.red }}</label>
       <v-select
         v-model="o.red"
         ref="red"

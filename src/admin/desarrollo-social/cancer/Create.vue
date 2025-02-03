@@ -25,12 +25,14 @@
           <v-radio label="Femenino" value="F"></v-radio>
         </v-radio-group>
 
-        <label>Red:</label>
+        <label :title="o.red">Red:</label>
+
         <v-select v-model="o.red" ref="red"
           v-on:input="$refs.microredSelect.load({ Codigo_Red: o.red })" :required="true">
           <option>Select One...</option>
           <v-options store="red" display-field="name" value-field="code" />
         </v-select>
+
         <label>Microred:</label>
         <v-select autoload="false" :disabled="!o.red" store="microred" ref="microredSelect" v-model="o.microred"
           :required="true" @input="$refs.establishment.load({ microredCode: '02' + o.microred })">

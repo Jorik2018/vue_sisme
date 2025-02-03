@@ -1,6 +1,8 @@
 <script>
 import Vue from 'vue'
-const { _, axios } = window;
+//const { _, axios } = window;
+import axios from 'axios';
+
 const template = `
 	<div :class={reflow:reflow} :key="'v-table-'+keyBody" :style={width:width}
     class="v-datatable v-resize">
@@ -33,24 +35,26 @@ const template = `
                 </th>
 			</tr>
             </thead>
-			<tbody class="v-datatable-data" :key="kc">
+			<tbody class="v-datatable-data" :key="kc" >
                  <template v-for="(groupItem) in groupedData">
                     <tr v-if="hasSlot('header-group')" class="v-header-group">
                         <slot name="header-group" :group="groupItem"></slot>
                     </tr>
                     <tr v-for="(entry,r) in groupItem.values" @row="rowCreated(entry)" @click="_selectRow($event,entry,r)" 
-                        :class="getRowClass(r,entry)">
+                        :class="getRowClass(entry,r)">
                         <td v-if="selectable0" width="18" class="center">
                             <span :data-index="r" class="v-check" v-on:click="rowSelect(entry,r)"
-                            :data-icon="isSelected(r)?'square-check':'square'"><i class="far fa-lg" :class="isSelected(r)?'fa-square-check':'fa-square'" ></i></span>
+                            :data-icon="isSelected(entry)?'square-check':'square'"><i class="far fa-lg" :class="isSelected(entry,r)?'fa-square-check':'fa-square'" ></i></span>
                         </td>
                         <slot :row="entry" :index="r+(page-1)*paginatio_"></slot>
                     </tr>
 
-                    <tr v-if="hasSlot('footer-group')" >
-                        <slot name="footer-group" :group="groupItem"></slot>
+                    <tr v-if="hasSlot('footer-group')" class="v-footer-group">
+                        <slot name="footer-group" :group="groupItem" ></slot>
                     </tr>
-
+ <template v-if="hasSlot('extra-group')" >
+                        <slot name="extra-group" :group="groupItem" :groups="groupedData"></slot>
+                    </template>
                  </template>
 
 				<tr v-if="!sortedData||sortedData.length==0">
@@ -90,6 +94,7 @@ export default {
             default: true
         }
     },
+
     data() {
         var sortOrders = {};
         return {
@@ -178,6 +183,8 @@ export default {
         },
         filteredData() {
             const me = this;
+            const _=window._;
+            console.log('========>_='+_);
             let data = me.data, f, v;
             data = data.filter(item => {
                 for (let key in me.filters) {
@@ -215,7 +222,7 @@ export default {
             }
             Array.prototype.sum = sum;
             const grouped = {}, groupKeys = this.groups, sortedData = this.sortedData || [];
-            console.log('=====', groupKeys);
+            //console.log('=====', groupKeys);
             if (groupKeys) {
                 sortedData.forEach(row => {
                     const group = row[groupKeys];
@@ -237,6 +244,7 @@ export default {
         },
         sortedData() {
             let me = this, data = me.filteredData, aa;
+            const _=window._;
             data = me.sorter ? data.sort((a, b) => {
                 b = b[me.sorter];
                 b = b ? b : 0;
@@ -324,6 +332,7 @@ export default {
     },
     updated() {
         var me = this;
+        const _=window._;
         if (me.resizeAfterUpddate) {
             me.resize(parseInt(me.$el.style.height));
             me.resizeAfterUpddate = 0;
@@ -480,14 +489,10 @@ export default {
         }
     },
     methods: {
-        buildColumns() { },
-        getRowClass(r, row) {
-            var cls = [];
-            var me = this;
-            if (me.selectable && me.isSelected(r)) cls.push('v-selected');
-            if (me.rowStyleClassFunc) cls.push(me.rowStyleClassFunc(row));
-            return cls;
+        cli(e) {
+            this.$emit('click', e)
         },
+        buildColumns() { },
         resize(h) {
             var el = this.$el;
             setTimeout(() => {
@@ -543,46 +548,50 @@ export default {
             //this.sortKey = key
             //this.sortOrders[key] = this.sortOrders[key] * -1
         },
-        isSelected(r) {
-            return this.selected.contains(r);
+        isSelected(row) {
+            return this.selected.contains(row);//this.selected.contains(rowIndex);
         },
-        _selectRow(event, rec, r) {
-            var me = this;
+        getRowClass(row) {
+            const me = this, cls = [];
+            //if (me.selectable && me.isSelected(rowIndex)) cls.push('v-selected');
+            if (me.selectable && me.isSelected(row)) cls.push('v-selected');
+            if (me.rowStyleClassFunc) cls.push(me.rowStyleClassFunc(row));
+            return cls;
+        },
+        _selectRow(event, row, rowIndex) {
+            const _=window._;
+            const me = this;
             if (me.selectable0 && _.whichChild(event.target) == 0)
                 return;
-            //se debe tener en cuenta si es 
-            //record, numero fila 
-            this.rowSelect(rec, r, 1);
+            this.rowSelect(row, rowIndex, 1);
         },
-        rowSelect(r, i, c) {
-            var me = this, j;
-            if (i === -10) {
+        rowSelect(row, rowIndex, c) {
+            const me = this;
+            //Click en select all
+            if (rowIndex === -10) {
                 if (me.filteredData.length === me.selected.length) {
                     me.selected = [];
                 } else {
-                    me.selected = [];
-                    for (j = 0; j < me.filteredData.length; j++) {
-                        me.selected.push(j);
-                    }
+                    me.selected = me.filteredData.map((value) => value);
                 }
             } else if (c) {
-                if (this.selectable0 || !me.selected.contains(i))
-                    me.selected = [i];
+                if (this.selectable0 || !me.selected.contains(row))//!me.selected.contains(rowIndex))
+                    me.selected = [row];//[rowIndex];
                 else {
                     me.selected = [];
-                    r = null;
+                    row = null;
                 }
-            } else if (!me.selected.contains(i)) {
-                me.selected.push(i);
+            } else if (!me.selected.contains(row)) {
+                me.selected.push(row);
+                //} else if (!me.selected.contains(rowIndex)) { me.selected.push(rowIndex);
             } else {
-                me.selected.splice(me.selected.indexOf(i), 1);
-                r = null;
+                //me.selected.splice(me.selected.indexOf(rowIndex), 1);
+                me.selected.splice(me.selected.indexOf(row), 1);
+                row = null;
             }
-            var s2 = [], s = me.selected.sort((a, b) => { return a - b; });
-            for (let i = 0; s.length > i; i++) {
-                s2.push(me.data[s[i]]);
-            }
-            me.$emit('row-select', { target: me, current: r, selection: s2 });
+            //const selection = me.selected.sort((a, b) => { return a - b; }).map(value=>me.data[value]);
+            const selection = me.selected;
+            me.$emit('row-select', { target: me, current: row, selection });
         },
         async getStoredList(store) {
             let p = new Promise((resolve) => {
@@ -598,7 +607,7 @@ export default {
                 //console.log(result);
                 return result;
             } catch (e) {
-                alert(store);
+                alert("Error al cargar el store: "+store+"!");
                 throw e;
             }
         },
@@ -614,6 +623,7 @@ export default {
         },
         load(/*s*/) {
             var me = this;
+            const _=window._;
             this.selected = [];
             if (me.value) {
                 me.data = me.value;
@@ -644,6 +654,7 @@ export default {
 
 
                     request.then((r) => {
+                        const _=window._;
                         if (r.data && r.data.error) {
                             _.MsgBox(r.data.error);
                         } else {

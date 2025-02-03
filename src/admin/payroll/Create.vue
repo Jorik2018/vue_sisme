@@ -13,6 +13,16 @@
           </a>
         </template>
       </v-autocomplete>
+      <v-autocomplete v-show="current" :keySet="keySet" pagination="20" ref="concept" src="api/hr/concept"
+        :params="{ type: current ? current.type : '0' }" @input="selectConcept" @escape="escape" style="color:black"
+        v-model="o.data" id="concepto">
+        <template v-slot:label="{ selected }">
+          {{ selected.name }}
+        </template>
+        <template v-slot="{ row }">
+          {{ row.name }}
+        </template>
+      </v-autocomplete>
       <div style="display: flex;flex-direction: row;">
         <div style="width: 100px;padding-right: 10px;">
           <label>Año:</label>
@@ -28,67 +38,77 @@
           </div>
         </div>
       </div>
-      <v-table :value="items" ref="table" :key="tableKey" style="flex: 1;width: 100%;margin-top: 10px;height: 0px;"
-        selectable="false" v-on:updated="tableUpdated" groups="type" scrollable="true" height="100">
-        <template v-slot:header-group="{ group }">
-          
-          <td colspan="13">
-            <div style="display:flex;align-items:center;">
-
-            {{ groups[group.name] }}
-            <span style="margin-left:10px" @click="addItem(group)">
-              <i class="fa fa-plus" style="cursor:pointer;border-radius:50%;background-color:#e7e7e7;color:#000000;padding:3px"></i>
-            </span>
-            
-
-            
-          </div></td>
-        </template>
+      <v-table :value="items" ref="table" :key="tableKey"
+        style="flex: 1;width: 100%;margin-top: 10px;height: 0px;" selectable="false" v-on:updated="tableUpdated"
+        groups="type" scrollable="true" height="100">
         <template v-slot="{ row }">
-          <td header="Concepto" width="160" :type="row.type" :flag="row.flag">
-            <input placeholder="Ingresar Nombre" v-model="row.concept" class="ucase" required />
+          <td header="Concepto" :key="tk" width="160" :style="{ color: row.conceptId ? '' : 'red' }" :type="row.type"
+            :flag="row.flag" @click="sele($event, row)">
+            <span style="padding: 5px;" v-if="!(current === row)">{{ row.concept }}</span>
           </td>
           <td header="ENE" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[1]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[1]" />
           </td>
           <td header="FEB" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[2]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[2]" />
           </td>
           <td header="MAR" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[3]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[3]" />
           </td>
           <td header="ABR" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[4]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[4]" />
           </td>
           <td header="MAY" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[5]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[5]" />
           </td>
           <td header="JUN" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[6]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[6]" />
           </td>
           <td header="JUL" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[7]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[7]" />
           </td>
           <td header="AGO" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[8]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[8]" />
           </td>
           <td header="SEP" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[9]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[9]" />
           </td>
           <td header="OCT" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[10]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[10]" />
           </td>
           <td header="NOV" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[11]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[11]" />
           </td>
           <td header="DIC" width="130">
-            <v-number :disabled="!row.concept" v-model.number="row[12]" />
+            <v-number v-if="row.concept" placeholder="-" v-model.number="row[12]" />
           </td>
         </template>
         <template v-slot:footer-group="{ group }">
-          <td :type="group.name"></td>
-          <td v-for="n in 12" style="padding:0px 24px !important;background-color: #ffffb0;font-weight: bolder;text-align: right;" :key="n" >{{ group.values.sum(n).toFixed(2) }}</td>
+          <td :type="group.name" style="text-align: left;padding: 0px 5px;background-color: #b31111;color:white">
+
+            <div style="display:flex;align-items:center;">
+              {{ groups[group.name] }}
+              <span style="margin-left:auto" @click="addItem(group)">
+                <i class="fa fa-plus"
+                  style="cursor:pointer;border-radius:50%;background-color:#e7e7e7;color:#000000;padding:3px"></i>
+              </span>
+            </div>
+
+          </td>
+          <td v-for="n in 12" :key="n" style="padding: 0px 20px ">{{ group.values.sum(n).toFixed(2) }}</td>
+
+
+
         </template>
+        <template v-slot:extra-group="{ group, groups }">
+          <tr v-if="group.name == 2 || group.name == 5"
+            style="background-color: #585858 !important;color:white;font-weight: bolder; text-align: right;">
+            <td :type="group.name" class="center">TOTAL PAGO</td>
+            <td v-for="n in 12" :key="n" style="padding: 0px 20px ">
+              {{ (findGroup(groups, group.name - 1).values.sum(n) - group.values.sum(n)).toFixed(2) }}</td>
+          </tr>
+        </template>
+
       </v-table>
     </div>
 
@@ -96,29 +116,72 @@
 </template>
 <script>
 var { _, axios } = window;
-const groups={
-        1: "INGRESOS",
-        2: "EGRESOS",
-        3: "APORTACIONES",
-        4: "INGRESOS",
-        5: "EGRESOS",
-        6: "APORTACIONES"
-      };
+const groups = {
+  1: "INGRESOS",
+  2: "EGRESOS",
+  3: "APORTACIONES",
+  4: "INGRESOS",
+  5: "EGRESOS",
+  6: "APORTACIONES"
+};
 export default _.ui({
   props: ["id"],
   data() {
     return {
+      tk: 0,
+      keySet: 0,
+      current: null,
       groups: groups,
       tableKey: 0,
-      items:this.completedata([]),
+      items: this.completedata([]),
       o: {
+        data: null,
         id: null,
         employee: null,
         year: new Date().getFullYear()
       },
     };
   },
+  mounted() {
+    const me = this;
+    me.$el.addEventListener('click', (event) => {
+      if (!me.$refs.concept.$el.contains(event.target)) {
+        me.current = null
+      }
+    });
+  },
   methods: {
+    escape() {
+      const me = this;
+      const concepto = this.$refs.concept.$el.querySelector('input');
+      me.current.concept = concepto.value
+      me.current = null;
+      me.tk++;
+    },
+    selectConcept(e) {
+      this.current.concept = e.name;
+      this.current.conceptId = e.id;
+      this.current.name = e.name;
+      this.current = null;
+
+    },
+    sele(e, row) {
+      const concepto = this.$refs.concept.$el;
+      if (e.target.tagName === 'TD') {
+        e.stopPropagation();
+        if (row.concept) {
+          this.o.data = { name: row.concept, conceptId: row.conceptId }
+        } else {
+          this.$refs.concept.query = '';
+          this.o.data = null;
+        }
+        this.current = row;
+        this.keySet = row.type;
+        if (!e.target.contains(concepto)) {
+          e.target.appendChild(concepto);
+        }
+      }
+    },
     download() {
       const me = this;
       //me.saveAs('/api/payroll/chd', me.o);
@@ -136,15 +199,13 @@ export default _.ui({
 
       });
     },
+    findGroup(data, id) {
+      return data.find((e) => e.name == id);
+    },
     completedata(data) {
       let result = [];
-
-      console.log('------',this.groups);
-      // Iterar por los grupos predefinidos para asegurar que aparezcan en orden
       Object.entries(groups).forEach(([groupType]) => {
-        console.log(data,groupType);
-       const groupTypeInt = parseInt(groupType);
-        
+        const groupTypeInt = parseInt(groupType);
         let groupHasData = false;
         // Procesar los elementos de la data original que pertenezcan al grupo
         data.forEach(item => {
@@ -158,7 +219,6 @@ export default _.ui({
           result.push({ type: groupTypeInt });
         }
       });
-
       return result;
     },
     refresh() {
@@ -169,16 +229,18 @@ export default _.ui({
       });
     },
     save() {
-      axios.post('/api/payroll/people', { ...this.o, items: this.items }).then(({ data }) => {
+      console.log(this.o);
+      console.log(this.items);
+      /*axios.post('/api/payroll/people', { ...this.o, items: this.items }).then(({ data }) => {
         console.log(data);
-      });
+      });*/
     },
     tableUpdated(datatable) {
       datatable.$el.querySelector('.v-widget-header').style.minHeight = '30px';
       datatable.$el.querySelector('.v-datatable-scrollable-body').style.height = '-webkit-fill-available';
     },
     addItem(item) {
-      item={type:Number(item.name)};
+      item = { type: Number(item.name) };
       const lastIndex = this.items.length - 1 - this.items.slice().reverse().findIndex(el => (el.type) == item.type);
       if (lastIndex >= 0) {
         this.items.splice(lastIndex + 1, 0, item);
@@ -205,18 +267,46 @@ export default _.ui({
   margin-top: 10px;
   display: block;
 }
-.v-datatable /deep/ .v-header-group{
-  background-color : #b31111;
-  color : #ffffff;
-  cursor : default;
+
+.v-datatable /deep/ .v-header-group {
+  background-color: #b31111;
+  padding: 0px 10px;
+  color: #ffffff;
+  font-weight: bolder;
+  cursor: default;
 }
-.v-datatable /deep/ input{
+
+.v-datatable /deep/ .v-footer-group {
+
+  background-color: #ffffa8;
+  font-weight: bolder;
+  text-align: right;
+}
+
+.v-datatable /deep/ .v-footer-group /deep/ td {
+  padding: 0px 20px !important;
+  text-align: right;
+}
+
+.v-footer-group /deep/ td {
+  padding: 0px 20px !important;
+  text-align: right;
+}
+
+.v-datatable ::v-deep(.v-footer-group > td) {
+  padding: 0px 20px !important;
+  text-align: right;
+}
+
+.v-datatable /deep/ input {
   border: none !important;
   border-radius: 0px !important;
 }
-.v-datatable /deep/ td{
-  padding: 0px !important;
+
+.v-datatable /deep/ td {
+  padding: 0px;
 }
+
 .v-datatable input[type="number"] {
   --width: 160px;
 }
