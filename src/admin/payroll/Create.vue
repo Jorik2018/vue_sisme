@@ -229,11 +229,13 @@ export default _.ui({
       });
     },
     save() {
+      const me=this;
       console.log(this.o);
       console.log(this.items);
-      /*axios.post('/api/payroll/people', { ...this.o, items: this.items }).then(({ data }) => {
+      axios.post('/api/payroll/people', { ...this.o, items: this.items }).then(({ data }) => {
         console.log(data);
-      });*/
+        me.refresh();
+      });
     },
     tableUpdated(datatable) {
       datatable.$el.querySelector('.v-widget-header').style.minHeight = '30px';
