@@ -1614,6 +1614,7 @@ window.ui = _.ui = function (cfg) {
 				}
 			},
 			async getStoredList(store/*, params*/) {
+				const db = _.db;
 				let loadedStores;
 				try {
 					loadedStores = JSON.parse(sessionStorage.getItem('loadedStores'));
@@ -1621,14 +1622,13 @@ window.ui = _.ui = function (cfg) {
 				if (loadedStores == null) loadedStores = {};
 				//console.log(loadedStores);
 				if (!loadedStores[store] && _.networkStatus.connected) {
-
 					let e = _.stores.filter(e => e[0] == store)[0];
 					//console.log(e);
 					if (!e[2]) throw `ERROR: Url for store '${e[0]}' is empty!`;
 					let data = await axios.get(e[2]);
 					data = data.data || data;
 					await new Promise((resolve, reject) => {
-						let transaction = _.db.transaction([e[0]], "readwrite");
+						let transaction = db.transaction([e[0]], "readwrite");
 						let objectStore = transaction.objectStore(e[0]);
 						const objectStoreRequest = objectStore.clear();
 						objectStoreRequest.onsuccess = () => {
@@ -1647,18 +1647,16 @@ window.ui = _.ui = function (cfg) {
 							resolve();
 						};
 						transaction.onerror = (e) => {
-							console.error(`ERROR: ⚠️ Error en la transacción for store '${e[0]}'!`,e);
+							console.error(`ERROR: ⚠️ Error en la transacción for store '${e[0]}'!`, e);
 							reject();
 						};
 					});
 				}
-				//asegurar q se extraiga la data despues de insertarla toda en la seccion anterior
-				//tiene q esperar , una estrategia seria poner todo en una promesa y esperar q el limpiar e insertar se
-				let p = new Promise((resolve, rejected) => {
-					if (window._.db) {
-						var t = _.db.transaction(store), objectStore = t.objectStore(store);//,d=[];
+				let result = await new Promise((resolve, rejected) => {
+					if (db) {
+						const transaction = db.transaction(store), objectStore = transaction.objectStore(store);
 						const getAllRequest = objectStore.getAll();
-						getAllRequest.onsuccess = function () {
+						getAllRequest.onsuccess = () => {
 							resolve(getAllRequest.result);
 						}
 					} else {
@@ -1667,8 +1665,6 @@ window.ui = _.ui = function (cfg) {
 					}
 					//t.onerror = event => reject(event.target.error);
 				});
-				let result = await p;
-				//console.log(result);
 				return result;
 			},
 			getStoreObject(storage, id) {
