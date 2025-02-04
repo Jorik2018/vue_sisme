@@ -145,7 +145,7 @@ let buildPopupMenu = function (parent) {
 	}
 }
 let resize = function () {
-	console.log('Vue.resize2');
+	//console.log('Vue.resize2');
 	//dialog.style.left = (window.innerWidth - dialog.offsetWidth) / 2 + 'px';
 	var h = window.innerHeight;
 	document.body.children[0].style.height = h + '.px';
@@ -207,7 +207,7 @@ let resize = function () {
 			pc = p.children;
 			if (ph) h -= (ph.offsetHeight + pc[0].offsetHeight + 2);
 			if (pc[1]) {
-				console.log(pc[1]);
+				//console.log(pc[1]);
 				pc[1].style.height = h + 'px';
 				var e = pc[1].querySelectorAll(".v-resize,.v-datatable");
 				for (i = 0; i < e.length; i++) {
@@ -222,11 +222,11 @@ let resize = function () {
 				var style = window.getComputedStyle(el);
 				return (style.display === 'none')
 			}
-			console.log(pc[0]);
+			//console.log(pc[0]);
 			//function isHidden(el) {return (el.offsetParent === null)}
 			if (!pc[0].children[0]) return;
-			console.log(h);
-			var items = pc[0].children;
+			//console.log(h);
+			let items = pc[0].children;
 			for (i = 0; i < items.length; i++) {
 				var evt = new Event("parentResize", { bubbles: true });
 				evt.height = h;
@@ -250,10 +250,10 @@ let resize = function () {
 		//console.log(p);
 
 	} else {
-		var ww = document.querySelectorAll(".ion-page");
+		const ww = document.querySelectorAll(".ion-page");
 
 		if (ww[0]) {
-			console.log('?????????????');
+			//console.log('?????????????');
 			var hr = 0;
 			for (var kk = 0; kk < ww[0].childNodes.length; kk++) {
 				if (ww[0].childNodes[kk].nodeName == 'ION-HEADER' || ww[0].childNodes[kk].nodeName == 'ION-FOOTER') {
@@ -272,9 +272,9 @@ let resize = function () {
 				}
 			}
 			//console.log(ww[0].childNodes);
-		}else{
+		} /*else {
 			console.log(12);
-		}
+		}*/
 	}
 };
 setTimeout(Vue.resize = resize, 400);
@@ -336,27 +336,27 @@ _ = Object.assign(_, {
 			);
 		} else {
 			_.indexedDB = db;
-				_.stores = stores;
-				return new Promise((resolve,reject) => {
-					let request = db.open("db", version);
-					request.onupgradeneeded = (event) => {
-						let db = event.target.result;
-						stores.forEach((e) => {
-							if (!db.objectStoreNames.contains(e[0])) {
-								db.createObjectStore(e[0], e[1]);
-							}
-						});
-					};
-					request.onerror = (e) => {
-						reject(e);
-					};
-					request.onsuccess = () => {
-						window._.db = request.result;
-						console.log('========>onsuccess-dbbb=',request.result,_.db);
-						
-						resolve(_.db);
-					};
-				});
+			_.stores = stores;
+			return new Promise((resolve, reject) => {
+				let request = db.open("db", version);
+				request.onupgradeneeded = (event) => {
+					let db = event.target.result;
+					stores.forEach((e) => {
+						if (!db.objectStoreNames.contains(e[0])) {
+							db.createObjectStore(e[0], e[1]);
+						}
+					});
+				};
+				request.onerror = (e) => {
+					reject(e);
+				};
+				request.onsuccess = () => {
+					window._.db = request.result;
+					//console.log('========>onsuccess-dbbb=', request.result, _.db);
+
+					resolve(_.db);
+				};
+			});
 		}
 		return db;
 	},
@@ -632,7 +632,7 @@ _ = Object.assign(_, {
 _.getLocation = _.getCurrentPosition;
 Vue.id = _.id;
 if (typeof ol !== 'undefined') {
-	const getLayerById=function (m, id) {
+	const getLayerById = function (m, id) {
 		var ly;
 		m.getLayers().forEach(function (l) {
 			if (l.get("id") === id) {
@@ -817,7 +817,7 @@ _.MsgBox = function MsgBox(m, cb, b) {
 
 		dialog.parentNode.removeChild(dialog);
 		overlay.parentNode.removeChild(overlay);
-		if (cb){
+		if (cb) {
 			console.log(cb);
 			cb(this.getAttribute("index"));
 		}
@@ -899,7 +899,7 @@ window.ui = _.ui = function (cfg) {
 	var defs = {
 		watch: {
 			$route(v) {
-				console.log('$route');
+				//console.log('$route');
 				Vue.resize();
 				this.changeRoute(v);
 			},
@@ -914,18 +914,18 @@ window.ui = _.ui = function (cfg) {
 			},
 		},
 		computed: {
-			connected:{
+			connected: {
 				get() {
-					return this.online&&this.x_connected_!==false;
+					return this.online && this.x_connected_ !== false;
 				},
 				set(v) {
-					let me=this;
-					let session=me.session;
+					let me = this;
+					let session = me.session;
 					this.x_connected_ = v;
-					console.log('this.x_connected_ = '+this.x_connected_);
+					console.log('this.x_connected_ = ' + this.x_connected_);
 					//session.connected=v;
 					this.$set(session, 'connected', v);
-					me.session=session;
+					me.session = session;
 				},
 			},
 			session: {
@@ -948,7 +948,7 @@ window.ui = _.ui = function (cfg) {
 				}
 			},
 			online() {
-				return this.app.networkStatus.connected!==false;
+				return this.app.networkStatus.connected !== false;
 			},
 			cleanedFilters() {
 				return _.clean(this.filters);
@@ -978,16 +978,16 @@ window.ui = _.ui = function (cfg) {
 			return {
 				filters: {},
 				ui: me,
-				_session: null,x_connected_:null,
+				_session: null, x_connected_: null,
 				//rowSelectedCount: 0,
 				row: {}
 			}
 		},
-		created(){
+		created() {
 			this.x_connected_ = this.session.connected;
 		},
 		updated() {
-			console.log('main.update')
+			//console.log('main.update')
 		},
 		mounted() {
 			var me = this;
@@ -1053,7 +1053,7 @@ window.ui = _.ui = function (cfg) {
 			changeRoute() {/*console.log(v)*/ },
 			pad: Vue.pad,
 			key() { return Math.random(); },
-			submitFile (f, name, cb) {
+			submitFile(f, name, cb) {
 				var formData = new FormData();
 				name = name ? name : f.name.replace(/[^\w\s.]/gi, '');
 				formData.append('filename', name);
@@ -1093,7 +1093,7 @@ window.ui = _.ui = function (cfg) {
 				var t = me.$children[0].$children[0];
 				return t ? t.selected.length : 0;
 			},
-			rewrite(url){return '/admin'+url;},
+			rewrite(url) { return '/admin' + url; },
 
 			create() {
 				var me = this;
@@ -1116,14 +1116,14 @@ window.ui = _.ui = function (cfg) {
 				var t = [].filter.call(e.component.$parent.$children, (e) => {
 					return e.$el.classList.contains('v-datatable');
 				})[0];
-				if(!action){
+				if (!action) {
 					action = window.location.pathname;
 				}
 				if (t && t.src) action = t.src;
 				if (e.action) action = e.action;
-				if (!t){
+				if (!t) {
 					t = e.$vnode ? e : (e.target && e.target.$vnode) ? e : me.$children[0].$children[0];
-					if(t.src)
+					if (t.src)
 						action = t.src;
 				}
 
@@ -1209,14 +1209,14 @@ window.ui = _.ui = function (cfg) {
 							console.log(t.selected);
 							var k = (t.selected.length - 1)
 							axios.delete(src + '/' + id, { params: t.filters }).then(function () {
-								console.log(t.selected);
+								//console.log(t.selected);
 								for (; k >= 0; k--) {
-									console.log('k=' + k);
-									console.log(t.data);
-									console.log('t.selected[k]=' + t.selected[k]);
+									//console.log('k=' + k);
+									//console.log(t.data);
+									//console.log('t.selected[k]=' + t.selected[k]);
 									dat = t.data[t.selected[k]];
 									ele.push(dat);
-									console.log(ele);
+									//console.log(ele);
 									t.data.splice(t.selected[k], 1);
 								}
 								if (me.app && me.app.toast)
@@ -1242,7 +1242,7 @@ window.ui = _.ui = function (cfg) {
 					var e = response;
 					var t = e.target;
 
-					
+
 					if (typeof e == 'string') {
 						t = e;
 					} else if (t.tagName == "ION-ITEM" && t.href) {
@@ -1256,7 +1256,7 @@ window.ui = _.ui = function (cfg) {
 						t = t.pathname;
 					}
 					if (me.$route.path !== t) {
-						console.log('path=' + t);
+						//console.log('path=' + t);
 						me.$router.push(t);
 					}
 					return;
@@ -1318,7 +1318,7 @@ window.ui = _.ui = function (cfg) {
 				} else if (response.data) {
 					path = response;
 				}
-				console.log("open(path="+path+")");
+				console.log("open(path=" + path + ")");
 				console.log(path);
 				var dialog, nid = Vue.id(), scriptDom = [], for_, ifor = 0;
 				if (response instanceof HTMLElement) {
@@ -1597,11 +1597,11 @@ window.ui = _.ui = function (cfg) {
 					try {
 						var db = _.db, objectStore = db.transaction([store], "readwrite").objectStore(store);
 						var objectStoreRequest = objectStore.clear();
-						objectStoreRequest.onsuccess = ()=> {
+						objectStoreRequest.onsuccess = () => {
 							for (var i in data) {
 								console.log(data[i]);
 								var request = objectStore.add(data[i]);
-								request.onerror = (event)=> {
+								request.onerror = (event) => {
 									console.log(event);
 								}
 							}
@@ -1615,43 +1615,56 @@ window.ui = _.ui = function (cfg) {
 			},
 			async getStoredList(store/*, params*/) {
 				let loadedStores;
-				
 				try {
 					loadedStores = JSON.parse(sessionStorage.getItem('loadedStores'));
-				} catch (_e) { loadedStores==null}
+				} catch (_e) { loadedStores == null }
 				if (loadedStores == null) loadedStores = {};
 				//console.log(loadedStores);
 				if (!loadedStores[store] && _.networkStatus.connected) {
+
 					let e = _.stores.filter(e => e[0] == store)[0];
 					//console.log(e);
-					if(!e[2]) throw "store url is empty";
+					if (!e[2]) throw `ERROR: Url for store '${e[0]}' is empty!`;
 					let data = await axios.get(e[2]);
-					let objectStore = _.db.transaction([e[0]], "readwrite").objectStore(e[0]);
-					await objectStore.clear();
-					data = data.data||data;
-					for (var i in data) {
-						// eslint-disable-next-line no-useless-catch
-						try {
-							await objectStore.add(data[i]);
-						} catch (exception) {
-							throw exception;
-						}
-					}
-					loadedStores[store] = 1;
-					sessionStorage.setItem('loadedStores', JSON.stringify(loadedStores));
+					data = data.data || data;
+					await new Promise((resolve, reject) => {
+						let transaction = _.db.transaction([e[0]], "readwrite");
+						let objectStore = transaction.objectStore(e[0]);
+						const objectStoreRequest = objectStore.clear();
+						objectStoreRequest.onsuccess = () => {
+							data.forEach((item) => {
+								objectStore.add(item).onerror = (e) => {
+									console.error(`⚠️ Store '${e[0]}' error addd data!`, e);
+								}
+							});
+						};
+						objectStoreRequest.onerror = () => {
+							console.error(`⚠️ Store '${e[0]}' error data!`, e);
+						};
+						transaction.oncomplete = () => {
+							loadedStores[store] = 1;
+							sessionStorage.setItem('loadedStores', JSON.stringify(loadedStores));
+							resolve();
+						};
+						transaction.onerror = (e) => {
+							console.error(`ERROR: ⚠️ Error en la transacción for store '${e[0]}'!`,e);
+							reject();
+						};
+					});
 				}
-				
-				let p = new Promise((resolve,rejected) => {
-					if(window._.db){
+				//asegurar q se extraiga la data despues de insertarla toda en la seccion anterior
+				//tiene q esperar , una estrategia seria poner todo en una promesa y esperar q el limpiar e insertar se
+				let p = new Promise((resolve, rejected) => {
+					if (window._.db) {
 						var t = _.db.transaction(store), objectStore = t.objectStore(store);//,d=[];
-						var r = objectStore.getAll();
-						r.onsuccess = function () {
-							resolve(r.result);
+						const getAllRequest = objectStore.getAll();
+						getAllRequest.onsuccess = function () {
+							resolve(getAllRequest.result);
 						}
-					}else{
-						console.log('1=========>db=',window._.db);
+					} else {
+						console.log('1=========>db=', window._.db);
 						rejected('=======>db is null esta faltando');
-					} 
+					}
 					//t.onerror = event => reject(event.target.error);
 				});
 				let result = await p;

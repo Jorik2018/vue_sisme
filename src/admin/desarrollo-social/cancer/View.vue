@@ -173,10 +173,10 @@ export default _.ui({
               (o.emedId < 0 && e.tmpId == Math.abs(o.emedId)) ||
               e.id == o.emedId
             ) {
-              console.log(storeName);
-              var sn = storeName.replace("emed_", "");
-              console.log(e);
-              console.log(sn);
+              //console.log(storeName);
+              const sn = storeName.replace("emed_", "");
+              //console.log(e);
+              //console.log(sn);
               me.setStoredList(storeName,
                 e[sn] = e[sn].filter(r => r.tmpId != o.tmpId)
                 || []);

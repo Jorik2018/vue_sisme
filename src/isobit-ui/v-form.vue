@@ -34,9 +34,9 @@ export default {
       return Math.ceil(el.offsetHeight + margin);
     },
     resize(e) {
-      console.log('v-form.resize');
-      var me = this,
-        el = me.$el,
+      //console.log('v-form.resize');
+      const me = this;
+      let el = me.$el,
         h = e.height;
       
       el.style.height = h + "px";
@@ -51,9 +51,9 @@ export default {
 
 
       if (el.children[1]) {
-        console.log(el.children[0].textContent);
-        console.log(el.children[0]);
-        console.log(el.children[0].offsetHeight);
+        //console.log(el.children[0].textContent);
+        //console.log(el.children[0]);
+        //console.log(el.children[0].offsetHeight);
         //se obtiene el alto del headr
         h = h - el.children[0].offsetHeight;
 
@@ -121,7 +121,7 @@ el.parentNode.style.overflow='hidden';
     
   },
   beforeUnmount(){
-    console.log('unmounted');
+    //console.log('unmounted');
   },
   updated() {
     var me = this;
@@ -164,7 +164,7 @@ el.parentNode.style.overflow='hidden';
       t[i].addEventListener("keydown", (e) => {
         //e => {
         // Allow: backspace, delete, tab, escape, enter and .
-        console.log("eeeeeee" + e.keyCode);
+        //console.log("eeeeeee" + e.keyCode);
 
         //86 es pegar y 88 cortar se debe asegurar q al pegar sea un numero
         if (

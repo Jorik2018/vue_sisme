@@ -184,7 +184,7 @@ export default {
         filteredData() {
             const me = this;
             const _=window._;
-            console.log('========>_='+_);
+            //console.log('========>_='+_);
             let data = me.data, f, v;
             data = data.filter(item => {
                 for (let key in me.filters) {

@@ -82,10 +82,10 @@ export default window.ui({
 	},
 	methods:{
 		find(ev){
-			console.log(ev)
+			//console.log(ev)
 			var valor = ev.target.value;
 			this.query = valor;
-			console.log(valor);
+			//console.log(valor);
 			this.$refs.dataview.load(true);			
 		},
 	},

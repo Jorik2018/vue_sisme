@@ -208,7 +208,7 @@ export default _.ui({
                 pl.encuesta_id = pr.encuesta_id;
                 pl.parent = pr.encuesta_id;
               }
-              console.log(pl);
+              //console.log(pl);
             }
           });
         });
@@ -219,8 +219,8 @@ export default _.ui({
     this.app.bindLinks(this.$el);
   },
   methods: {
-    ll(e) {
-      console.log(e);
+    ll() {
+      //console.log(e);
     },
     /*rss(e) {
       e = e.selection;
@@ -234,7 +234,7 @@ export default _.ui({
             !o || o.user == u.id;*/
     },
     view(o) {
-      console.log(o);
+      //console.log(o);
       this.open(
         "/admin/desarrollo-social/pregnant/" + (o.tmpId ? -o.tmpId : o.id)
       );

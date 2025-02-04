@@ -104,8 +104,8 @@ export default ui({
     this.o.name = _.app.usuario;
   },
   methods: {
-    focus(e) {
-      console.log(e.target.nextSibling.focus());
+    focus() {
+      //console.log(e.target.nextSibling.focus());
     },
     focusout(e) {
       if (!e.target.value) {

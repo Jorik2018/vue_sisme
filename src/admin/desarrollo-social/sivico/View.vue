@@ -102,8 +102,8 @@ style="margin-top:10px;border:1px solid #ffcf00;background-color:#ffff80;padding
             },
             created(){
                 var me=this;
-                this.$on('destroyed',(o)=>{
-                    console.log(o);
+                this.$on('destroyed',()=>{
+                    //console.log(o);
                 });
                 this.$on('sync',(o)=>{
                     me.getStoredList('poll').then((pools)=>{

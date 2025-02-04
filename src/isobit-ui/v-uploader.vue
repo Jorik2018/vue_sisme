@@ -58,7 +58,7 @@ export default {
             }).then(function (r) {
                 me.$emit('input', r.data);
                 me.showProgress = false;
-            }).catch(function () {
+            }).catch(() =>{
                 console.log('FAILURE!!');
             });
         }

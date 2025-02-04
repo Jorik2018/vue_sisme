@@ -33,7 +33,7 @@ export default {
             const me=this,t=me.$el.children[v+1];
             //c=me.$children[v+1];
             if(t){
-                console.log('aviso al actual tab q esta seleccionado seltab='+v);
+                //console.log('aviso al actual tab q esta seleccionado seltab='+v);
                 var event=new Event("tabChange", {bubbles: false});
                 event.$target=me;
                 t.dispatchEvent(event);
@@ -79,7 +79,7 @@ export default {
             event.$target=me;
             for(var j=1;j<t.length;j++){
                 if(t[j].style.display!='none'){
-                    console.log('Se envia el alto '+event.height);
+                    //console.log('Se envia el alto '+event.height);
                     t[j].style.height=event.height+'px';
                     t[j].dispatchEvent(event);
                 }

@@ -109,8 +109,7 @@ Vue.component('v-layer', {props: ['src', 'maxZoom', 'minZoom','filters','name'],
                         };
                         m.addLayer(me.layer=layer);
                         layer.on('change:visible', function () {
-                            alert(1);
-                            console.log(this);
+                            //console.log(this);
                         });
                     }else{
                         layer.setSource(new ol.source.Vector({

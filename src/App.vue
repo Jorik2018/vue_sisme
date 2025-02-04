@@ -41,17 +41,17 @@ export default defineComponent(
       };
     },
     methods: {
-      updateStatus(e) {
-        console.log("app.updateStatus " + e);
+      updateStatus() {
+        //console.log("app.updateStatus " + e);
       },
       toggleMenu() {
         this.$refs.menu.toggle();
       },
       getAge(birthDate) {
-        var today = new Date();
+        const today = new Date();
 
         birthDate = typeof birthDate == 'string' || typeof birthDate == 'number' ? new Date(birthDate) : birthDate;
-        console.log(birthDate);
+        //console.log(birthDate);
         var age = today.getFullYear() - birthDate.getFullYear();
         var m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {

@@ -35,7 +35,7 @@ export default {
 			if((me.show)){
 				var h=document.querySelector('.v-layout-north');
 				me.$el.style.top=h.offsetHeight+'px';
-				console.log(me.$el);
+				//console.log(me.$el);
 				if (!overlay) {
 					overlay = document.createElement("div");
 					overlay.classList.add("v-overlay");

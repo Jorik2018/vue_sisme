@@ -131,7 +131,7 @@ export default {
       me.data2 = me.data;
       if (!me.data2) me.data2 = [];
       if (me.store) {
-        console.log(me.$root.$children[0]);
+        //console.log(me.$root.$children[0]);
         let storedList = await me.$root.$children[0].getStoredList(me.store,p);
         // if(this.getParentE().name){
         // console.log(this.$el.parentElement.parentElement);

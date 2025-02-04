@@ -185,6 +185,7 @@ export default _.ui({
     download() {
       const me = this;
       //me.saveAs('/api/payroll/chd', me.o);
+      
       axios.post('/api/payroll/chd', me.o).then(({ data }) => {
         const fo = new FormData();
         fo.append(
@@ -195,7 +196,7 @@ export default _.ui({
         fo.append("filename", "data.json");
         fo.append("template", "hc");
         fo.append("original", "1");
-        me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
+        //me.saveAs(process.env.VUE_APP_REPORT_URL + "/api/jreport/", fo);
 
       });
     },

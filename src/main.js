@@ -330,7 +330,7 @@ router.beforeEach((to, from, next) => {
 	}
 	}else if (to.path == '/') {
 		next('/admin');
-	}else {console.log('=next  =========='+to.path);
+	}else {//console.log('=next  =========='+to.path);
 		next();
 	}
 });
