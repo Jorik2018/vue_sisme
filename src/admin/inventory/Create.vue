@@ -19,8 +19,8 @@
         <label>Departamento/Área:</label>
         <v-select v-model="o.usuario_area">
           <option value="">Select One...</option>
-          <option v-for="item in usuario_area" :key="item" :value="item">
-            {{ item }}
+          <option v-for="item in usuario_area" :key="item.name" :value="item.name">
+            {{ (item.type=='U'||item.type=='S')?'&emsp;&emsp; ':'' }} {{ item.name }}
           </option>
         </v-select>
         <label>Ubicación:</label>
@@ -105,7 +105,34 @@ export default _.ui({
       count: 0,
       red: [],
       age: null,
-      usuario_area: [],
+      usuario_area: 
+      [
+  {"name": "PRESIDENCIA EJECUTIVA", "type": "P"},
+  {"name": "GERENCIA GENERAL", "type": "G"},
+  {"name": "OFICINA DE ADMINISTRACIÓN", "type": "O"},
+  {"name": "UNIDAD DE ABASTECIMIENTO Y CONTROL PATRIMONIAL", "type": "U"},
+  {"name": "UNIDAD DE FINANZAS", "type": "U"},
+  {"name": "UNIDAD DE RECURSOS HUMANOS", "type": "U"},
+  {"name": "OFICINA DE ASESORÍA JURÍDICA", "type": "O"},
+  {"name": "OFICINA DE PLANEAMIENTO, PRESUPUESTO Y MONITOREO", "type": "O"},
+  {"name": "UNIDAD DE PRESUPUESTO", "type": "U"},
+  {"name": "UNIDAD DE PLANEAMIENTO Y MODERNIZACIÓN", "type": "U"},
+  {"name": "DIRECCIÓN DE DESARROLLO DE CAPACIDADES Y DESPLIEGUE TERRITORIAL", "type": "D"},
+  {"name": "SUBDIRECCIÓN DE FORMACIÓN Y ACREDITACIÓN", "type": "S"},
+  {"name": "SUBDIRECCIÓN DE DESPLIEGUE TERRITORIAL", "type": "S"},
+  {"name": "DIRECCIÓN DE GOBIERNO DE DATOS Y SUPERVISIÓN", "type": "D"},
+  {"name": "SUBDIRECCIÓN DE GOBIERNO DE DATOS", "type": "S"},
+  {"name": "DIRECCIÓN DE SISTEMAS DE INFORMACIÓN SOCIAL", "type": "D"},
+  {"name": "SUBDIRECCIÓN DE INFORMACIÓN E INNOVACIÓN", "type": "S"},
+  {"name": "SUBDIRECCIÓN DE GESTIÓN DE LOS SERVICIOS E INFRAESTRUCTURA TECNOLÓGICA", "type": "S"},
+  {"name": "DIRECCIÓN DE DISEÑO Y METODOLOGÍAS PARA LA FOCALIZACIÓN Y LA GESTIÓN DE LA INFORMACIÓN", "type": "D"},
+  {"name": "SUBDIRECCIÓN ANÁLISIS, INVESTIGACIÓN Y METODOLOGÍA", "type": "S"},
+  {"name": "SUBDIRECCIÓN DE DISEÑO DE FOCALIZACIÓN", "type": "S"},
+  {"name": "DIRECCIÓN DE RELACIONAMIENTO Y COMUNICACIÓN SOCIAL", "type": "D"},
+  {"name": "SUBDIRECCIÓN DE COMUNICACIÓN SOCIAL", "type": "S"},
+  {"name": "SUBDIRECCIÓN DE ATENCIÓN AL CIUDADANO Y GESTIÓN DE SOLICITUDES", "type": "S"}
+]
+,
       usuario_ubicacion: [
 
         "PISO 06",
