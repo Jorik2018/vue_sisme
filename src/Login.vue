@@ -142,6 +142,10 @@ export default ui({
           .post(me.app.baseURL + "/jwt-auth/v1/token", {
             username: this.o.name,
             password: this.o.pass,
+          },{
+            headers: {
+        authorization: "" // Limpia cualquier valor previo de Authorization
+      }
           })
           .then((response) => {
             me.success(response.data);
