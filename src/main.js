@@ -26,6 +26,18 @@ const  router  =  new  Router({
 			component:  r => require.ensure([], () => r(require('./Admin.vue')), 'admin'),
 			children:[
 				{
+					path: 'inventory/item',
+					component: () => import('./admin/inventory/List.vue')
+				},
+				{
+					path: 'inventory/item/create',
+					component: () => import('./admin/inventory/Create.vue')
+				},
+				{
+					path: 'inventory/item/:id/edit',props: true,
+					component: () => import('./admin/inventory/Create.vue')
+				},
+				{
 					path: 'hr/employee',
 					component: () => import('./admin/hr/employee/List.vue')
 				},

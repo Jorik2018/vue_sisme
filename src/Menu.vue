@@ -111,6 +111,9 @@
         <ion-item v-if="perms.CANCER_READ" href="/admin/desarrollo-social/cancer">
           <i class="fa fa-table"></i>Cancer
         </ion-item>
+        <ion-item v-if="perms.INVENTORY_ADMIN" href="/admin/inventory/item">
+          <i class="fa fa-table"></i>Inventario
+        </ion-item>
         <ion-item
           v-if="perms.PREGNANT_READ"
           href="/admin/desarrollo-social/pregnant"
