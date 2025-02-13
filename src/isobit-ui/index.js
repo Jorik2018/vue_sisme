@@ -1170,7 +1170,7 @@ window.ui = _.ui = function (cfg) {
 
 				var key = t.$attrs.rowkey;
 				if (!key) key = t.rowKey;
-				var dat = t.data[t.selected[0]];
+				var dat = t.selected[0];
 				//var data = t.data;
 				if (dat.tmpId) {
 					me.MsgBox('Esta seguro que desea eliminar los registros temporales seleccionados ?', function (r) {
