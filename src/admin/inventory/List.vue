@@ -9,8 +9,8 @@
                         class="on" @click.prevent="create"></v-button>
                     <v-button value="Editar" icon="fa-pen"
                         @click.prevent="edit" :disabled="!rowSelectedCount"></v-button>
-                    <v-button value="Eliminar" icon="fa-trash"
-                        @click.prevent="destroy" :disabled="!rowSelectedCount"></v-button>
+                    <!--v-button value="Eliminar" icon="fa-trash"
+                        @click.prevent="destroy" :disabled="!rowSelectedCount"></v-button-->
                     <v-button title="Refrescar" icon="fa-sync" @click.prevent="refresh"></v-button>
                 </template>
                 <template v-slot="{ row }">
