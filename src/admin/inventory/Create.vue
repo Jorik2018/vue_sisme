@@ -8,28 +8,31 @@
     <div class="v-form">
       <label>ID:</label>
       <div>{{ pad(o.id || 0, 4) }}</div>
-      <v-fieldset legend="DATOS USUARIO" class="v-form">
+      <v-fieldset legend="DATOS USUARIO" class="v-form" style="background-color: #cadff5;">
         <label>Usuario Responsable:</label>
-        <input v-model="o.usuario_responsable" />
+        <input v-model="o.usuario_responsable" required="required" />
         <label>Modalidad:</label>
         <v-radio-group required="true" v-model="o.usuario_modalidad">
           <v-radio value="CAS"></v-radio>
           <v-radio value="LOCADOR"></v-radio>
         </v-radio-group>
         <label>Departamento/Área:</label>
-        <v-select v-model="o.usuario_area">
+        <v-select v-model="o.usuario_area" required="required" class="required">
           <option value="">Select One...</option>
           <option v-for="item in usuario_area" :key="item.name" :value="item.name">
-            {{ (item.type=='U'||item.type=='S')?'&emsp;&emsp; ':'' }} {{ item.name }}
+            {{ (item.type == 'U' || item.type == 'S') ? '&emsp;&emsp; ' : '' }} {{ item.name }}
           </option>
         </v-select>
         <label>Ubicación:</label>
-        <v-select v-model="o.usuario_ubicacion" required="required">
+        <v-select v-model="o.usuario_ubicacion" required="required" class="required">
           <option value="">Select One...</option>
           <option v-for="item in usuario_ubicacion" :key="item" :value="item">
             {{ item }}
           </option>
         </v-select>
+        <div class="right" style="padding-top: 10px;">
+          <v-button value="Limpiar" icon="fa-eraser" class="blue" @click.prevent="clear"></v-button>
+        </div>
       </v-fieldset>
       <v-fieldset legend="DATOS DEL EQUIPO / ACCESORIO" class="v-form">
         <label>Código Patrimonial:</label>
@@ -37,9 +40,9 @@
         <label>Código Inventerio:</label>
         <input v-model="o.codigo_inventario" />
         <label>Tipo de Equipo / Accesorio:</label>
-        <v-select v-model="o.tipo_equipo_accesorio" required="required">
+        <v-select v-model="o.tipo_equipo_accesorio" required="required" class="required">
           <option value="">Select One...</option>
-          <option v-for="item in financiador" :key="item" :value="item">
+          <option v-for="item in type" :key="item" :value="item">
             {{ item }}
           </option>
         </v-select>
@@ -48,38 +51,40 @@
         <label>Modelo:</label>
         <input v-model="o.modelo" />
       </v-fieldset>
-      <v-fieldset legend="PROCESADOR" class="v-form">
-        <label>Nombre:</label>
-        <input v-model="o.procesador_nombre" />
-        <label>Generación:</label>
-        <input v-model="o.procesador_generacion" />
-      </v-fieldset>
-      <v-fieldset legend="MEMORIA" class="v-form">
-        <label>Capacidad:</label>
-        <v-number v-model="o.memoria_capacidad" />
-        <label>Tipo:</label>
-        <input v-model="o.memoria_tipo" />
-      </v-fieldset>
-      <v-fieldset legend="ALMACENAMIENTO" class="v-form">
-        <label>Capacidad:</label>
-        <input v-model="o.almacenamiento_capacidad" />
-        <label>Tipo:</label>
-        <input v-model="o.almacenamiento_tipo" />
-      </v-fieldset>
-      <v-fieldset legend="MULTIMEDIA" class="v-form">
-        <label>Altavoces:</label>
-        <input v-model="o.multimedia_altavoces" />
-      </v-fieldset>
-      <v-fieldset legend="Sistema Operativo" class="v-form">
-        <label>Versión:</label>
-        <input v-model="o.sistema_operativo_version" />
-      </v-fieldset>
-      <v-fieldset legend="Monitor" class="v-form">
+      <template v-if="enabled.device">
+        <v-fieldset legend="PROCESADOR" class="v-form">
+          <label>Nombre:</label>
+          <input v-model="o.procesador_nombre" />
+          <label>Generación:</label>
+          <input v-model="o.procesador_generacion" />
+        </v-fieldset>
+        <v-fieldset legend="MEMORIA" class="v-form">
+          <label>Capacidad:</label>
+          <v-number v-model="o.memoria_capacidad" />
+          <label>Tipo:</label>
+          <input v-model="o.memoria_tipo" />
+        </v-fieldset>
+        <v-fieldset legend="ALMACENAMIENTO" class="v-form">
+          <label>Capacidad:</label>
+          <input v-model="o.almacenamiento_capacidad" />
+          <label>Tipo:</label>
+          <input v-model="o.almacenamiento_tipo" />
+        </v-fieldset>
+        <v-fieldset legend="MULTIMEDIA" class="v-form">
+          <label>Altavoces:</label>
+          <input v-model="o.multimedia_altavoces" />
+        </v-fieldset>
+        <v-fieldset legend="Sistema Operativo" class="v-form">
+          <label>Versión:</label>
+          <input v-model="o.sistema_operativo_version" />
+        </v-fieldset>
+      </template>
+      <v-fieldset legend="Monitor" class="v-form" v-if="enabled.screen">
         <label>Pulgadas:</label>
         <input v-model="o.monitor_pulgadas" />
       </v-fieldset>
       <label>Estado:</label>
-      <v-select v-model="o.estado" required="required">
+      <v-select v-model="o.estado" required="required" class="required">
         <option value="">Select One...</option>
         <option v-for="item in estado" :key="item" :value="item">
           {{ item }}
@@ -88,6 +93,8 @@
     </div>
     <center>
       <v-button value="Grabar" icon="fa-save" class="blue" @click.prevent="save"></v-button>
+      <span style="width: 20px;display: inline-block;">-</span>
+      <v-button value="Nuevo" :disabled="!o.id" icon="fa-plus" class="blue" @click.prevent="create"></v-button>
     </center>
   </v-form>
 </template>
@@ -105,45 +112,45 @@ export default _.ui({
       count: 0,
       red: [],
       age: null,
-      usuario_area: 
-      [
-  {"name": "PRESIDENCIA EJECUTIVA", "type": "P"},
-  {"name": "GERENCIA GENERAL", "type": "G"},
-  {"name": "OFICINA DE ADMINISTRACIÓN", "type": "O"},
-  {"name": "UNIDAD DE ABASTECIMIENTO Y CONTROL PATRIMONIAL", "type": "U"},
-  {"name": "UNIDAD DE FINANZAS", "type": "U"},
-  {"name": "UNIDAD DE RECURSOS HUMANOS", "type": "U"},
-  {"name": "OFICINA DE ASESORÍA JURÍDICA", "type": "O"},
-  {"name": "OFICINA DE PLANEAMIENTO, PRESUPUESTO Y MONITOREO", "type": "O"},
-  {"name": "UNIDAD DE PRESUPUESTO", "type": "U"},
-  {"name": "UNIDAD DE PLANEAMIENTO Y MODERNIZACIÓN", "type": "U"},
-  {"name": "DIRECCIÓN DE DESARROLLO DE CAPACIDADES Y DESPLIEGUE TERRITORIAL", "type": "D"},
-  {"name": "SUBDIRECCIÓN DE FORMACIÓN Y ACREDITACIÓN", "type": "S"},
-  {"name": "SUBDIRECCIÓN DE DESPLIEGUE TERRITORIAL", "type": "S"},
-  {"name": "DIRECCIÓN DE GOBIERNO DE DATOS Y SUPERVISIÓN", "type": "D"},
-  {"name": "SUBDIRECCIÓN DE GOBIERNO DE DATOS", "type": "S"},
-  {"name": "DIRECCIÓN DE SISTEMAS DE INFORMACIÓN SOCIAL", "type": "D"},
-  {"name": "SUBDIRECCIÓN DE INFORMACIÓN E INNOVACIÓN", "type": "S"},
-  {"name": "SUBDIRECCIÓN DE GESTIÓN DE LOS SERVICIOS E INFRAESTRUCTURA TECNOLÓGICA", "type": "S"},
-  {"name": "DIRECCIÓN DE DISEÑO Y METODOLOGÍAS PARA LA FOCALIZACIÓN Y LA GESTIÓN DE LA INFORMACIÓN", "type": "D"},
-  {"name": "SUBDIRECCIÓN ANÁLISIS, INVESTIGACIÓN Y METODOLOGÍA", "type": "S"},
-  {"name": "SUBDIRECCIÓN DE DISEÑO DE FOCALIZACIÓN", "type": "S"},
-  {"name": "DIRECCIÓN DE RELACIONAMIENTO Y COMUNICACIÓN SOCIAL", "type": "D"},
-  {"name": "SUBDIRECCIÓN DE COMUNICACIÓN SOCIAL", "type": "S"},
-  {"name": "SUBDIRECCIÓN DE ATENCIÓN AL CIUDADANO Y GESTIÓN DE SOLICITUDES", "type": "S"}
-]
-,
+      usuario_area:
+        [
+          { "name": "PRESIDENCIA EJECUTIVA", "type": "P" },
+          { "name": "GERENCIA GENERAL", "type": "G" },
+          { "name": "OFICINA DE ADMINISTRACIÓN", "type": "O" },
+          { "name": "UNIDAD DE ABASTECIMIENTO Y CONTROL PATRIMONIAL", "type": "U" },
+          { "name": "UNIDAD DE FINANZAS", "type": "U" },
+          { "name": "UNIDAD DE RECURSOS HUMANOS", "type": "U" },
+          { "name": "OFICINA DE ASESORÍA JURÍDICA", "type": "O" },
+          { "name": "OFICINA DE PLANEAMIENTO, PRESUPUESTO Y MONITOREO", "type": "O" },
+          { "name": "UNIDAD DE PRESUPUESTO", "type": "U" },
+          { "name": "UNIDAD DE PLANEAMIENTO Y MODERNIZACIÓN", "type": "U" },
+          { "name": "DIRECCIÓN DE DESARROLLO DE CAPACIDADES Y DESPLIEGUE TERRITORIAL", "type": "D" },
+          { "name": "SUBDIRECCIÓN DE FORMACIÓN Y ACREDITACIÓN", "type": "S" },
+          { "name": "SUBDIRECCIÓN DE DESPLIEGUE TERRITORIAL", "type": "S" },
+          { "name": "DIRECCIÓN DE GOBIERNO DE DATOS Y SUPERVISIÓN", "type": "D" },
+          { "name": "SUBDIRECCIÓN DE GOBIERNO DE DATOS", "type": "S" },
+          { "name": "DIRECCIÓN DE SISTEMAS DE INFORMACIÓN SOCIAL", "type": "D" },
+          { "name": "SUBDIRECCIÓN DE INFORMACIÓN E INNOVACIÓN", "type": "S" },
+          { "name": "SUBDIRECCIÓN DE GESTIÓN DE LOS SERVICIOS E INFRAESTRUCTURA TECNOLÓGICA", "type": "S" },
+          { "name": "DIRECCIÓN DE DISEÑO Y METODOLOGÍAS PARA LA FOCALIZACIÓN Y LA GESTIÓN DE LA INFORMACIÓN", "type": "D" },
+          { "name": "SUBDIRECCIÓN ANÁLISIS, INVESTIGACIÓN Y METODOLOGÍA", "type": "S" },
+          { "name": "SUBDIRECCIÓN DE DISEÑO DE FOCALIZACIÓN", "type": "S" },
+          { "name": "DIRECCIÓN DE RELACIONAMIENTO Y COMUNICACIÓN SOCIAL", "type": "D" },
+          { "name": "SUBDIRECCIÓN DE COMUNICACIÓN SOCIAL", "type": "S" },
+          { "name": "SUBDIRECCIÓN DE ATENCIÓN AL CIUDADANO Y GESTIÓN DE SOLICITUDES", "type": "S" }
+        ]
+      ,
       usuario_ubicacion: [
 
         "PISO 06",
         "PISO 08"
       ],
-      financiador: [
+      type: [
         "AURICULAR",
         "CAMARA WEB",
         "COMPUTADORA",
         "ESTACION DE TRABAJO",
-        "LAPTO",
+        "LAPTOP",
         "MONITOR",
         "MOUSE",
         "TABLET",
@@ -161,42 +168,40 @@ export default _.ui({
 
 
       estado: [
-        "Bueno",
-        "Malo",
-        "Regular"
+        "BUENO",
+        "MALO",
+        "REGULAR"
       ],
       resultadoVisita: ["EJECUTADO", "RECHAZADO", "ABANDONADO"],
-      trayLocation: null,
       o: {
         id: null,
         tipo_equipo_accesorio: null,
       },
+      defaults: {}
     };
   },
   computed: {
-    filteredEvent() {
-      return this.o.category != null
-        ? this.event
-          .filter((e) => e.category == this.o.category)
-          .map((e) => e.type)
-          .filter((value, index, self) => self.indexOf(value) === index)
-        : [];
-    },
-    filteredDetailEvent() {
-      return this.o.type != null
-        ? this.event
-          .filter(
-            (e) => e.category == this.o.category && e.type == this.o.type
-          )
-          .map((e) => e.detail)
-        : [];
-    },
+    enabled() {
+      const enabled = {
+        "device": ["COMPUTADORA", "ESTACION DE TRABAJO", "LAPTOP", "TABLET"].includes(this.o.tipo_equipo_accesorio),
+        "screen": ["LAPTOP", "TABLET", "MONITOR"].includes(this.o.tipo_equipo_accesorio),
+      };
+      return enabled;
+    }
   },
   mounted() {
     var me = this;
     me.changeRoute();
   },
   methods: {
+    clear() {
+      localStorage.setItem('inventory.defaults', null);
+      this.changeRoute();
+    },
+    create() {
+      this.o = { ...this.defaults };
+      this.$router.replace('/admin/inventory/item/create');
+    },
     onInputFUR(o) {
       if (o) {
         o = new Date(o);
@@ -223,6 +228,20 @@ export default _.ui({
       this.o.establecimiento = b ? b.object.name : "";
     },
     process(o) {
+      const {
+        usuario_responsable,
+        usuario_modalidad,
+        usuario_area,
+        usuario_ubicacion
+      } = o;
+      if (!o.id) {
+        localStorage.setItem('inventory.defaults', JSON.stringify({
+          usuario_responsable,
+          usuario_modalidad,
+          usuario_area,
+          usuario_ubicacion
+        }))
+      }
       return o;
     },
     async changeRoute() {
@@ -270,20 +289,14 @@ export default _.ui({
           });
       } else {
         try {
-          var s = localStorage.getItem("setting");
+          let s = localStorage.getItem("inventory.defaults");
           if (s) {
             s = JSON.parse(s);
-            var o = this.o;
-            if (s.region) o.region = s.region.code;
-            if (s.province) o.province_code = s.province.code;
-            if (s.district) o.district_code = s.district.code;
-            if (s.town) o.ccpp_code = s.town.id;
-            /*o.town = s.town;*/
+            this.o = { ...s }
           }
         } catch (e) {
           console.log(e);
         }
-        me.$refs.province.load({ code: me.o && me.o.region || '02' });
       }
     },
     close(r) {
@@ -302,3 +315,8 @@ export default _.ui({
   },
 });
 </script>
+<style>
+.required>select {
+  background-color: linen;
+}
+</style>
