@@ -150,23 +150,16 @@ export default _.ui({
         "CAMARA WEB",
         "COMPUTADORA",
         "ESTACION DE TRABAJO",
+        "FOTOCOPIADORA",
+        "IMPRESORA",
         "LAPTOP",
         "MONITOR",
         "MOUSE",
         "TABLET",
         "TECLADO",
-        "TABLET",
+        "TELEFONO",
         "UPS"
       ],
-
-
-
-
-
-
-
-
-
       estado: [
         "BUENO",
         "MALO",
