@@ -25,7 +25,7 @@
           ref="microredSelect"
           v-model="o.microred"
           :required="true"
-          @input="$refs.establishment.load({ microredCode:('02'+o.microred) })"
+          @input="$refs.establishment.load({ microredCode:(/*'02'+*/o.microred) })"
         >
           <option>Select One...</option>
           <v-options store="microred" display-field="name" value-field="code" />
