@@ -445,9 +445,6 @@ export default _.ui({
               });
         }
       });
-    },
-    rewrite(url){
-        return '/admin'+url;
     }
   },
   mounted() {

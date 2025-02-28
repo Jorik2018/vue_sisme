@@ -1131,9 +1131,11 @@ window.ui = _.ui = function (cfg) {
 				var selected = me.getSelected(t)[0];
 				var id = selected[t.rowKey];
 				if (selected.tmpId) id = -selected.tmpId;
-				console.log(selected);
+				//console.log(selected);
 				if (me.getSelectedId) id = me.getSelectedId(selected);
+				
 				if (_.app) {
+
 					me.open(action + '/' + id + '/edit');
 				} else {
 					axios.get((_.currentPath = (action + '/' + id + '/edit').replace(/([^:]\/)\/+/g, "$1")) + '?modal')
