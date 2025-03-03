@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import ol from 'ol'
 import axios from 'axios'
+
 import VAutocomplete from "./v-autocomplete.vue";
 import VButton from "./v-button.vue";
 import VCalendar from "./v-calendar.vue";
@@ -1128,12 +1129,12 @@ window.ui = _.ui = function (cfg) {
 				}
 
 				if (action) action = me.rewrite(action.replace("/api", "").replace("/0/0", ""));
-				var selected = me.getSelected(t)[0];
+				const selected = me.getSelected(t)[0];
 				var id = selected[t.rowKey];
 				if (selected.tmpId) id = -selected.tmpId;
 				//console.log(selected);
 				if (me.getSelectedId) id = me.getSelectedId(selected);
-				
+
 				if (_.app) {
 
 					me.open(action + '/' + id + '/edit');
@@ -1141,20 +1142,6 @@ window.ui = _.ui = function (cfg) {
 					axios.get((_.currentPath = (action + '/' + id + '/edit').replace(/([^:]\/)\/+/g, "$1")) + '?modal')
 						.then(me.open).catch(me.error);
 				}
-			},
-			get(part) {
-				var me = this;
-				var p = me.$el;
-				//Se debe buscar si abajo esta el form
-				var f = p.querySelector("form");
-				var action = f.action;
-				//console.log(me.apiLink(action) + '/' + part);
-				window.location.href = me.apiLink(action) + '/' + part;
-			},
-			error(e) {
-				//console.log(e);
-				alert(e);
-				//this.open({data:''+e});
 			},
 			destroy(e) {
 				var me = this;
@@ -1172,7 +1159,7 @@ window.ui = _.ui = function (cfg) {
 
 				var key = t.$attrs.rowkey;
 				if (!key) key = t.rowKey;
-				var dat = t.selected[0];
+				let dat = t.selected[0];
 				//var data = t.data;
 				if (dat.tmpId) {
 					me.MsgBox('Esta seguro que desea eliminar los registros temporales seleccionados ?', function (r) {
@@ -1181,11 +1168,15 @@ window.ui = _.ui = function (cfg) {
 							var objectStore = db.transaction([t.store], "readwrite").objectStore(t.store);
 							var ele = [];
 							for (var k = t.selected.length - 1; k >= 0; k--) {
-								dat = t.data[t.selected[k]];
+								dat = t.selected[k];
 								ele.push(dat);
 								if (dat.tmpId) objectStore.delete(dat.tmpId);
 								c++;
-								t.data.splice(t.selected[k], 1);
+
+								const index = t.data.findIndex(item => item === dat);
+								if (index !== -1) {
+									t.data.splice(index, 1);
+								}
 							}
 							if (c) {
 								if (me.app && me.app.toast) me.app.toast(c + ' registros eliminados');
@@ -1210,16 +1201,20 @@ window.ui = _.ui = function (cfg) {
 							var ele = [];
 							console.log(t.selected);
 							var k = (t.selected.length - 1)
+							//console.log(src,id)
 							axios.delete(src + '/' + id, { params: t.filters }).then(function () {
 								//console.log(t.selected);
 								for (; k >= 0; k--) {
 									//console.log('k=' + k);
 									//console.log(t.data);
 									//console.log('t.selected[k]=' + t.selected[k]);
-									dat = t.data[t.selected[k]];
+									dat = t.selected[k];
 									ele.push(dat);
 									//console.log(ele);
-									t.data.splice(t.selected[k], 1);
+									const index = t.data.findIndex(item => item === dat);
+									if (index !== -1) {
+										t.data.splice(index, 1);
+									}
 								}
 								if (me.app && me.app.toast)
 									me.app.toast(ele.length + ' registros eliminados');
@@ -1234,6 +1229,20 @@ window.ui = _.ui = function (cfg) {
 						}
 					}, ['SI', 'NO']);
 				}
+			},
+			get(part) {
+				var me = this;
+				var p = me.$el;
+				//Se debe buscar si abajo esta el form
+				var f = p.querySelector("form");
+				var action = f.action;
+				//console.log(me.apiLink(action) + '/' + part);
+				window.location.href = me.apiLink(action) + '/' + part;
+			},
+			error(e) {
+				//console.log(e);
+				alert(e);
+				//this.open({data:''+e});
 			},
 			apiLink(str) {
 				return str.replace(_.contextPath, _.contextPath + '/api');

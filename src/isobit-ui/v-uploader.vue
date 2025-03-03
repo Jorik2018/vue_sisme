@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-const { axios } = window;
+import axios from 'axios'
 export default {
     props: {
         value: String,

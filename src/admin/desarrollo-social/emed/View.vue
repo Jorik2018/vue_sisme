@@ -148,7 +148,7 @@
         </div>
       </v-fieldset>
     </div>
-    <center style="margin-bottom: 10px">
+    <center>
       <v-button style="margin-left: 10px" value="Editar" :disabled="!o.id"
        icon="fa-eye" class="blue" @click.prevent="
   $router.replace(
@@ -445,7 +445,8 @@ export default _.ui({
               });
         }
       });
-    }
+    },
+
   },
   mounted() {
     var me = this;
@@ -455,10 +456,6 @@ export default _.ui({
 });
 </script>
 <style scoped>
-.visit>>>table {
-  width: 100%;
-}
-
 #dateDiff:empty,
 #msg:empty {
   display: none;

@@ -3203,3 +3203,7 @@ fieldset, .v-fieldset {
 th .v-select{
     color:black !important;
 }
+.v-datatable {
+    width: 0px;
+    min-width: -webkit-fill-available;
+}
