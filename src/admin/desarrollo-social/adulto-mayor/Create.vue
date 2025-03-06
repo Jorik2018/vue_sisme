@@ -11,13 +11,13 @@
       <div>{{ pad(o.id || 0, 4) }}</div>
       <v-fieldset legend="I. Datos generales" class="v-form">
         <label>DNI:</label>
-        <input v-model="o.dni" class="center" />
+        <input v-model="o.dni"  maxlength="8" class="center" @input="validateInput" />
         <label>Apellidos y Nombres:</label>
         <input v-model="o.apellidos_nombres" />
         <label>Fecha Nacimiento:</label>
         <v-calendar v-model="o.fecha_nacimiento" @input="inputEdad" />
         <label>Edad:</label>
-        <div class="readonly">{{(o.edad || o.edad
+        <div class="readonly">{{ (o.edad || o.edad
           == 0 ? o.edad : '---') }}
         </div>
         <label>Sexo:</label>
@@ -245,20 +245,20 @@
           <label>Resultado:</label>
           <input v-model="o.resultado_dosaje_lipidos" />
         </v-fieldset>
-        <template v-if="o.sexo==='F'">
-        <v-fieldset legend="Papanicolao" class="v-form">
-          <label>Fecha:</label>
-          <v-calendar v-model="o.fecha_papanicolao" />
-          <label>Resultado:</label>
-          <input v-model="o.resultado_papanicolao" />
-        </v-fieldset>
-        <v-fieldset legend="Mamografía" class="v-form">
-          <label>Fecha:</label>
-          <v-calendar v-model="o.fecha_mamografia" />
-          <label>Resultado:</label>
-          <input v-model="o.resultado_mamografia" />
-        </v-fieldset>
-      </template>
+        <template v-if="o.sexo === 'F'">
+          <v-fieldset legend="Papanicolao" class="v-form">
+            <label>Fecha:</label>
+            <v-calendar v-model="o.fecha_papanicolao" />
+            <label>Resultado:</label>
+            <input v-model="o.resultado_papanicolao" />
+          </v-fieldset>
+          <v-fieldset legend="Mamografía" class="v-form">
+            <label>Fecha:</label>
+            <v-calendar v-model="o.fecha_mamografia" />
+            <label>Resultado:</label>
+            <input v-model="o.resultado_mamografia" />
+          </v-fieldset>
+        </template>
         <label>Comentarios y Observaciones:</label>
         <v-textarea v-model="o.comentarios_observaciones" />
         <label>Fecha de Visita:</label>
@@ -354,6 +354,11 @@ export default _.ui({
   },
 
   methods: {
+    validateInput() {
+      // Only keep digits and limit to 8 characters
+      if(this.o.dni)
+      this.o.dni = this.o.dni.replace(/\D/g, '').slice(0, 8);
+    },
     inputEdad() {
       this.o.edad = this.o.fecha_nacimiento ? this.app.getAge(this.o.fecha_nacimiento) : null;
     },
@@ -482,7 +487,7 @@ export default _.ui({
         } catch (e) {
           console.log(e);
         }
-        
+
       }
     },
     close(r) {
