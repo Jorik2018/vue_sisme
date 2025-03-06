@@ -92,14 +92,16 @@
                 var me = this;
                 //console.log(me.value);
                 var d = me.toDate(me.value);
-                console.log(d);
+                
                 var fd;
                 if (d) {
+                    
                     if (me.$props.type === 'time') {
                         fd = me.pad(d.getHours(), 2) + ":" + me.pad(d.getMinutes(), 2);
                     } else if (me.$props.type === 'datetime-local') {
                         fd = me.pad(d.getFullYear(), 4) + "-" + me.pad((d.getMonth() + 1), 2) + "-" + me.pad(d.getDate(), 2) + 'T' + me.pad(d.getHours(), 2) + ":" + me.pad((d.getMinutes()), 2);
                     } else {
+                        console.log('+++=========>',d);
                         fd = me.pad(d.getFullYear(), 4) + "-" + me.pad((d.getMonth() + 1), 2) + "-" + me.pad(d.getDate(), 2)
                     }
                 }

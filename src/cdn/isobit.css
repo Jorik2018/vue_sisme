@@ -2478,8 +2478,8 @@ label.v-radio,label.v-checkbox {
     position: absolute;
     top: 0;
     left: 0;
-    height: 25px;
-    width: 25px;
+    height: 28px;
+    width: 28px;
     background-color: #eee;
     border: 1px solid lightgrey;
 }

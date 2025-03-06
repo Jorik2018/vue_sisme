@@ -25,6 +25,7 @@ const  router  =  new  Router({
 			path:'/admin',
 			component:  r => require.ensure([], () => r(require('./Admin.vue')), 'admin'),
 			children:[
+
 				{
 					path: 'inventory/item',
 					component: () => import('./admin/inventory/List.vue')
@@ -94,6 +95,24 @@ const  router  =  new  Router({
 					path:  'profile',
 					component:  r => require.ensure([], () => r(require('./admin/Profile.vue')), 'admin')
 				},
+
+				{
+					path:  'desarrollo-social/adulto-mayor',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/adulto-mayor/List.vue')), 'adulto-mayor')
+				},
+				{
+					path:  'desarrollo-social/adulto-mayor/create',
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/adulto-mayor/Create.vue')), 'adulto-mayor')
+				},
+				{
+					path:  'desarrollo-social/adulto-mayor/:id',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/adulto-mayor/Create.vue')), 'adulto-mayor')
+				},
+				{
+					path:  'desarrollo-social/adulto-mayor/:id/edit',props: true,
+					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/adulto-mayor/Create.vue')), 'adulto-mayor')
+				},
+
 				{
 					path:  'desarrollo-social/emed',
 					component:  r => require.ensure([], () => r(require('./admin/desarrollo-social/emed/List.vue')), 'emed')
@@ -347,7 +366,7 @@ router.beforeEach((to, from, next) => {
 	}
 });
 
-window._.initDB(16, [
+window._.initDB(18, [
 	["region", { keyPath: "id" }, "/api/directory/region/0/0"],
 	["province", { keyPath: "code" }, "/api/directory/province/0/0"],
 	["district", { keyPath: "code" }, "/api/directory/district/0/0"],
@@ -369,6 +388,8 @@ window._.initDB(16, [
 	["emed_action", { keyPath: "tmpId" }],
 	["emed_damage_ipress", { keyPath: "tmpId" }],
 	["emed_damage_salud", { keyPath: "tmpId" }],
+	["adulto-mayor", { keyPath: "tmpId" }],
+	
 	["emed_file", { keyPath: "tmpId" }],
 	["cancer", { keyPath: "tmpId" }]
   ]).then(()=>{

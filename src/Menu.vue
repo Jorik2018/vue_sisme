@@ -102,6 +102,9 @@
         <ion-item v-if="perms.MCI_READ" href="/admin/desarrollo-social/sivico">
           <i class="fa fa-table"></i>MCI
         </ion-item>
+        <ion-item v-if="perms.DESARROLLO_SOCIAL_ADULTO_MAYOR_READ" href="/admin/desarrollo-social/adulto-mayor">
+          <i class="fa fa-table"></i>Adulto Mayor
+        </ion-item>
         <ion-item v-if="perms.EMED_READ" href="/admin/desarrollo-social/emed">
           <i class="fa fa-table"></i>EMED
         </ion-item>
