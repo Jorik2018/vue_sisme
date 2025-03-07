@@ -48,8 +48,10 @@
         </v-select>
         <label>Marca:</label>
         <input v-model="o.marca" />
-        <label>Modelo:</label>
-        <input v-model="o.modelo" />
+        <template v-if="enabled.model">
+          <label>Modelo:</label>
+          <input v-model="o.modelo" />
+        </template>
       </v-fieldset>
       <template v-if="enabled.device">
         <v-fieldset legend="PROCESADOR" class="v-form">
@@ -153,6 +155,7 @@ export default _.ui({
         "FOTOCOPIADORA",
         "IMPRESORA",
         "LAPTOP",
+        "LECTORA DE TARJETA INTELIGENTE",
         "MONITOR",
         "MOUSE",
         "TABLET",
@@ -179,6 +182,7 @@ export default _.ui({
         "device": ["COMPUTADORA", "ESTACION DE TRABAJO", "LAPTOP", "TABLET"].includes(this.o.tipo_equipo_accesorio),
         "screen": ["LAPTOP", "TABLET", "MONITOR"].includes(this.o.tipo_equipo_accesorio),
       };
+      enabled.model = this.o.tipo_equipo_accesorio && "LECTORA DE TARJETA INTELIGENTE" != this.o.tipo_equipo_accesorio;
       return enabled;
     }
   },

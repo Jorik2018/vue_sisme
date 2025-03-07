@@ -24,7 +24,7 @@
                         </v-filter>
                         {{ pad(row.id, 4) }}
                     </td>
-                    <td width="220" header="DNI" class="center">
+                    <td width="120" header="DNI" class="center">
                         <v-filter>
                             <input v-model="filters.dni" />
                         </v-filter>
