@@ -134,25 +134,6 @@ export default _.ui({
     created() {
         var me = this;
         me.filters.uid = me.user.uid;
-        me.$on('sync', function (dr, dl) {//data remote -> data local
-            if (dr.people && dl.people) {
-                dr.people.forEach(pr => {
-                    dl.people.forEach(pl => {
-                        if (pl.tmpId == pr.tmpId) {
-                            if (pr.id) {
-                                pl.id = pr.id;
-                                pl.tmpSynchronized = 1;
-                            }
-                            if (pr.encuesta_id) {
-                                pl.encuesta_id = pr.encuesta_id;
-                                pl.parent = pr.encuesta_id;
-                            }
-                            console.log(pl);
-                        }
-                    });
-                });
-            }
-        });
     },
     updated() {
         this.app.bindLinks(this.$el);
@@ -169,14 +150,8 @@ export default _.ui({
             /*return u.uid == 1 || p.REGISTER_DESARROLLO_SOCIAL_SIVICO &&
             !o || o.user == u.id;*/
         },
-        view(o) {
-            this.open('/admin/desarrollo-social/cancer/' + (o.tmpId ? (-o.tmpId) : o.id));
-        },
         toInt(o) {
             return Array.isArray(o) ? o.length : o;
-        },
-        rewrite(url) {
-            return '/admin' + url;
         }
     }
 });

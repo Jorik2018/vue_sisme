@@ -277,7 +277,6 @@
   </v-form>
 </template>
 <script>
-import { Geolocation } from "@capacitor/geolocation";
 import "ol/ol.css";
 import Feature from "ol/Feature";
 import Icon from "ol/style/Icon";
@@ -362,13 +361,6 @@ export default _.ui({
     inputEdad() {
       this.o.edad = this.o.fecha_nacimiento ? this.app.getAge(this.o.fecha_nacimiento) : null;
     },
-    async printCurrentPosition() {
-      this.trayLocation = 1;
-      const coordinates = await Geolocation.getCurrentPosition();
-      var c = coordinates.coords;
-      this.o.lat = c.latitude;
-      this.o.lon = c.longitude;
-    },
     onInputFUR(o) {
       if (o) {
         o = new Date(o);
@@ -377,57 +369,6 @@ export default _.ui({
         o.setDate(o.getDate() + 7);
       }
       this.o.gestanteFPP = _.toDate(o, "date-");
-    },
-    inputProvince(a, b) {
-      var me = this, o = me.o;
-      o.province = (b ? b.object.name || "" : "");
-      me.$refs.district.load({ code: o.province_code })
-    },
-    inputDistrict(a, b) {
-      var me = this, o = me.o;
-      o.district = b ? b.object.name || "" : "";
-      me.$refs.ccpp.load({ id: o.district_code })
-    },
-    inputCCPP(a, b) {
-      this.o.ccpp = b ? b.object.name || "" : "";
-    },
-    inputEstablishment(a, b) {
-      this.o.establecimiento = b ? b.object.name : "";
-    },
-    mapBuild() {
-      var o = this.o;
-      if (0 > o.lon) {
-        this.$refs.map.addFeature(
-          {
-            lon: o.lon,
-            lat: o.lat,
-          },
-          {}
-        );
-      }
-    },
-    translateend(o) {
-      this.o.lat = o.lat;
-      this.o.lon = o.lon;
-    },
-    async addMarker() {
-      //var o = this.o;
-      var me = this,
-        m = me.$refs.map;
-      if (!m.collection.getLength()) {
-        me.trayLocation = 1;
-        const coordinates = await Geolocation.getCurrentPosition();
-        var c = coordinates.coords;
-        me.o.lat = c.latitude;
-        me.o.lon = c.longitude;
-        if (m)
-          m.addFeature({ draggable: true, lat: me.o.lat, lon: me.o.lon }, { zoom: 14 });
-      } else
-        m.map.getView().animate({
-          center: m.collection.item(0).getGeometry().getCoordinates(),
-          zoom: 17,
-          duration: 500,
-        });
     },
     async changeRoute() {
       var me = this,
@@ -465,12 +406,6 @@ export default _.ui({
             me.trayLocation = 0;
             me.o = o;
             me.age = o.edad;
-            if (Number(o.lat) && Number(o.lon)) {
-              if (m)
-                m.addFeature({ draggable: true, lat: o.lat, lon: o.lon }, { zoom: 14 });
-              me.trayLocation = 1;
-            }
-            //me.$refs.province.load({ code: o && o.region || '02' });
           });
       } else {
         try {
@@ -502,24 +437,7 @@ export default _.ui({
       var nid = o.tmpId ? -o.tmpId : o.id;
       if (me.id != nid)
         me.$router.replace("/admin/desarrollo-social/adulto-mayor/" + nid);
-    },
-    async getCurrentPosition() {
-      var me = this;
-      //const {Geolocation} = Plugins;
-      const c = await Geolocation.getCurrentPosition();
-      me.o.lat = c.coords.latitude;
-      me.o.lon = c.coords.longitude;
-    },
-    getCoordinates() {
-      var me = this;
-      if (me.getCurrentPosition) {
-        me.getCurrentPosition();
-      } else
-        _.getLocation().then(function (c) {
-          me.o.lat = c.coords.latitude;
-          me.o.lon = c.coords.longitude;
-        });
-    },
+    }
   },
 });
 </script>
